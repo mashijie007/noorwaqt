@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoorWaqt - 你的专属教法与时光管家</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        body { font-family: 'Noto Sans SC', sans-serif; }
+        html[dir="rtl"] body { font-family: 'Amiri', serif; }
+        
+        .bg-islamic {
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-200">
+
+    <!-- ✅ 导航栏区 -->
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- 左侧：Logo 与 品牌名称 (使用相对路径) -->
+        <div class="flex items-center gap-3">
+            <img src="./noorwaqt.png" alt="NoorWaqt Logo" class="h-10 w-auto object-contain">
+            <div class="text-2xl font-bold text-emerald-700 tracking-wide">NoorWaqt</div>
+        </div>
+        
+        <!-- 右侧：语言切换 -->
+        <div>
+            <select id="lang-switch" onchange="switchLanguage(this.value)" class="bg-white border border-emerald-200 text-gray-700 py-1 px-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
+                <option value="zh">中文</option>
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- ✅ 头屏 (Hero) -->
+    <header class="container mx-auto px-6 py-16 md:py-24 flex flex-col md:flex-row items-center">
+        
+        <!-- 左侧：文字和按钮 -->
+        <div class="md:w-1/2 flex flex-col items-start text-start mb-12 md:mb-0">
+            <h1 data-i18n="hero_title" class="text-4xl md:text-5xl font-bold leading-tight text-gray-900 mb-6">
+                懂你的时光，<br><span class="text-emerald-600">更懂你的功修。</span>
+            </h1>
+            <p data-i18n="hero_subtitle" class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+                首款高度注重女性功修的伊斯兰双日历应用。精准礼拜时间、每日功修打卡，搭载纯本地运行的教法状态机，护佑您的每一段神圣时光。
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <!-- 这里的 href 和 download 属性实现了 APK 下载 -->
+                <a href="./NoorWaqt.apk" download="NoorWaqt.apk" data-i18n="btn_download" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all text-center">
+                    下载 Android APK (7.3MB)
+                </a>
+                <a href="#features" data-i18n="btn_learn" class="bg-white border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 font-medium py-3 px-8 rounded-full transition-all text-center">
+                    了解核心功能
+                </a>
+            </div>
+        </div> 
+        <!-- 这个闭合标签非常重要，它分开了左右两边 -->
+
+        <!-- 右侧：动态 App 截图区 (去掉了刘海遮挡) -->
+        <div class="md:w-1/2 flex justify-center">
+            <div class="w-64 h-[500px] rounded-[2.5rem] shadow-2xl border-8 border-gray-100 flex items-center justify-center overflow-hidden bg-gray-100">
+                <!-- 动态切换的截图 -->
+                <img id="app-screenshot" src="./cn.jpeg" alt="NoorWaqt App Screenshot" class="w-full h-full object-cover border border-gray-200">
+            </div>
+        </div>
+    </header>
+
+    <!-- ✅ 核心功能区 -->
+    <section id="features" class="bg-white py-20 border-t border-gray-100">
+        <div class="container mx-auto px-6">
+            <!-- 修改后的文案 -->
+            <h2 data-i18n="feat_title" class="text-3xl font-bold text-center text-gray-900 mb-16">守护穆斯林女性的专属功修伴侣</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+                
+                <!-- 功能 1 -->
+                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🕌</div>
+                    <h3 data-i18n="feat_1_title" class="text-xl font-bold mb-3 text-gray-800">精准礼拜与双日历</h3>
+                    <p data-i18n="feat_1_desc" class="text-gray-600 leading-relaxed">完美融合公历与伊历。独创“杜哈拜黄金时间窗”提醒，精准规避日出与日中受禁时刻。</p>
+                </div>
+
+                <!-- 功能 2 -->
+                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🌸</div>
+                    <h3 data-i18n="feat_2_title" class="text-xl font-bold mb-3 text-gray-800">女性专属教法引擎</h3>
+                    <p data-i18n="feat_2_desc" class="text-gray-600 leading-relaxed">内置哈乃斐等多学派状态机。根据真实生理记录自动推演经期与病血，智能调度礼拜豁免与提醒。</p>
+                </div>
+
+                <!-- 功能 3 -->
+                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">📿</div>
+                    <h3 data-i18n="feat_3_title" class="text-xl font-bold mb-3 text-gray-800">全周期功修提醒</h3>
+                    <p data-i18n="feat_3_desc" class="text-gray-600 leading-relaxed">定制每日 (Wird)、每周 (周五聚礼)、每月的功修计划。经期自动切换至特定的赞念与祈祷模式。</p>
+                </div>
+
+                <!-- 功能 4 -->
+                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🛡️</div>
+                    <h3 data-i18n="feat_4_title" class="text-xl font-bold mb-3 text-gray-800">绝对离线与隐私</h3>
+                    <p data-i18n="feat_4_desc" class="text-gray-600 leading-relaxed">所有生理数据与教法推演均在手机本地完成。7.3MB 超小古兰经包，无需网络，告别云端泄露焦虑。</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-10">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-xl font-bold text-white mb-4 md:mb-0">NoorWaqt</div>
+            <div class="text-sm">
+                &copy; 2026 NoorWaqt. All rights reserved. <br class="md:hidden">
+                <span data-i18n="footer_privacy">100% 本地运行，承诺永不收集您的隐私数据。</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ✅ 多语言引擎与图片切换逻辑 (Vanilla JS) -->
+    <script>
+        const i18n = {
+            zh: {
+                hero_title: "懂你的时光，<br><span class='text-emerald-600'>更懂你的功修。</span>",
+                hero_subtitle: "首款高度注重女性功修的伊斯兰双日历应用。精准礼拜时间、每日功修打卡，搭载纯本地运行的教法状态机，护佑您的每一段神圣时光。",
+                btn_download: "下载 Android APK (7.3MB)",
+                btn_learn: "了解核心功能",
+                feat_title: "守护穆斯林女性的专属功修伴侣",
+                feat_1_title: "精准礼拜与双日历",
+                feat_1_desc: "完美融合公历与伊历。独创“杜哈拜黄金时间窗”提醒，精准规避日出与日中受禁时刻。",
+                feat_2_title: "女性专属教法引擎",
+                feat_2_desc: "内置哈乃斐等多学派状态机。根据真实生理记录自动推演经期与病血，智能调度礼拜豁免与提醒。",
+                feat_3_title: "全周期功修提醒",
+                feat_3_desc: "定制每日 (Wird)、每周 (周五聚礼)、每月的功修计划。经期自动切换至特定的赞念与祈祷模式。",
+                feat_4_title: "绝对离线与隐私",
+                feat_4_desc: "所有生理数据与教法推演均在手机本地完成。7.3MB 超小古兰经包，无需网络，告别云端泄露焦虑。",
+                footer_privacy: "100% 本地运行，承诺永不收集您的隐私数据。"
+            },
+            en: {
+                hero_title: "Understands your time,<br><span class='text-emerald-600'>Empowers your Ibada.</span>",
+                hero_subtitle: "The first Islamic dual-calendar app highly focused on female spiritual practices. Precise prayer times, daily Wird tracking, and an on-device Fiqh engine to safeguard your sacred moments.",
+                btn_download: "Download APK (7.3MB)",
+                btn_learn: "Explore Features",
+                feat_title: "Your Exclusive Spiritual Companion",
+                feat_1_title: "Prayer Times & Dual Calendar",
+                feat_1_desc: "Seamlessly integrates Hijri and Gregorian dates. Features the exclusive 'Duha Golden Window' to avoid forbidden prayer times at sunrise and zenith.",
+                feat_2_title: "Female Fiqh Engine",
+                feat_2_desc: "Built-in multi-madhhab state machine. Automatically distinguishes Hayd from Istihada based on your logs, intelligently managing prayer exemptions.",
+                feat_3_title: "Full-Cycle Habit Tracker",
+                feat_3_desc: "Daily (Wird), weekly, and monthly spiritual plans. Automatically switches to tailored Dhikr modes during your cycle.",
+                feat_4_title: "100% Offline & Private",
+                feat_4_desc: "All physiological data and Fiqh calculations stay on your phone. Minimal 7.3MB offline Quran package. Zero cloud tracking.",
+                footer_privacy: "100% On-device execution. We vow never to collect your private data."
+            },
+            ar: {
+                hero_title: "رفيق وقتك،<br><span class='text-emerald-600'>ودليلك في العبادة.</span>",
+                hero_subtitle: "التطبيق الإسلامي الأول المصمم خصيصاً لعبادات المرأة. مواقيت دقيقة، تقويم مزدوج، وتتبع فقهي يعمل بالكامل دون إنترنت لحماية أوقاتك المقدسة.",
+                btn_download: "تحميل التطبيق (7.3MB)",
+                btn_learn: "اكتشف المميزات",
+                feat_title: "رفيقك الروحي الحصري",
+                feat_1_title: "مواقيت الصلاة وتقويم مزدوج",
+                feat_1_desc: "دمج مثالي بين التقويمين الهجري والميلادي. تحديد دقيق لوقت صلاة الضحى وتجنب أوقات الكراهة.",
+                feat_2_title: "محرك فقهي مخصص للمرأة",
+                feat_2_desc: "نظام ذكي يعتمد على المذاهب الفقهية. يفرق بدقة بين الحيض والاستحاضة بناءً على سجلاتك، وينظم الإعفاءات من الصلاة.",
+                feat_3_title: "تتبع الأوراد والعبادات",
+                feat_3_desc: "خطط يومية (أوراد)، أسبوعية، وشهرية. يتحول التطبيق تلقائياً إلى وضع الذكر والدعاء أثناء فترة العذر الشرعي.",
+                feat_4_title: "خصوصية تامة بدون إنترنت",
+                feat_4_desc: "جميع بياناتك وحساباتك الفقهية تبقى في هاتفك. مصحف كامل بحجم 7.3MB يعمل بلا إنترنت.",
+                footer_privacy: "يعمل 100% على جهازك. نلتزم بعدم جمع أي بيانات شخصية."
+            }
+        };
+
+        function switchLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.title = "NoorWaqt";
+            
+            // 动态切换截图
+            const imgEl = document.getElementById('app-screenshot');
+            if (lang === 'zh') {
+                imgEl.src = './cn.jpeg';
+            } else if (lang === 'en') {
+                imgEl.src = './en.jpeg';
+            } else if (lang === 'ar') {
+                imgEl.src = './ar.jpeg';
+            }
+            
+            // 切换文本
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) {
+                    el.innerHTML = i18n[lang][key];
+                }
+            });
+        }
+        
+        // 初始化
+        switchLanguage('zh');
+    </script>
+</body>
+</html>
