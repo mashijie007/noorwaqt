@@ -16,6 +16,34 @@
             background: linear-gradient(135deg, #065f46 0%, #047857 100%);
         }
     </style>
+    <!-- Firebase Analytics (访问量 + 下载事件统计) -->
+    <script>
+        window.trackDownload = function() {};
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAu3jdUQRC1ApxUTo-Wg_XSryzDL1WQAOE",
+            authDomain: "prayer-app-beta.firebaseapp.com",
+            projectId: "prayer-app-beta",
+            storageBucket: "prayer-app-beta.firebasestorage.app",
+            messagingSenderId: "187276729560",
+            appId: "1:187276729560:web:7f41bf4a760e87a4c74bad",
+            measurementId: "G-VRM9DCM286"
+        };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            window.trackDownload = function () {
+                logEvent(analytics, "download_click");
+            };
+        } catch (e) {
+            console.error("Firebase init failed:", e);
+        }
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-200">
 
@@ -50,7 +78,7 @@
             </p>
             <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <!-- 这里的 href 和 download 属性实现了 APK 下载 -->
-                <a href="./NoorWaqt.apk" download="NoorWaqt.apk" data-i18n="btn_download" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all text-center">
+                <a href="./NoorWaqt.apk" download="NoorWaqt.apk" data-i18n="btn_download" onclick="trackDownload()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all text-center">
                     下载 Android APK (7.3MB)
                 </a>
                 <a href="#features" data-i18n="btn_learn" class="bg-white border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 font-medium py-3 px-8 rounded-full transition-all text-center">
