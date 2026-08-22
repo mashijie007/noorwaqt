@@ -1,15 +1,15 @@
 {
-  "version": "0.0.4",
-  "buildNumber": 2004,
+  "version": "0.0.6",
+  "buildNumber": 2006,
   "channel": "beta",
   "minSupported": "0.0.1",
   "mandatory": false,
-  "releaseDate": "2026-08-19",
+  "releaseDate": "2026-08-22",
   "apk": {
     "arm64-v8a": {
-      "url": "https://github.com/mashijie007/noorwaqt/releases/download/0.0.4/app-arm64-v8a-release.apk",
-      "sha256": "8e96a9b18c002a5c52cb645a8d958375c045f5307a9d75f3aaa59e374deb3fa1",
-      "size": 34759342
+      "url": "https://github.com/mashijie007/noorwaqt/releases/download/0.0.6/app-arm64-v8a-release.apk",
+      "sha256": "6d5cd9b4410ee49be78dec843cea5cb940bd09adeae372c4b1477a4a988d5139",
+      "size": 36878407
     }
   },
   "changelog": [
