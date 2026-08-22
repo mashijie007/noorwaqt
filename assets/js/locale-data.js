@@ -1,0 +1,358 @@
+/* locale-data.js —— 由 tools/build-locales.mjs 生成，请勿手改。
+ * LOCALES: 语言清单（与 App 的 lib/l10n 一一对应）
+ * EN:      英文基线，作为所有语言的同步兜底
+ */
+export const LOCALES = [
+ {
+  "code": "am",
+  "dir": "ltr",
+  "name": "አማርኛ"
+ },
+ {
+  "code": "ar",
+  "dir": "rtl",
+  "name": "العربية"
+ },
+ {
+  "code": "az",
+  "dir": "ltr",
+  "name": "azərbaycan"
+ },
+ {
+  "code": "bm",
+  "dir": "ltr",
+  "name": "bamanakan"
+ },
+ {
+  "code": "bn",
+  "dir": "ltr",
+  "name": "বাংলা"
+ },
+ {
+  "code": "bs",
+  "dir": "ltr",
+  "name": "bosanski"
+ },
+ {
+  "code": "cnr",
+  "dir": "ltr",
+  "name": "crnogorski"
+ },
+ {
+  "code": "en",
+  "dir": "ltr",
+  "name": "English"
+ },
+ {
+  "code": "fa",
+  "dir": "rtl",
+  "name": "فارسی"
+ },
+ {
+  "code": "ff",
+  "dir": "ltr",
+  "name": "Pulaar"
+ },
+ {
+  "code": "fr",
+  "dir": "ltr",
+  "name": "français"
+ },
+ {
+  "code": "gu",
+  "dir": "ltr",
+  "name": "ગુજરાતી"
+ },
+ {
+  "code": "ha",
+  "dir": "ltr",
+  "name": "Hausa"
+ },
+ {
+  "code": "hr",
+  "dir": "ltr",
+  "name": "hrvatski"
+ },
+ {
+  "code": "id",
+  "dir": "ltr",
+  "name": "Indonesia"
+ },
+ {
+  "code": "jv",
+  "dir": "ltr",
+  "name": "Jawa"
+ },
+ {
+  "code": "kk",
+  "dir": "ltr",
+  "name": "қазақ тілі"
+ },
+ {
+  "code": "kn",
+  "dir": "ltr",
+  "name": "ಕನ್ನಡ"
+ },
+ {
+  "code": "ks",
+  "dir": "rtl",
+  "name": "کٲشُر"
+ },
+ {
+  "code": "ku",
+  "dir": "ltr",
+  "name": "kurdî (kurmancî)"
+ },
+ {
+  "code": "ky",
+  "dir": "ltr",
+  "name": "кыргызча"
+ },
+ {
+  "code": "ml",
+  "dir": "ltr",
+  "name": "മലയാളം"
+ },
+ {
+  "code": "mr",
+  "dir": "ltr",
+  "name": "मराठी"
+ },
+ {
+  "code": "ms",
+  "dir": "ltr",
+  "name": "Melayu"
+ },
+ {
+  "code": "pa",
+  "dir": "ltr",
+  "name": "ਪੰਜਾਬੀ"
+ },
+ {
+  "code": "ps",
+  "dir": "rtl",
+  "name": "پښتو"
+ },
+ {
+  "code": "ru",
+  "dir": "ltr",
+  "name": "русский"
+ },
+ {
+  "code": "snk",
+  "dir": "ltr",
+  "name": "Sooninkanxanne"
+ },
+ {
+  "code": "so",
+  "dir": "ltr",
+  "name": "Soomaali"
+ },
+ {
+  "code": "sq",
+  "dir": "ltr",
+  "name": "shqip"
+ },
+ {
+  "code": "sr",
+  "dir": "ltr",
+  "name": "српски"
+ },
+ {
+  "code": "sw",
+  "dir": "ltr",
+  "name": "Kiswahili"
+ },
+ {
+  "code": "ta",
+  "dir": "ltr",
+  "name": "தமிழ்"
+ },
+ {
+  "code": "te",
+  "dir": "ltr",
+  "name": "తెలుగు"
+ },
+ {
+  "code": "tg",
+  "dir": "ltr",
+  "name": "тоҷикӣ"
+ },
+ {
+  "code": "tk",
+  "dir": "ltr",
+  "name": "türkmen dili"
+ },
+ {
+  "code": "tr",
+  "dir": "ltr",
+  "name": "Türkçe"
+ },
+ {
+  "code": "tt",
+  "dir": "ltr",
+  "name": "татар"
+ },
+ {
+  "code": "ug",
+  "dir": "rtl",
+  "name": "ئۇيغۇرچە"
+ },
+ {
+  "code": "ur",
+  "dir": "rtl",
+  "name": "اردو"
+ },
+ {
+  "code": "uz",
+  "dir": "ltr",
+  "name": "o‘zbek"
+ },
+ {
+  "code": "wo",
+  "dir": "ltr",
+  "name": "Wolof"
+ },
+ {
+  "code": "zh",
+  "dir": "ltr",
+  "name": "中文"
+ },
+ {
+  "code": "zh_Hant",
+  "dir": "ltr",
+  "name": "繁體中文"
+ }
+];
+
+export const EN = {
+ "prayer_fajr": "Fajr",
+ "prayer_dhuhr": "Dhuhr",
+ "prayer_asr": "Asr",
+ "prayer_maghrib": "Maghrib",
+ "prayer_isha": "Isha",
+ "prayer_sunrise": "Sunrise",
+ "ev_muharram": "Islamic New Year (Muharram)",
+ "ev_ashura": "Day of Ashura",
+ "ev_mawlid": "Mawlid al-Nabi",
+ "ev_isra_miraj": "Isra & Mi'raj Night",
+ "ev_baraat": "Bara'at Night",
+ "ev_ramadan_start": "Ramadan begins",
+ "ev_laylat_qadr": "Laylat al-Qadr",
+ "ev_eid_fitr": "Eid al-Fitr",
+ "ev_hajj": "Hajj begins",
+ "ev_arafat": "Day of Arafat",
+ "ev_eid_adha": "Eid al-Adha",
+ "months": [
+  "Muharram",
+  "Safar",
+  "Rabi' al-Awwal",
+  "Rabi' al-Thani",
+  "Jumada al-Awwal",
+  "Jumada al-Thani",
+  "Rajab",
+  "Sha'ban",
+  "Ramadan",
+  "Shawwal",
+  "Dhu al-Qa'dah",
+  "Dhu al-Hijjah"
+ ],
+ "docTitle": "NoorWaqt — Right now, somewhere, someone is praying",
+ "docDesc": "A live global prayer map: watch the light of prayer sweep the earth along the terminator. NoorWaqt is an Islamic dual-calendar app built around women’s worship, with every fiqh calculation running on-device.",
+ "navGlobal": "Global Prayer",
+ "navRamadan": "Ramadan",
+ "navWomen": "For Women",
+ "navPrivacy": "Privacy",
+ "navDownload": "Download",
+ "heroEyebrow": "NoorWaqt Global",
+ "heroTitle": "Right now, across the world, <em>Muslims are praying</em>.",
+ "heroLead": "You are never praying alone. Spin the globe and watch the light follow the terminator — every city that enters its prayer window lights up.",
+ "heroLive": "<b>{n}</b> cities are inside a prayer window right now",
+ "heroHintDrag": "Drag to spin",
+ "heroHintTap": "Tap a city",
+ "heroHintTime": "Scrub the timeline",
+ "heroCta": "Find my city",
+ "heroCta2": "Get NoorWaqt",
+ "barsTitle": "The five prayers, right now",
+ "barsNote": "Across the {total} cities on this map, in {countries} countries and territories",
+ "slotIdle": "Duha",
+ "timeTitle": "Run a whole day forward",
+ "timeLead": "Drag the timeline, or press play. Over twenty-four hours the light of prayer laps the earth exactly once.",
+ "timePlay": "Play a day",
+ "timePause": "Pause",
+ "timeNow": "Back to now",
+ "timeLabel": "{t} UTC",
+ "cityTitle": "Light up your city",
+ "cityLead": "Search for your city, or let the browser locate you. Every time is computed on your own device — nothing is sent anywhere.",
+ "citySearch": "Search for a city…",
+ "cityLocate": "Use my location",
+ "cityLocating": "Locating…",
+ "cityDenied": "Location was declined — searching works just as well.",
+ "cityUnsupported": "This browser has no geolocation. Search instead.",
+ "cityNoResult": "No city matched. Try another spelling.",
+ "cityNear": "Shown for the nearest anchor city, {city} (about {km} km away)",
+ "cityCurrent": "Now",
+ "cityNext": "Next",
+ "cityIn": "in {t}",
+ "cityNow": "It is time",
+ "cityShare": "Make a share card",
+ "cityShareSaving": "Rendering…",
+ "cityAsr": "Asr school",
+ "cityAsrStd": "Standard",
+ "cityAsrHanafi": "Hanafi",
+ "cityMethod": "Method",
+ "ramadanTitle": "In Ramadan, the world fasts together",
+ "ramadanLead": "As the sun moves west, city after city begins the fast — and city after city breaks it. While you are still thirsty, someone on the other side of the earth has just taken their first sip.",
+ "ramadanActive": "Ramadan · day {d}",
+ "ramadanCountdown": "{d} days until Ramadan",
+ "ramadanPreview": "Preview Ramadan mode",
+ "ramadanExit": "Back to the prayer map",
+ "ramadanFasting": "Fasting",
+ "ramadanOpen": "Iftar",
+ "ramadanIftar": "{t} to iftar",
+ "ramadanSuhoor": "{t} to fajr",
+ "ramadanNote": "Based on the Umm al-Qura calculated calendar. Actual dates follow local moon sighting and may differ by a day.",
+ "eidTitle": "Eid arrives from the east, one city at a time",
+ "eidLead": "Eid does not reach the whole world in the same second. It starts in the Pacific and travels west, lighting each city in turn — Jakarta, Dhaka, Cairo, Istanbul, London, New York.",
+ "eidNext": "Until {name}",
+ "eidDays": "days",
+ "eidHours": "hrs",
+ "eidMins": "min",
+ "eidToday": "{name} Mubarak!",
+ "eidListTitle": "Holidays of Hijri {year}",
+ "eidEve": "begins at maghrib the evening before",
+ "womenTitle": "And half of this planet has never had their worship taken seriously",
+ "womenLead": "Almost every prayer app assumes its user is a man. NoorWaqt never did, from the first line of code.",
+ "women1Title": "A fiqh engine built for women",
+ "women1Desc": "A multi-madhhab state machine — Hanafi and others — that reads your own cycle log, distinguishes hayd from istihada, and schedules exemptions, make-ups and reminders. No more re-reading the fiqh manual every month.",
+ "women2Title": "Your cycle is not a blank space",
+ "women2Desc": "Being exempt from salah does not mean worship stops. The app switches to dhikr and du’a modes for those days, so every day still has shape.",
+ "women3Title": "The Duha golden window",
+ "women3Desc": "Hijri and Gregorian side by side, with a Duha window that steers clear of both forbidden moments — sunrise and zenith.",
+ "women4Title": "A full-cycle plan",
+ "women4Desc": "Daily wird, Friday jumu’ah, monthly fasts — all held in one rhythm.",
+ "privacyTitle": "None of this ever leaves your phone",
+ "privacyLead": "Cycle data is about as private as data gets. Every fiqh calculation in NoorWaqt runs on the device. No account, no cloud sync, no upload.",
+ "privacy1": "Nothing uploaded",
+ "privacy1d": "Your logs and rulings stay on the device. We have no server that could hold them.",
+ "privacy2": "Fully offline",
+ "privacy2d": "A 7.3MB Quran ships inside the app. It works in airplane mode.",
+ "privacy3": "No account",
+ "privacy3d": "Install and go. No phone number, no email.",
+ "privacyWeb": "The same goes for this map, by the way. All {n} cities are computed inside your browser — not a single network request.",
+ "dlTitle": "Put the light in your pocket",
+ "dlLead": "Android is in open beta. Free, no ads, no purchases.",
+ "dlBtn": "Download the Android APK",
+ "dlVersion": "Version {v} · {size} · {abi}",
+ "dlSideload": "You will need to allow installs from unknown sources. Only a 64-bit (arm64-v8a) build is published — older 32-bit devices are not supported yet. iOS is on the way.",
+ "dlChangelog": "In this release",
+ "footerTag": "Your prayer. Your time. Your world.",
+ "footerPrivacy": "100% on-device. We vow never to collect your private data.",
+ "footerCalc": "Times on this map are calculated offline in your browser, for reference only. Follow your local mosque.",
+ "shareTitle": "Prayer times today",
+ "shareFooter": "noorwaqt.com",
+ "shareDone": "Image saved",
+ "shareFail": "Could not save — long-press the image instead.",
+ "hijriDate": "{d} {m} {y} AH",
+ "hijriDateShort": "{d} {m}"
+};

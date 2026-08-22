@@ -5,14 +5,13 @@
   "minSupported": "0.0.1",
   "mandatory": false,
   "releaseDate": "2026-08-19",
-
   "apk": {
     "arm64-v8a": {
       "url": "https://github.com/mashijie007/noorwaqt/releases/download/0.0.4/app-arm64-v8a-release.apk",
-      "sha256": "8e96a9b18c002a5c52cb645a8d958375c045f5307a9d75f3aaa59e374deb3fa1"
+      "sha256": "8e96a9b18c002a5c52cb645a8d958375c045f5307a9d75f3aaa59e374deb3fa1",
+      "size": 34759342
     }
   },
-
   "changelog": [
     "Mushaf 双页展开 + 宽屏双栏布局",
     "手动定位与城市搜索（支持中文）",

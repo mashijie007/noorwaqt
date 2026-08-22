@@ -1,232 +1,310 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoorWaqt - 你的专属教法与时光管家</title>
-    <!-- 引入 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
-        
-        body { font-family: 'Noto Sans SC', sans-serif; }
-        html[dir="rtl"] body { font-family: 'Amiri', serif; }
-        
-        .bg-islamic {
-            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
-        }
-    </style>
-    <!-- Firebase Analytics (访问量 + 下载事件统计) -->
-    <script>
-        window.trackDownload = function() {};
-    </script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04100e">
+<title>NoorWaqt — 此刻，世界各地的穆斯林正在礼拜</title>
+<meta name="description" content="全球礼拜地图：看着礼拜的光沿着晨昏线扫过地球。NoorWaqt 是一款高度关注女性功修的伊斯兰双日历应用，教法推演全部在手机本地完成。">
+<link rel="canonical" href="https://www.noorwaqt.com/">
+<link rel="icon" href="./noorwaqt.png">
+<link rel="apple-touch-icon" href="./noorwaqt.png">
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAu3jdUQRC1ApxUTo-Wg_XSryzDL1WQAOE",
-            authDomain: "prayer-app-beta.firebaseapp.com",
-            projectId: "prayer-app-beta",
-            storageBucket: "prayer-app-beta.firebasestorage.app",
-            messagingSenderId: "187276729560",
-            appId: "1:187276729560:web:7f41bf4a760e87a4c74bad",
-            measurementId: "G-VRM9DCM286"
-        };
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.noorwaqt.com/">
+<meta property="og:title" content="NoorWaqt — 此刻，世界各地的穆斯林正在礼拜">
+<meta property="og:description" content="拖动地球，看礼拜的光沿着晨昏线一路扫过去。一座城市进入礼拜时间，它就亮起一束光。">
+<meta property="og:image" content="https://www.noorwaqt.com/noorwaqt.png">
+<meta name="twitter:card" content="summary_large_image">
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app);
-            window.trackDownload = function () {
-                logEvent(analytics, "download_click");
-            };
-        } catch (e) {
-            console.error("Firebase init failed:", e);
-        }
-    </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="./assets/css/site.css">
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-200">
+<body>
 
-    <!-- ✅ 导航栏区 -->
-    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <!-- 左侧：Logo 与 品牌名称 (使用相对路径) -->
-        <div class="flex items-center gap-3">
-            <img src="./noorwaqt.png" alt="NoorWaqt Logo" class="h-10 w-auto object-contain">
-            <div class="text-2xl font-bold text-emerald-700 tracking-wide">NoorWaqt</div>
+<!-- ═══ 导航 ═══════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <a class="brand" href="#top"><img src="./noorwaqt.png" alt=""> NoorWaqt</a>
+  <div class="nav-links">
+    <a href="#global" data-i18n="navGlobal">全球礼拜</a>
+    <a href="#ramadan" data-i18n="navRamadan">斋月</a>
+    <a href="#women" data-i18n="navWomen">女性功修</a>
+    <a href="#privacy" data-i18n="navPrivacy">隐私</a>
+  </div>
+  <div class="nav-right">
+    <!-- 选项由 main.js 按 App 的语言清单生成（44 种） -->
+    <select class="lang" id="lang" aria-label="Language"></select>
+    <a class="btn btn-primary btn-sm" href="#download" data-i18n="navDownload">下载</a>
+  </div>
+</nav>
+
+<!-- ═══ 头屏：全球礼拜地图 ═══════════════════════════════ -->
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+
+  <!-- 地球是整个头屏的底层：文字和控制条都浮在它上面。
+       它比视口还大，上下略微出框 —— 被裁掉的是南北极，本来也没有城市。 -->
+  <div class="hero-globe-layer">
+    <div class="globe-frame">
+      <div class="globe-stage" id="globe-stage">
+        <canvas id="globe" aria-label="全球礼拜地图" role="img"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 左侧压一层暗渐变，否则标题落在地球亮处会读不清 -->
+  <div class="hero-scrim"></div>
+
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-i18n="heroEyebrow">NoorWaqt Global · 全球礼拜</p>
+      <h1 data-i18n="heroTitle" data-html>此刻，世界各地的<em>穆斯林正在礼拜</em>。</h1>
+      <p class="lead" data-i18n="heroLead">你并不是一个人在礼拜。拖动这颗地球，看礼拜的光沿着晨昏线一路扫过去——一座城市进入礼拜时间，它就亮起一束光。</p>
+
+      <p class="live-pill"><span class="live-dot"></span><span id="live-count" data-i18n="heroLive" data-html>此刻有 <b>—</b> 座城市正处在礼拜时间内</span></p>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#city" data-i18n="heroCta">找到我的城市</a>
+        <a class="btn btn-ghost" href="#download" data-i18n="heroCta2">下载 NoorWaqt</a>
+      </div>
+    </div>
+
+    <!-- 操作说明排在控制条上方 -->
+    <div class="globe-controls">
+      <div class="hero-hints">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M8 12l3-3M8 12l3 3M16 12l-3-3M16 12l-3 3"/></svg><span data-i18n="heroHintDrag">拖动旋转</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span data-i18n="heroHintTap">点击城市</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><circle cx="9" cy="12" r="3" fill="currentColor" stroke="none"/></svg><span data-i18n="heroHintTime">滑动时间轴</span></span>
+      </div>
+      <p class="note" data-i18n="timeLead">拖动时间轴，或者按下播放——二十四小时里，礼拜的光会绕地球整整一圈。</p>
+    </div>
+    <!-- 时间轴与两个按钮：浮在地球上，落在操作说明的下方 -->
+    <div class="globe-hud" role="group" aria-labelledby="time-title">
+      <h2 class="sr-only" id="time-title" data-i18n="timeTitle">把一天拨过去看看</h2>
+      <input type="range" id="scrub" min="0" max="1439" step="1" value="0" aria-label="UTC time of day">
+      <div class="tick-row"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+      <div class="time-controls">
+        <button class="btn btn-ghost btn-sm" id="play" data-i18n="timePlay">播放一天</button>
+        <button class="btn btn-ghost btn-sm" id="now" data-i18n="timeNow">回到此刻</button>
+        <p class="time-readout" id="time-readout">—</p>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ═══ 五番统计 + 时间轴 ════════════════════════════════ -->
+<section class="section" id="global">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="barsTitle">此刻全球的五番礼拜</h2>
+      <p class="note" id="bars-note" data-i18n="barsNote">统计范围为地图上的 152 座城市</p>
+    </div>
+
+    <div class="bars reveal" id="bars"></div>
+  </div>
+</section>
+
+<!-- ═══ 你的城市 ═════════════════════════════════════════ -->
+<section class="section" id="city">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="cityTitle">让你的城市亮起来</h2>
+      <p class="lead" data-i18n="cityLead">搜索你所在的城市，或者让浏览器直接定位。所有时刻都在你的设备上算出来，不会上传到任何服务器。</p>
+    </div>
+
+    <div class="city-grid">
+      <div class="panel reveal">
+        <div class="search-wrap">
+          <div class="search-row">
+            <input class="search-input" id="city-search" type="search" autocomplete="off" placeholder="搜索城市，中英文皆可…" data-i18n-attr="placeholder:citySearch">
+            <button class="btn btn-ghost" id="locate" data-i18n="cityLocate">使用我的位置</button>
+          </div>
+          <div class="suggest" id="suggest" role="listbox"></div>
         </div>
-        
-        <!-- 右侧：语言切换 -->
-        <div>
-            <select id="lang-switch" onchange="switchLanguage(this.value)" class="bg-white border border-emerald-200 text-gray-700 py-1 px-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
-                <option value="zh">中文</option>
-                <option value="en">English</option>
-                <option value="ar">العربية</option>
-            </select>
+        <p class="msg" id="city-msg"></p>
+
+        <div class="opt-row">
+          <span>
+            <span data-i18n="cityAsr">晡礼学派</span>
+            <span class="seg" id="asr-seg" role="group">
+              <button data-asr="1" aria-pressed="true" data-i18n="cityAsrStd">标准</button>
+              <button data-asr="2" aria-pressed="false" data-i18n="cityAsrHanafi">哈乃斐</button>
+            </span>
+          </span>
+          <span><span data-i18n="cityMethod">计算方法</span> <b id="method-name">—</b></span>
         </div>
-    </nav>
+      </div>
 
-    <!-- ✅ 头屏 (Hero) -->
-    <header class="container mx-auto px-6 py-16 md:py-24 flex flex-col md:flex-row items-center">
-        
-        <!-- 左侧：文字和按钮 -->
-        <div class="md:w-1/2 flex flex-col items-start text-start mb-12 md:mb-0">
-            <h1 data-i18n="hero_title" class="text-4xl md:text-5xl font-bold leading-tight text-gray-900 mb-6">
-                懂你的时光，<br><span class="text-emerald-600">更懂你的功修。</span>
-            </h1>
-            <p data-i18n="hero_subtitle" class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-                首款高度注重女性功修的伊斯兰双日历应用。精准礼拜时间、每日功修打卡，搭载纯本地运行的教法状态机，护佑您的每一段神圣时光。
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <!-- 这里的 href 和 download 属性实现了 APK 下载 -->
-                <a href="https://github.com/mashijie007/noorwaqt/releases/download/0.0.4/app-arm64-v8a-release.apk" download="NoorWaqt.apk" data-i18n="btn_download" onclick="trackDownload()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all text-center">
-                    下载 Android APK (34.8MB)
-                </a>
-                <a href="#features" data-i18n="btn_learn" class="bg-white border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 font-medium py-3 px-8 rounded-full transition-all text-center">
-                    了解核心功能
-                </a>
-            </div>
-        </div> 
-        <!-- 这个闭合标签非常重要，它分开了左右两边 -->
-
-        <!-- 右侧：动态 App 截图区 (去掉了刘海遮挡) -->
-        <div class="md:w-1/2 flex justify-center">
-            <div class="w-64 h-[500px] rounded-[2.5rem] shadow-2xl border-8 border-gray-100 flex items-center justify-center overflow-hidden bg-gray-100">
-                <!-- 动态切换的截图 -->
-                <img id="app-screenshot" src="./cn.jpeg" alt="NoorWaqt App Screenshot" class="w-full h-full object-cover border border-gray-200">
-            </div>
+      <div class="panel reveal" id="city-card">
+        <div class="city-head">
+          <h3 id="city-name">—</h3>
+          <span class="cc" id="city-sub"></span>
         </div>
-    </header>
-
-    <!-- ✅ 核心功能区 -->
-    <section id="features" class="bg-white py-20 border-t border-gray-100">
-        <div class="container mx-auto px-6">
-            <!-- 修改后的文案 -->
-            <h2 data-i18n="feat_title" class="text-3xl font-bold text-center text-gray-900 mb-16">守护穆斯林女性的专属功修伴侣</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-                
-                <!-- 功能 1 -->
-                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
-                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🕌</div>
-                    <h3 data-i18n="feat_1_title" class="text-xl font-bold mb-3 text-gray-800">精准礼拜与双日历</h3>
-                    <p data-i18n="feat_1_desc" class="text-gray-600 leading-relaxed">完美融合公历与伊历。独创“杜哈拜黄金时间窗”提醒，精准规避日出与日中受禁时刻。</p>
-                </div>
-
-                <!-- 功能 2 -->
-                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
-                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🌸</div>
-                    <h3 data-i18n="feat_2_title" class="text-xl font-bold mb-3 text-gray-800">女性专属教法引擎</h3>
-                    <p data-i18n="feat_2_desc" class="text-gray-600 leading-relaxed">内置哈乃斐等多学派状态机。根据真实生理记录自动推演经期与病血，智能调度礼拜豁免与提醒。</p>
-                </div>
-
-                <!-- 功能 3 -->
-                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
-                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">📿</div>
-                    <h3 data-i18n="feat_3_title" class="text-xl font-bold mb-3 text-gray-800">全周期功修提醒</h3>
-                    <p data-i18n="feat_3_desc" class="text-gray-600 leading-relaxed">定制每日 (Wird)、每周 (周五聚礼)、每月的功修计划。经期自动切换至特定的赞念与祈祷模式。</p>
-                </div>
-
-                <!-- 功能 4 -->
-                <div class="text-center sm:text-start flex flex-col items-center sm:items-start">
-                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🛡️</div>
-                    <h3 data-i18n="feat_4_title" class="text-xl font-bold mb-3 text-gray-800">绝对离线与隐私</h3>
-                    <p data-i18n="feat_4_desc" class="text-gray-600 leading-relaxed">所有生理数据与教法推演均在手机本地完成。7.3MB 超小古兰经包，无需网络，告别云端泄露焦虑。</p>
-                </div>
-
-            </div>
+        <p class="note" id="city-near"></p>
+        <div class="city-status" id="city-status"></div>
+        <div class="times" id="city-times"></div>
+        <div class="dl-actions" style="justify-content:flex-start;margin-block-start:1.5rem">
+          <button class="btn btn-ghost btn-sm" id="share" data-i18n="cityShare">生成分享卡</button>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- ✅ Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-10">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-            <div class="text-xl font-bold text-white mb-4 md:mb-0">NoorWaqt</div>
-            <div class="text-sm">
-                &copy; 2026 NoorWaqt. All rights reserved. <br class="md:hidden">
-                <span data-i18n="footer_privacy">100% 本地运行，承诺永不收集您的隐私数据。</span>
-            </div>
-        </div>
-    </footer>
+<!-- ═══ 斋月 ═════════════════════════════════════════════ -->
+<section class="section ramadan" id="ramadan">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="moon-badge" id="ramadan-badge">🌙 —</p>
+      <h2 data-i18n="ramadanTitle">斋月：世界正在一起封斋</h2>
+      <p class="lead" data-i18n="ramadanLead">随着太阳西移，一座城市接一座城市进入斋戒，又一座接一座开斋。</p>
+    </div>
 
-    <!-- ✅ 多语言引擎与图片切换逻辑 (Vanilla JS) -->
-    <script>
-        const i18n = {
-            zh: {
-                hero_title: "懂你的时光，<br><span class='text-emerald-600'>更懂你的功修。</span>",
-                hero_subtitle: "首款高度注重女性功修的伊斯兰双日历应用。精准礼拜时间、每日功修打卡，搭载纯本地运行的教法状态机，护佑您的每一段神圣时光。",
-                btn_download: "下载 Android APK (34.8MB)",
-                btn_learn: "了解核心功能",
-                feat_title: "守护穆斯林女性的专属功修伴侣",
-                feat_1_title: "精准礼拜与双日历",
-                feat_1_desc: "完美融合公历与伊历。独创“杜哈拜黄金时间窗”提醒，精准规避日出与日中受禁时刻。",
-                feat_2_title: "女性专属教法引擎",
-                feat_2_desc: "内置哈乃斐等多学派状态机。根据真实生理记录自动推演经期与病血，智能调度礼拜豁免与提醒。",
-                feat_3_title: "全周期功修提醒",
-                feat_3_desc: "定制每日 (Wird)、每周 (周五聚礼)、每月的功修计划。经期自动切换至特定的赞念与祈祷模式。",
-                feat_4_title: "绝对离线与隐私",
-                feat_4_desc: "所有生理数据与教法推演均在手机本地完成。7.3MB 超小古兰经包，无需网络，告别云端泄露焦虑。",
-                footer_privacy: "100% 本地运行，承诺永不收集您的隐私数据。"
-            },
-            en: {
-                hero_title: "Understands your time,<br><span class='text-emerald-600'>Empowers your Ibada.</span>",
-                hero_subtitle: "The first Islamic dual-calendar app highly focused on female spiritual practices. Precise prayer times, daily Wird tracking, and an on-device Fiqh engine to safeguard your sacred moments.",
-                btn_download: "Download APK (34.8MB)",
-                btn_learn: "Explore Features",
-                feat_title: "Your Exclusive Spiritual Companion",
-                feat_1_title: "Prayer Times & Dual Calendar",
-                feat_1_desc: "Seamlessly integrates Hijri and Gregorian dates. Features the exclusive 'Duha Golden Window' to avoid forbidden prayer times at sunrise and zenith.",
-                feat_2_title: "Female Fiqh Engine",
-                feat_2_desc: "Built-in multi-madhhab state machine. Automatically distinguishes Hayd from Istihada based on your logs, intelligently managing prayer exemptions.",
-                feat_3_title: "Full-Cycle Habit Tracker",
-                feat_3_desc: "Daily (Wird), weekly, and monthly spiritual plans. Automatically switches to tailored Dhikr modes during your cycle.",
-                feat_4_title: "100% Offline & Private",
-                feat_4_desc: "All physiological data and Fiqh calculations stay on your phone. Minimal 7.3MB offline Quran package. Zero cloud tracking.",
-                footer_privacy: "100% On-device execution. We vow never to collect your private data."
-            },
-            ar: {
-                hero_title: "رفيق وقتك،<br><span class='text-emerald-600'>ودليلك في العبادة.</span>",
-                hero_subtitle: "التطبيق الإسلامي الأول المصمم خصيصاً لعبادات المرأة. مواقيت دقيقة، تقويم مزدوج، وتتبع فقهي يعمل بالكامل دون إنترنت لحماية أوقاتك المقدسة.",
-                btn_download: "تحميل التطبيق (34.8MB)",
-                btn_learn: "اكتشف المميزات",
-                feat_title: "رفيقك الروحي الحصري",
-                feat_1_title: "مواقيت الصلاة وتقويم مزدوج",
-                feat_1_desc: "دمج مثالي بين التقويمين الهجري والميلادي. تحديد دقيق لوقت صلاة الضحى وتجنب أوقات الكراهة.",
-                feat_2_title: "محرك فقهي مخصص للمرأة",
-                feat_2_desc: "نظام ذكي يعتمد على المذاهب الفقهية. يفرق بدقة بين الحيض والاستحاضة بناءً على سجلاتك، وينظم الإعفاءات من الصلاة.",
-                feat_3_title: "تتبع الأوراد والعبادات",
-                feat_3_desc: "خطط يومية (أوراد)، أسبوعية، وشهرية. يتحول التطبيق تلقائياً إلى وضع الذكر والدعاء أثناء فترة العذر الشرعي.",
-                feat_4_title: "خصوصية تامة بدون إنترنت",
-                feat_4_desc: "جميع بياناتك وحساباتك الفقهية تبقى في هاتفك. مصحف كامل بحجم 7.3MB يعمل بلا إنترنت.",
-                footer_privacy: "يعمل 100% على جهازك. نلتزم بعدم جمع أي بيانات شخصية."
-            }
-        };
+    <div class="time-controls reveal" style="margin-block-end:1.5rem">
+      <button class="btn btn-ghost btn-sm" id="ramadan-toggle" data-i18n="ramadanPreview">预览斋月模式</button>
+    </div>
 
-        function switchLanguage(lang) {
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.title = "NoorWaqt";
-            
-            // 动态切换截图
-            const imgEl = document.getElementById('app-screenshot');
-            if (lang === 'zh') {
-                imgEl.src = './cn.jpeg';
-            } else if (lang === 'en') {
-                imgEl.src = './en.jpeg';
-            } else if (lang === 'ar') {
-                imgEl.src = './ar.jpeg';
-            }
-            
-            // 切换文本
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (i18n[lang][key]) {
-                    el.innerHTML = i18n[lang][key];
-                }
-            });
-        }
-        
-        // 初始化
-        switchLanguage('zh');
-    </script>
+    <div class="fast-list reveal" id="fast-list"></div>
+    <p class="note reveal" style="margin-block-start:1.2rem" data-i18n="ramadanNote">以乌姆库拉推算历为准。</p>
+  </div>
+</section>
+
+<!-- ═══ 节日 ═════════════════════════════════════════════ -->
+<section class="section" id="eid">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="eidTitle">节日会从东边一路亮到西边</h2>
+      <p class="lead" data-i18n="eidLead">开斋节不是全世界同一秒到来的。</p>
+    </div>
+    <p class="eyebrow" id="eid-label">—</p>
+    <div class="countdown reveal" id="eid-countdown"></div>
+    <div class="sweep reveal" id="sweep"></div>
+
+    <h3 class="ev-title reveal" id="eid-list-title">伊历节日</h3>
+    <div class="ev-list reveal" id="eid-list"></div>
+  </div>
+</section>
+
+<!-- ═══ 女性功修 ═════════════════════════════════════════ -->
+<section class="section" id="women">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="womenTitle">而在这颗地球上，有一半人的功修从来没被认真对待过</h2>
+      <p class="lead" data-i18n="womenLead">市面上的礼拜应用几乎都默认使用者是男性。NoorWaqt 从第一行代码起就不是这样。</p>
+    </div>
+
+    <div class="feature-grid reveal">
+      <div class="feature">
+        <div class="ico">🌸</div>
+        <h3 data-i18n="women1Title">女性专属教法引擎</h3>
+        <p data-i18n="women1Desc">内置哈乃斐等多学派状态机。</p>
+      </div>
+      <div class="feature">
+        <div class="ico">📿</div>
+        <h3 data-i18n="women2Title">经期的功修不是空白</h3>
+        <p data-i18n="women2Desc">免除礼拜不等于停下功修。</p>
+      </div>
+      <div class="feature">
+        <div class="ico">🕌</div>
+        <h3 data-i18n="women3Title">杜哈拜的黄金时间窗</h3>
+        <p data-i18n="women3Desc">公历伊历双日历。</p>
+      </div>
+      <div class="feature">
+        <div class="ico">🗓️</div>
+        <h3 data-i18n="women4Title">全周期功修计划</h3>
+        <p data-i18n="women4Desc">每日的 Wird、每周的聚礼、每月的斋戒。</p>
+      </div>
+    </div>
+
+    <div class="shots reveal">
+      <div class="shot"><img src="./cn.jpeg" alt="NoorWaqt 中文界面" loading="lazy" width="1080" height="2400"></div>
+      <div class="shot"><img src="./en.jpeg" alt="NoorWaqt English interface" loading="lazy" width="1080" height="2400"></div>
+      <div class="shot"><img src="./ar.jpeg" alt="واجهة نور وقت بالعربية" loading="lazy" width="1080" height="2400"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 隐私 ═════════════════════════════════════════════ -->
+<section class="section" id="privacy">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="privacyTitle">这些数据，一个字节都不会离开你的手机</h2>
+      <p class="lead" data-i18n="privacyLead">生理记录是最私密的一类数据。</p>
+    </div>
+    <div class="privacy-grid reveal">
+      <div class="privacy-item"><h3 data-i18n="privacy1">零上传</h3><p data-i18n="privacy1d">生理记录与教法推演不出设备。</p></div>
+      <div class="privacy-item"><h3 data-i18n="privacy2">完全离线</h3><p data-i18n="privacy2d">7.3MB 古兰经包随应用打包。</p></div>
+      <div class="privacy-item"><h3 data-i18n="privacy3">无需账号</h3><p data-i18n="privacy3d">装上就能用。</p></div>
+    </div>
+    <p class="note reveal" style="margin-block-start:2rem" id="privacy-web" data-i18n="privacyWeb">顺带一提：你正在看的这个地图也是一样的。</p>
+  </div>
+</section>
+
+<!-- ═══ 下载 ═════════════════════════════════════════════ -->
+<section class="section download" id="download">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="dlTitle">把这束光装进口袋</h2>
+      <p class="lead" data-i18n="dlLead">安卓版正在公开测试，免费，无广告，无内购。</p>
+    </div>
+    <div class="dl-actions reveal">
+      <a class="btn btn-primary" id="dl-btn"
+         href="https://github.com/mashijie007/noorwaqt/releases/download/0.0.4/app-arm64-v8a-release.apk"
+         download="NoorWaqt.apk" data-i18n="dlBtn">下载 Android APK</a>
+    </div>
+    <p class="dl-meta reveal" id="dl-meta">—</p>
+    <p class="dl-meta reveal" data-i18n="dlSideload">需要在系统设置里允许「安装未知来源应用」。</p>
+    <div class="changelog reveal" id="changelog" hidden>
+      <h3 data-i18n="dlChangelog">本次更新</h3>
+      <ul id="changelog-list"></ul>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-tag" data-i18n="footerTag">Your prayer. Your time. Your world.</div>
+      <small data-i18n="footerPrivacy">100% 本地运行，承诺永不收集您的隐私数据。</small>
+      <small data-i18n="footerCalc">地图上的礼拜时刻由本页离线推算，仅供参考。</small>
+    </div>
+    <small>&copy; 2026 NoorWaqt</small>
+  </div>
+</footer>
+
+<dialog class="share" id="share-dlg">
+  <img id="share-img" alt="">
+  <div class="row">
+    <a class="btn btn-primary btn-sm" id="share-save" download="noorwaqt.png">↓</a>
+    <button class="btn btn-ghost btn-sm" id="share-close">✕</button>
+  </div>
+</dialog>
+
+<!-- Firebase Analytics：访问量与下载事件 -->
+<script>window.track = function () {};</script>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
+  try {
+    const app = initializeApp({
+      apiKey: 'AIzaSyAu3jdUQRC1ApxUTo-Wg_XSryzDL1WQAOE',
+      authDomain: 'prayer-app-beta.firebaseapp.com',
+      projectId: 'prayer-app-beta',
+      storageBucket: 'prayer-app-beta.firebasestorage.app',
+      messagingSenderId: '187276729560',
+      appId: '1:187276729560:web:7f41bf4a760e87a4c74bad',
+      measurementId: 'G-VRM9DCM286',
+    });
+    const analytics = getAnalytics(app);
+    window.track = (name, params) => logEvent(analytics, name, params || {});
+  } catch (e) {
+    console.warn('Analytics unavailable:', e);
+  }
+</script>
+
+<script type="module" src="./assets/js/main.js"></script>
 </body>
 </html>
