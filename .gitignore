@@ -16,3 +16,9 @@ tools/translations/_incoming.json
 # 系统与编辑器杂物 ────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# Claude Code 的本地工作区 ────────────────────────────
+# worktrees/ 下是后台任务临时检出的完整副本，几十 MB 起步，
+# 一次 git add -A 就会整个进来。launch.json 是个人预览配置，也不必共享。
+.claude/worktrees/
+.claude/launch.json

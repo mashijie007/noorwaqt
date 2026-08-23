@@ -36,13 +36,20 @@ npm run dev       # 起服务预览仓库根（4173）
 /<lang>/              44 种语言的落地页
 /<lang>/prayer-times/            城市索引（按国家分组）
 /<lang>/prayer-times/<city>/     城市页
-/en/guide/, /zh/guide/           教法问答（手写，原样搬进 dist）
+/en/guide/, /zh/guide/           教法问答（build-guides.mjs 产出，搬进 dist）
 /sitemap.xml          索引，下挂 /sitemaps/*.xml
 ```
 
-教法问答页不由生成器产出 —— 它们是手写的，自带 canonical 与 hreflang。
-构建只做两件事：搬进 `dist/`，收进站点地图。
-`discoverGuidePages()` 按目录扫描，**加一篇不用回来改生成器**。
+教法问答页由 `build-guides.mjs` 从 `tools/guides/` 产出，自带 canonical 与 hreflang。
+`build.mjs` 对它们只做两件事：搬进 `dist/`，收进站点地图 ——
+`discoverGuidePages()` 按目录扫描，**加一篇不用回来改这边**。
+
+> ⚠️ 不一致待收口：`build-guides.mjs` 把产物写到**仓库根**（`en/`、`zh/`、
+> 根 `sitemap.xml`），其余生成器一律写 `dist/`。于是仓库里躺着一批生成物，
+> 根 `sitemap.xml` 还只有 17 条、是 `dist/sitemap.xml` 那 1438 条的子集。
+> 部署时以 `dist/` 为准所以不影响线上，但两套出口迟早会咬到人。
+> 把 `build-guides.mjs` 的输出改成 `emit()` 到 `dist/`、并删掉根上那批产物，
+> 就统一了。
 
 城市页只出 `translations/seo/<code>.json` 里有文案的语言。
 **加一种语言 = 往那个目录里加一个 JSON**，生成器会自己发现它。
@@ -61,7 +68,7 @@ npm run dev       # 起服务预览仓库根（4173）
 
 1. **仓库 Settings → Pages → Source 改成「GitHub Actions」**。
    不改的话流水线的 deploy 步骤会失败 —— 现在的设置还是从分支目录直接伺服。
-2. 根目录手写的 `robots.txt` 与 `sitemap.xml` 已被生成的那两份取代
+2. 根目录的 `robots.txt` 与 `sitemap.xml` 已被生成的那两份取代
    （17 条 → 1438 条，且含全部 hreflang）。构建不会拷贝它们，可以删掉，
    留着也只是没人读。
 3. Search Console / Bing 站长工具提交 `https://www.noorwaqt.com/sitemap.xml`。
