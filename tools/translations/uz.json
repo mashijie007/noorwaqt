@@ -98,5 +98,11 @@
  "consentText": "Tashriflarni sanash uchun Google Analytics ishlatsak bo‘ladimi? U qaysi tugmalarni bosganingizni va bu sahifada qaysi shaharni qidirganingizni yozib boradi. Namoz vaqtlari doim qurilmangizda hisoblanadi.",
  "consentAllow": "Ruxsat beraman",
  "consentDeny": "Yo‘q, rahmat",
- "consentManage": "Statistika sozlamalari"
+ "consentManage": "Statistika sozlamalari",
+ "litPill": "Siz <b>{lit}</b>/{total} shaharni yoqdingiz",
+ "litBadge": "Siz bu yerga kelgansiz",
+ "litShareAria": "Yutuqlaringizni ulashing",
+ "popupClose": "Yopish",
+ "litCardTagline": "Jahon namoz xaritasida men yoqqan shaharlar",
+ "litMilestone": "Siz jahon xaritasining {pct}% yoqdingiz!"
 }

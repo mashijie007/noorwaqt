@@ -129,5 +129,11 @@
  "consentText": "Boleh kami memakai Google Analytics untuk menghitung kunjungan? Ia mencatat tombol yang Anda tekan dan kota yang Anda cari di halaman ini. Waktu salat selalu dihitung di perangkat Anda.",
  "consentAllow": "Izinkan",
  "consentDeny": "Tidak, terima kasih",
- "consentManage": "Pengaturan statistik"
+ "consentManage": "Pengaturan statistik",
+ "litPill": "Anda telah menyalakan <b>{lit}</b>/{total} kota",
+ "litBadge": "Anda pernah ke sini",
+ "litShareAria": "Bagikan progresmu",
+ "popupClose": "Tutup",
+ "litCardTagline": "Kota-kota yang telah saya nyalakan di peta salat dunia",
+ "litMilestone": "Anda telah menyalakan {pct}% peta dunia!"
 }

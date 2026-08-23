@@ -98,5 +98,11 @@
  "consentText": "Ziyarətləri saymaq üçün Google Analytics istifadə edə bilərikmi? Hansı düymələri basdığınızı və bu səhifədə hansı şəhəri axtardığınızı qeyd edir. Namaz vaxtları həmişə cihazınızda hesablanır.",
  "consentAllow": "İcazə verirəm",
  "consentDeny": "Xeyr, təşəkkürlər",
- "consentManage": "Statistika ayarları"
+ "consentManage": "Statistika ayarları",
+ "litPill": "<b>{lit}</b>/{total} şəhəri işıqlandırdınız",
+ "litBadge": "Burada olmusunuz",
+ "litShareAria": "İrəliləyişini paylaş",
+ "popupClose": "Bağla",
+ "litCardTagline": "Dünya namaz xəritəsində işıqlandırdığım şəhərlər",
+ "litMilestone": "Dünya xəritəsinin {pct}%-ni işıqlandırdınız!"
 }

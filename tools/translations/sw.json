@@ -98,5 +98,11 @@
  "consentText": "Tunaweza kutumia Google Analytics kuhesabu matembeleo? Hurekodi vitufe unavyobonyeza na jiji unalotafuta kwenye ukurasa huu. Nyakati za sala huhesabiwa daima kwenye kifaa chako.",
  "consentAllow": "Naruhusu",
  "consentDeny": "Hapana, asante",
- "consentManage": "Mipangilio ya takwimu"
+ "consentManage": "Mipangilio ya takwimu",
+ "litPill": "Umewasha miji <b>{lit}</b>/{total}",
+ "litBadge": "Umeshafika hapa",
+ "litShareAria": "Shiriki maendeleo yako",
+ "popupClose": "Funga",
+ "litCardTagline": "Miji niliyowasha kwenye ramani ya sala duniani",
+ "litMilestone": "Umewasha {pct}% ya ramani ya dunia!"
 }

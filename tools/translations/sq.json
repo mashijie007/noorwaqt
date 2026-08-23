@@ -98,5 +98,11 @@
  "consentText": "A mund të përdorim Google Analytics për të numëruar vizitat? Ai regjistron cilat butona shtypni dhe cilin qytet kërkoni në këtë faqe. Kohët e namazit llogariten gjithmonë në pajisjen tuaj.",
  "consentAllow": "Lejoj",
  "consentDeny": "Jo, faleminderit",
- "consentManage": "Cilësimet e statistikave"
+ "consentManage": "Cilësimet e statistikave",
+ "litPill": "Keni ndezur <b>{lit}</b>/{total} qytete",
+ "litBadge": "Keni qenë këtu",
+ "litShareAria": "Ndaj përparimin tënd",
+ "popupClose": "Mbyll",
+ "litCardTagline": "Qytetet që kam ndezur në hartën botërore të namazit",
+ "litMilestone": "Keni ndezur {pct}% të hartës së botës!"
 }

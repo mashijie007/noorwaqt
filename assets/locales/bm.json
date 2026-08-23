@@ -129,5 +129,11 @@
  "consentText": "An bɛ se ka Google Analytics kɛ ka bɔyɔrɔw jate wa? A bɛ butɔn minnu digi i fɛ ani dugu min ɲini nin ɲɛ kan, o bɛ sɛbɛn. Seli waatiw bɛ jate i ka minɛn kɔnɔ tuma bɛɛ.",
  "consentAllow": "Sɔn a ma",
  "consentDeny": "Ayi, i ni ce",
- "consentManage": "Jatebla labɛnw"
+ "consentManage": "Jatebla labɛnw",
+ "litPill": "I ye dugu <b>{lit}</b>/{total} mana",
+ "litBadge": "I taara yan",
+ "litShareAria": "I ka taama fɔ",
+ "popupClose": "A datugu",
+ "litCardTagline": "Dugu minnu n ye mana diɲɛ seli kaart kan",
+ "litMilestone": "I ye diɲɛ kaart {pct}% mana!"
 }

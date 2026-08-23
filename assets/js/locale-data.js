@@ -370,5 +370,12 @@ export const EN = {
  "guideA3": "The most disputed area. Reciting, touching the mushaf, reading on a phone, the masjid, tawaf — each one laid out.",
  "guideQ4": "How do you know your period has ended? Does brown discharge count?",
  "guideA4": "The two signs of purity, and each school's minimum and maximum — this is what decides whether you pray today.",
- "guideMore": "All seven answers"
+ "guideMore": "All seven answers",
+ "litPill": "You've lit <b>{lit}</b>/{total} cities",
+ "litBadge": "You've been here",
+ "litShareAria": "Share your progress",
+ "popupClose": "Close",
+ "litCardTitle": "{n}/{total}",
+ "litCardTagline": "Cities I've lit up on the world prayer map",
+ "litMilestone": "You've lit up {pct}% of the world map!"
 };

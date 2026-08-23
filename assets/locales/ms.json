@@ -129,5 +129,11 @@
  "consentText": "Bolehkah kami menggunakan Google Analytics untuk mengira lawatan? Ia merekodkan butang yang anda tekan dan bandar yang anda cari di halaman ini. Waktu solat sentiasa dikira pada peranti anda.",
  "consentAllow": "Izinkan",
  "consentDeny": "Tidak, terima kasih",
- "consentManage": "Tetapan statistik"
+ "consentManage": "Tetapan statistik",
+ "litPill": "Anda telah menyalakan <b>{lit}</b>/{total} bandar",
+ "litBadge": "Anda pernah ke sini",
+ "litShareAria": "Kongsi kemajuan anda",
+ "popupClose": "Tutup",
+ "litCardTagline": "Bandar-bandar yang telah saya nyalakan pada peta solat dunia",
+ "litMilestone": "Anda telah menyalakan {pct}% peta dunia!"
 }

@@ -98,5 +98,11 @@
  "consentText": "An ga sellin, o ga Google Analytics ta yillaano xisaabu? A ni butoŋu ke an ga digi, do debe ke an ga ɲiini ɲaɲe konŋo, sefe. Sallinde waxatu su ni xisaabu an tanmunte konŋo.",
  "consentAllow": "N sellin",
  "consentDeny": "Ayi, barka",
- "consentManage": "Xisaabu paramaatiri"
+ "consentManage": "Xisaabu paramaatiri",
+ "litPill": "An ni debe <b>{lit}</b>/{total} yenke",
+ "litBadge": "An ni goo ke konto",
+ "litShareAria": "An ka taxa fo",
+ "popupClose": "A jaxu",
+ "litCardTagline": "Debe ke an ga yenke duniya sallinde kaarte konŋo",
+ "litMilestone": "An ni duniya kaarte {pct}% yenke!"
 }

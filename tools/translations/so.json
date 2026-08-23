@@ -98,5 +98,11 @@
  "consentText": "Ma isticmaali karnaa Google Analytics si aan u tirinno booqashooyinka? Wuxuu diiwaan geliyaa badhamada aad riixdo iyo magaalada aad bogga ka raadiso. Waqtiyada salaadda had iyo jeer waxay ku xisaabmaan qalabkaaga.",
  "consentAllow": "Waan ogolahay",
  "consentDeny": "Maya, mahadsanid",
- "consentManage": "Goobaha tirakoobka"
+ "consentManage": "Goobaha tirakoobka",
+ "litPill": "Waxaad shiddey <b>{lit}</b>/{total} magaalo",
+ "litBadge": "Halkan ayaad joogtay",
+ "litShareAria": "Wadaag horumarkaaga",
+ "popupClose": "Xir",
+ "litCardTagline": "Magaalooyinka aan ka shiday khariidadda salaadda adduunka",
+ "litMilestone": "Waxaad shiddey {pct}% khariidadda adduunka!"
 }

@@ -129,5 +129,11 @@
  "consentText": "Apa kita kena nganggo Google Analytics kanggo ngetung kunjungan? Iki nyathet tombol sing kokpencet lan kutha sing kokgoleki ing kaca iki. Wektu salat tansah diitung ing pirantimu.",
  "consentAllow": "Idinana",
  "consentDeny": "Ora, matur nuwun",
- "consentManage": "Setelan statistik"
+ "consentManage": "Setelan statistik",
+ "litPill": "Sampeyan wis nguripake <b>{lit}</b>/{total} kutha",
+ "litBadge": "Sampeyan wis tau tekan kene",
+ "litShareAria": "Bagekake kemajuanmu",
+ "popupClose": "Tutup",
+ "litCardTagline": "Kutha-kutha sing wis dakuripake ing peta salat donya",
+ "litMilestone": "Sampeyan wis nguripake {pct}% peta donya!"
 }

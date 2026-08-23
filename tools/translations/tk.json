@@ -98,5 +98,11 @@
  "consentText": "Girimleri hasaplamak üçin Google Analytics ulanyp bilerismi? Ol haýsy düwmelere basanyňyzy we bu sahypada haýsy şäheri gözländigiňizi ýazýar. Namaz wagtlary hemişe enjamyňyzda hasaplanýar.",
  "consentAllow": "Rugsat berýärin",
  "consentDeny": "Ýok, sag boluň",
- "consentManage": "Statistika sazlamalary"
+ "consentManage": "Statistika sazlamalary",
+ "litPill": "Siz <b>{lit}</b>/{total} şäheri ýakdyňyz",
+ "litBadge": "Siz bu ýerde boldunyz",
+ "litShareAria": "Ösüşiňizi paýlaşyň",
+ "popupClose": "Ýap",
+ "litCardTagline": "Dünýä namaz kartasynda ýakan şäherlerim",
+ "litMilestone": "Siz dünýä kartasynyň {pct}% ýakdyňyz!"
 }

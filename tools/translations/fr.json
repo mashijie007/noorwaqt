@@ -98,5 +98,11 @@
  "consentText": "Pouvons-nous utiliser Google Analytics pour compter les visites ? Il enregistre les boutons sur lesquels vous cliquez et la ville que vous recherchez sur cette page. Les horaires de prière sont toujours calculés sur votre appareil.",
  "consentAllow": "J'accepte",
  "consentDeny": "Non merci",
- "consentManage": "Paramètres de statistiques"
+ "consentManage": "Paramètres de statistiques",
+ "litPill": "Vous avez allumé <b>{lit}</b>/{total} villes",
+ "litBadge": "Vous êtes déjà venu ici",
+ "litShareAria": "Partager votre progression",
+ "popupClose": "Fermer",
+ "litCardTagline": "Les villes que j'ai allumées sur la carte mondiale des prières",
+ "litMilestone": "Vous avez allumé {pct}% de la carte du monde !"
 }

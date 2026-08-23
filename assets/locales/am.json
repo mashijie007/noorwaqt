@@ -129,5 +129,11 @@
  "consentText": "ጉብኝቶችን ለመቁጠር Google Analytics እንጠቀም? የትኞቹን አዝራሮች እንደተጫኑና በዚህ ገጽ የትኛውን ከተማ እንደፈለጉ ይመዘግባል። የሶላት ጊዜያት ሁልጊዜ በመሣሪያዎ ላይ ይሰላሉ።",
  "consentAllow": "ፍቀድ",
  "consentDeny": "አያስፈልግም",
- "consentManage": "የስታቲስቲክስ ቅንብሮች"
+ "consentManage": "የስታቲስቲክስ ቅንብሮች",
+ "litPill": "<b>{lit}</b>/{total} ከተሞችን አብርተዋል",
+ "litBadge": "እዚህ ደርሰዋል",
+ "litShareAria": "እድገትዎን ያጋሩ",
+ "popupClose": "ዝጋ",
+ "litCardTagline": "በዓለም ጸሎት ካርታ ላይ ያበራኋቸው ከተሞች",
+ "litMilestone": "የዓለም ካርታውን {pct}% አብርተዋል!"
 }

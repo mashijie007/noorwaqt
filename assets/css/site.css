@@ -209,6 +209,17 @@ html[dir='rtl'] .hero-scrim { transform: scaleX(-1); }
 }
 @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
 
+/* 「已点亮 N/152」进度胶囊：跟 .live-pill 同款式，多一个邀请分享按钮 */
+.lit-pill { gap: 0.5rem; }
+.lit-share-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.7rem; height: 1.7rem; margin-inline-start: 0.15rem;
+  border-radius: 50%; border: 1px solid var(--line); background: transparent;
+  color: var(--brand-2); font-size: 0.95rem; line-height: 1; cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+}
+.lit-share-btn:hover { border-color: var(--brand); background: rgba(16, 185, 129, 0.12); }
+
 .hero-cta { display: flex; flex-wrap: wrap; gap: 0.85rem; }
 .hero-hints { display: flex; flex-wrap: wrap; gap: 1.1rem; font-size: 0.83rem; color: var(--ink-3); }
 .hero-hints span { display: inline-flex; align-items: center; gap: 0.4rem; }
@@ -523,6 +534,55 @@ html[dir='rtl'] .ev-title { letter-spacing: 0; text-transform: none; }
   .consent { justify-content: flex-start; }
   .consent p { font-size: 0.84rem; }
 }
+
+/* ── 地球光点气泡 ───────────────────────────────────────
+   position:fixed 且是 <body> 的直接子元素（不嵌在地球那一层里）——
+   那一层的 z-index 被限制在 1，暗渐变和底部控制条分别是 2、3，
+   嵌进去会有一大片城市的气泡被盖住看不见。位置完全交给 JS 写的
+   transform，这里不设 inset-*，默认贴在视口 (0,0)，transform 直接
+   当绝对像素坐标用——跟方向无关，RTL 不用特殊处理。 */
+.city-popup {
+  /* top/left:0 是必须的，不是可省略的默认值——position:fixed 若不给任何
+     inset 属性，浏览器会把它摆在"本该在文档流里的位置"（对一个排在
+     </body> 前的晚辈元素来说，那是页面最底部），而不是视口 (0,0)。
+     没有这两行，下面 JS 写的 transform:translate(x,y) 就是在那个位置上
+     再叠加偏移，气泡会被甩到页面底部之外，而不是城市光点旁边。
+     必须用物理属性 top/left，不能用 inset-block-start/inset-inline-start：
+     后者在 RTL 下 inline-start 会变成右边，而 transform 里的 x/y 来自
+     getBoundingClientRect()，永远是物理坐标——两者语义对不上，阿拉伯语
+     等 RTL 语言下气泡会跳到反方向去。 */
+  position: fixed; top: 0; left: 0; z-index: 70;
+  max-width: min(88vw, 17rem);
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--bg-2); color: var(--ink);
+  padding: 0.9rem 1rem; box-shadow: 0 18px 44px -20px rgba(0, 0, 0, 0.85);
+}
+.city-popup[hidden] { display: none; }
+.city-popup-head { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+.city-popup-head b { font-size: 1.02rem; }
+.city-popup-close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.75rem; height: 2.75rem; margin: -0.9rem -0.9rem -0.9rem 0;
+  border: 0; background: transparent; color: var(--ink-3); font-size: 0.9rem; cursor: pointer;
+}
+html[dir='rtl'] .city-popup-close { margin: -0.9rem 0 -0.9rem -0.9rem; }
+.city-popup-close:hover { color: var(--ink); }
+.city-popup-status { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-block-start: 0.5rem; font-size: 0.86rem; }
+.city-popup-lit { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--brand-2); }
+
+/* ── 里程碑提示：点亮到 25/50/75/100% 时短暂出现一次 ─────── */
+.milestone-toast {
+  position: fixed; inset-inline: 0; inset-block-start: calc(4.75rem + 0.75rem); z-index: 55;
+  margin-inline: auto; width: fit-content; max-width: min(90vw, 28rem);
+  padding: 0.65rem 1.2rem; border-radius: 999px;
+  border: 1px solid rgba(126, 231, 190, 0.3); background: rgba(16, 185, 129, 0.14);
+  color: var(--brand-2); font-size: 0.9rem; text-align: center;
+  backdrop-filter: blur(10px);
+  animation: milestone-in 0.4s ease-out;
+}
+.milestone-toast[hidden] { display: none; }
+@keyframes milestone-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .milestone-toast { animation: none; } }
 
 /* ── 分享卡对话框 ───────────────────────────────────── */
 dialog.share {

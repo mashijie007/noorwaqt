@@ -142,5 +142,11 @@
  "guideA3": "分歧最大的一塊。手機上讀經、隔物翻閱、進寺停留、環遊天房，逐條列出。",
  "guideQ4": "月經什麼時候算結束？黃褐色分泌物算嗎？",
  "guideA4": "潔淨的兩個徵象、各學派認定的最短與最長天數，決定了今天到底該不該禮拜。",
- "guideMore": "查看全部七篇"
+ "guideMore": "查看全部七篇",
+ "litPill": "已點亮 <b>{lit}</b>/{total} 座城市",
+ "litBadge": "你來過這裡",
+ "litShareAria": "分享你的點亮進度",
+ "popupClose": "關閉",
+ "litCardTagline": "我在全球禮拜地圖上點亮的城市",
+ "litMilestone": "你已點亮世界地圖的 {pct}%！"
 }

@@ -129,5 +129,11 @@
  "consentText": "Za mu iya amfani da Google Analytics don ƙidaya ziyara? Yana rubuta maɓallan da ka danna da birnin da ka nema a wannan shafin. Ana lissafin lokutan sallah koyaushe a cikin na'urarka.",
  "consentAllow": "Na yarda",
  "consentDeny": "A'a, na gode",
- "consentManage": "Saitunan ƙidaya"
+ "consentManage": "Saitunan ƙidaya",
+ "litPill": "Ka kunna <b>{lit}</b>/{total} birane",
+ "litBadge": "Ka riga ka zo nan",
+ "litShareAria": "Raba ci gabanka",
+ "popupClose": "Rufe",
+ "litCardTagline": "Biranen da na kunna a taswirar sallar duniya",
+ "litMilestone": "Ka kunna kashi {pct}% na taswirar duniya!"
 }

@@ -66,6 +66,11 @@
 
       <p class="live-pill"><span class="live-dot"></span><span id="live-count" data-i18n="heroLive" data-html>此刻有 <b>—</b> 座城市正处在礼拜时间内</span></p>
 
+      <p class="live-pill lit-pill">
+        <span id="lit-count" data-i18n="litPill" data-html>已点亮 <b>0</b>/152 座城市</span>
+        <button class="lit-share-btn" id="lit-share" data-i18n-attr="aria-label:litShareAria" aria-label="邀请好友一起点亮">↗</button>
+      </p>
+
       <div class="hero-cta">
         <a class="btn btn-primary" href="#city" data-i18n="heroCta">找到我的城市</a>
         <a class="btn btn-ghost" href="#download" data-i18n="heroCta2">下载 NoorWaqt</a>
@@ -328,6 +333,12 @@
     <button class="btn btn-ghost btn-sm" id="share-close">✕</button>
   </div>
 </dialog>
+
+<!-- 点击地球光点后的气泡：非模态，不抢焦点。内容由 city-popup.js 注入 -->
+<div class="city-popup" id="city-popup" hidden></div>
+
+<!-- 里程碑提示：点亮到 25/50/75/100% 时短暂出现一次 -->
+<div class="milestone-toast" id="milestone-toast" hidden></div>
 
 <!-- Firebase Analytics：默认不加载，等 consent.js 拿到同意再说 -->
 <script>window.track = function () {};</script>

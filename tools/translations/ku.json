@@ -98,5 +98,11 @@
  "consentText": "Ma em dikarin ji bo jimartina serdanan Google Analytics bi kar bînin? Ew tomar dike ku te kîjan bişkok pêl kir û di vê rûpelê de kîjan bajar lêgeriya. Demên nimêjê her tim li ser cîhaza te tên hesibandin.",
  "consentAllow": "Destûr didim",
  "consentDeny": "Na, spas",
- "consentManage": "Mîhengên statîstîkê"
+ "consentManage": "Mîhengên statîstîkê",
+ "litPill": "Te <b>{lit}</b>/{total} bajar geş kir",
+ "litBadge": "Tu li vir bûyî",
+ "litShareAria": "Pêşketina xwe parve bike",
+ "popupClose": "Bigire",
+ "litCardTagline": "Bajarên min li ser nexşeya nimêjê ya cîhanê geş kirine",
+ "litMilestone": "Te {pct}% ji nexşeya cîhanê geş kir!"
 }

@@ -129,5 +129,11 @@
  "consentText": "Smijemo li koristiti Google Analytics za brojanje posjeta? Bilježi koju dugmad pritisnete i koji grad potražite na ovoj stranici. Vremena namaza uvijek se računaju na vašem uređaju.",
  "consentAllow": "Dopuštam",
  "consentDeny": "Ne, hvala",
- "consentManage": "Postavke statistike"
+ "consentManage": "Postavke statistike",
+ "litPill": "Osvijetlili ste <b>{lit}</b>/{total} gradova",
+ "litBadge": "Bili ste ovdje",
+ "litShareAria": "Podijeli svoj napredak",
+ "popupClose": "Zatvori",
+ "litCardTagline": "Gradovi koje sam osvijetlio/la na svjetskoj mapi namaza",
+ "litMilestone": "Osvijetlili ste {pct}% svjetske mape!"
 }

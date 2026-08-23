@@ -53,6 +53,8 @@ export class Globe {
     this.selected = null;
     this.onSelect = opts.onSelect || (() => {});
     this.onInteract = opts.onInteract || (() => {});
+    this.onMiss = opts.onMiss || (() => {});
+    this.isLit = opts.isLit || (() => false);
     this.interactive = opts.interactive !== false;
 
     this.glow = {};
@@ -148,6 +150,7 @@ export class Globe {
       if (d < bd) { bd = d; best = CITIES[i]; }
     }
     if (best) { this.selected = best; this.onSelect(best); }
+    else this.onMiss();
   }
 
   /** 把某座城市转到正面（带缓动） */
@@ -274,6 +277,16 @@ export class Globe {
 
     // 3. 城市之光
     const fasting = this.mode === 'fasting';
+    // 「已点亮」标记：静止的白色小圆环，跟下面会脉动的选中环区分开。
+    // 循环整体在 'lighter' 混合模式下，标记必须局部切回 'source-over'
+    // 画完再切回去 —— 漏了切回去，当帧后面所有城市的光晕都会不对。
+    const drawLitRing = (sx, sy, edge) => {
+      g.globalCompositeOperation = 'source-over';
+      g.globalAlpha = 0.85 * edge;
+      g.strokeStyle = 'rgba(255,255,255,0.9)'; g.lineWidth = 1.1;
+      g.beginPath(); g.arc(sx, sy, 4, 0, 7); g.stroke();
+      g.globalCompositeOperation = 'lighter';
+    };
     g.globalCompositeOperation = 'lighter';
     for (let i = 0; i < CITIES.length; i++) {
       const c = CITIES[i], v = c.vec;
@@ -293,6 +306,7 @@ export class Globe {
         g.globalAlpha = 0.30 * edge;
         g.fillStyle = 'rgba(150,190,175,1)';
         g.fillRect(sx - 0.9, sy - 0.9, 1.8, 1.8);
+        if (this.isLit(c)) drawLitRing(sx, sy, edge);
         continue;
       }
 
@@ -315,6 +329,7 @@ export class Globe {
       g.fillStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
       const r = 1.1 + 1.5 * intensity;
       g.beginPath(); g.arc(sx, sy, r, 0, 7); g.fill();
+      if (this.isLit(c)) drawLitRing(sx, sy, edge);
     }
     g.globalCompositeOperation = 'source-over';
     g.globalAlpha = 1;

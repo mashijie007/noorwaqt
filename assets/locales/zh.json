@@ -143,5 +143,11 @@
  "guideA3": "分歧最大的一块。手机上读经、隔物翻阅、进寺停留、环游天房，逐条列出。",
  "guideQ4": "月经什么时候算结束？黄褐色分泌物算吗？",
  "guideA4": "洁净的两个征象、各学派认定的最短与最长天数，决定了今天到底该不该礼拜。",
- "guideMore": "查看全部七篇"
+ "guideMore": "查看全部七篇",
+ "litPill": "已点亮 <b>{lit}</b>/{total} 座城市",
+ "litBadge": "你来过这里",
+ "litShareAria": "分享你的点亮进度",
+ "popupClose": "关闭",
+ "litCardTagline": "我在全球礼拜地图上点亮的城市",
+ "litMilestone": "你已点亮世界地图的 {pct}%！"
 }

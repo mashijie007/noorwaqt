@@ -129,5 +129,11 @@
  "consentText": "Mbaɗ-ɗen Google Analytics ngam limde yilloyaaɓe? No winnda butoŋaaji ɗi njaggu-ɗaa e saare nde nduɗɗitu-ɗaa e ndee hello. Waqtuuji juulde ko e kaɓirgal maa ɗi limetee sahaa kala.",
  "consentAllow": "Mi jaɓii",
  "consentDeny": "Alaa, a jaaraama",
- "consentManage": "Teelte limoore"
+ "consentManage": "Teelte limoore",
+ "litPill": "A jaajii <b>{lit}</b>/{total} ca'e",
+ "litBadge": "A ngonoo ka'e",
+ "litShareAria": "Yiiltu ko-jaɓɓorde maa",
+ "popupClose": "Uddu",
+ "litCardTagline": "Ca'e mi jaajii e kaarte julde aduna",
+ "litMilestone": "A jaajii {pct}% e kaarte aduna!"
 }

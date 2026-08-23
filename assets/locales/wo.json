@@ -129,5 +129,11 @@
  "consentText": "Ndax nu mën a jëfandikoo Google Analytics ngir waññ seetlu yi? Dafay bind ban buton nga bësee ak ban dëkk nga seet ci xët wii. Waxtu julli yi, ci sa jumtukaay lañuy waññ ba fàww.",
  "consentAllow": "Maa ko may",
  "consentDeny": "Déedéet, jërëjëf",
- "consentManage": "Tërëlinu waññ"
+ "consentManage": "Tërëlinu waññ",
+ "litPill": "Yeññ nga <b>{lit}</b>/{total} dëkk",
+ "litBadge": "Dem nga fii",
+ "litShareAria": "Séddoo sa jëmmiin",
+ "popupClose": "Tëj",
+ "litCardTagline": "Dëkk yi ma yeññ ci kaartu julli àdduna",
+ "litMilestone": "Yeññ nga {pct}% ci kaartu àdduna!"
 }

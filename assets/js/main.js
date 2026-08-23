@@ -8,6 +8,8 @@ import { Globe, PRAYER_COLOR } from './globe.js';
 import { stateAt, todayFor, localClock, fastingAt, resolveMethod, METHOD_LABEL, PRAYERS, timeline } from './prayer.js';
 import { LOCALES, t, cityName, loadLocale, dirOf, isSupported, bcp47, monthNames } from './i18n.js';
 import { upcoming, todayEvent, isRamadan, hijri, KIND_ICON } from './hijri.js';
+import { isLit, lightCity, litCount, checkMilestone, LIT_TOTAL } from './lit-cities.js';
+import { createCityPopup } from './city-popup.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -89,6 +91,7 @@ async function applyLang(lang) {
   }
 
   renderBars(); renderCity(); renderRamadan(); renderEid(); renderDownload();
+  renderLitPill(); cityPopup.refresh();
 }
 
 const hijriDayOf = (ts) => hijri(ts).d;
@@ -133,11 +136,23 @@ function humanDuration(ms) {
 const clockLocale = () => 'en-GB';
 
 // ── 地球 ────────────────────────────────────────────────
+let cityPopup;   // 在下面赋值；onSelect/onInteract 只在被真正调用时才会读它，
+                  // 那时早已赋值完毕，这里只是声明顺序，不是时序问题
+
 const globe = new Globe($('#globe'), {
-  onSelect: (city) => { selectCity(city, { focus: false }); window.track?.('city_selected', { city: city.en }); },
-  onInteract: () => window.track?.('globe_interact'),
+  onSelect: (city) => {
+    selectCity(city, { focus: false });
+    cityPopup.open(city);
+    window.track?.('city_selected', { city: city.en });
+  },
+  onInteract: () => { cityPopup.close(); window.track?.('globe_interact'); },
+  onMiss: () => cityPopup.close(),
+  isLit,
 });
 globe.start();
+
+cityPopup = createCityPopup({ el: $('#city-popup'), globe, cities: CITIES });
+cityPopup.setRenderer(renderPopupHTML);
 
 // ── 统计条 ──────────────────────────────────────────────
 const BAR_KEYS = [...PRAYERS, 'idle'];
@@ -213,12 +228,64 @@ $('#play').addEventListener('click', () => {
 
 // ── 城市 ────────────────────────────────────────────────
 function selectCity(city, { focus = true } = {}) {
+  // 换了目标城市，旧气泡若还开着就先关掉——这条覆盖的是"搜索框选中
+  // 另一座城市"的情况；地球点击那条路径由 onSelect 自己接着 open() 新的
+  if (cityPopup.isOpen() && city !== cityPopup.current()) cityPopup.close();
+
   app.city = city;
   globe.selected = city;
   if (focus) globe.focus(city);
   $('#suggest').innerHTML = '';
   $('#city-search').value = '';
   renderCity();
+
+  // 「点亮」只认真实点选，地理定位算出来的临时城市不走这条路径
+  // （见 #locate 的处理，直接操作 app.city，不经过这里）
+  if (lightCity(city)) {
+    renderLitPill();
+    const milestone = checkMilestone();
+    if (milestone != null) showMilestone(milestone);
+  }
+}
+
+/** 点击地球光点后弹出的气泡内容——当前/下一番礼拜复用 renderCity() 的同一套数据和词条 */
+function renderPopupHTML(city) {
+  const ts = now();
+  const st = stateAt(city, ts, app.shadow);
+  const bits = [];
+  if (st.current) {
+    const rgb = PRAYER_COLOR[st.current];
+    bits.push(`<span class="chip" style="color:rgb(${rgb})"><i class="swatch"></i>${t(app.lang, 'cityCurrent')} · ${t(app.lang, 'prayer_' + st.current)}</span>`);
+  } else {
+    bits.push(`<span class="chip" style="color:var(--idle)"><i class="swatch"></i>${t(app.lang, 'slotIdle')}</span>`);
+  }
+  if (st.next) {
+    const nm = t(app.lang, 'prayer_' + st.next.name);
+    bits.push(`<span>${t(app.lang, 'cityNext')} · <b>${nm}</b> ${t(app.lang, 'cityIn', { t: humanDuration(st.untilNext) })}</span>`);
+  }
+  return `
+    <div class="city-popup-head">
+      <b>${cityName(city, app.lang)}</b>
+      <button class="city-popup-close" aria-label="${t(app.lang, 'popupClose')}">✕</button>
+    </div>
+    <div class="city-popup-status">${bits.join('')}</div>
+    ${isLit(city) ? `<p class="city-popup-lit">${t(app.lang, 'litBadge')}</p>` : ''}
+  `;
+}
+
+/** 「已点亮 N/152 座城市」进度胶囊 */
+function renderLitPill() {
+  $('#lit-count').innerHTML = t(app.lang, 'litPill', { lit: nf().format(litCount()), total: nf().format(LIT_TOTAL) });
+}
+
+/** 跨过 25/50/75/100% 门槛时的一次性提示，几秒后自动消失 */
+let milestoneTimer = null;
+function showMilestone(frac) {
+  const el = $('#milestone-toast');
+  el.textContent = t(app.lang, 'litMilestone', { pct: Math.round(frac * 100) });
+  el.hidden = false;
+  clearTimeout(milestoneTimer);
+  milestoneTimer = setTimeout(() => { el.hidden = true; }, 4000);
 }
 
 function renderCity() {
@@ -456,12 +523,14 @@ $('#dl-btn').addEventListener('click', () => window.track?.('download_click', { 
 $('#share').addEventListener('click', async () => {
   const c = app.city;
   if (!c) return;
+  cityPopup.close();   // 弹窗弹起来的时候，气泡跟着还开着没意义
   const btn = $('#share');
   btn.textContent = t(app.lang, 'cityShareSaving');
   try {
     const url = await drawShareCard(c);
     $('#share-img').src = url;
     $('#share-save').href = url;
+    $('#share-save').download = 'noorwaqt.png';
     $('#share-dlg').showModal();
     window.track?.('share_card', { city: c.en });
   } finally {
@@ -469,6 +538,24 @@ $('#share').addEventListener('click', async () => {
   }
 });
 $('#share-close').addEventListener('click', () => $('#share-dlg').close());
+
+// ── 邀请卡：分享「你已点亮 N/152 座城市」的进度，不是某一城的礼拜时刻 ──
+$('#lit-share').addEventListener('click', async () => {
+  cityPopup.close();
+  const btn = $('#lit-share');
+  const original = btn.textContent;
+  btn.textContent = '…';
+  try {
+    const url = await drawLitShareCard();
+    $('#share-img').src = url;
+    $('#share-save').href = url;
+    $('#share-save').download = 'noorwaqt-progress.png';
+    $('#share-dlg').showModal();
+    window.track?.('lit_share_card', { n: litCount() });
+  } finally {
+    btn.textContent = original;
+  }
+});
 
 /** 离屏渲染一颗以某城为中心的地球，供分享卡使用 */
 let shareGlobe = null, shareHost = null;
@@ -573,6 +660,49 @@ async function drawShareCard(c) {
   return cv.toDataURL('image/png');
 }
 
+/**
+ * 邀请卡：不是某一城的礼拜时刻，是「你已经点亮了多少座城市」这件事本身。
+ * 地球用当前正看着的这个角度渲染，跟玩家刚才在屏幕上看到的画面是连着的。
+ */
+async function drawLitShareCard() {
+  const W = 1080, H = 1350, cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const g = cv.getContext('2d');
+
+  const bg = g.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#062b23'); bg.addColorStop(0.55, '#04120f'); bg.addColorStop(1, '#071a17');
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+
+  const halo = g.createRadialGradient(W * 0.5, H * 0.34, 0, W * 0.5, H * 0.34, W * 0.72);
+  halo.addColorStop(0, 'rgba(16,185,129,0.22)'); halo.addColorStop(1, 'rgba(16,185,129,0)');
+  g.fillStyle = halo; g.fillRect(0, 0, W, H);
+
+  const isAr = dirOf(app.lang) === 'rtl';
+  const fam = isAr ? "'Amiri', 'Noto Naskh Arabic', serif" : "'Noto Sans SC', system-ui, sans-serif";
+
+  // 地球居中偏上，用玩家当下正看着的角度，跟他刚才在屏幕上互动的画面接得上
+  const gl = await renderGlobeFor({ lon: globe.lon0, lat: globe.lat0 }, now(), 760);
+  if (gl) { g.save(); g.globalAlpha = 0.85; g.drawImage(gl, (W - 760) / 2, 40, 760, 760); g.restore(); }
+
+  g.textAlign = 'center';
+  g.fillStyle = '#34d399'; g.font = `600 34px ${fam}`;
+  g.fillText('NoorWaqt', W / 2, 860);
+
+  g.fillStyle = '#e8f5f0'; g.font = `700 150px ${fam}`;
+  g.fillText(t(app.lang, 'litCardTitle', { n: nf().format(litCount()), total: nf().format(LIT_TOTAL) }), W / 2, 1010);
+
+  g.fillStyle = '#a8c5bb'; g.font = `400 38px ${fam}`;
+  g.fillText(t(app.lang, 'litCardTagline'), W / 2, 1090);
+
+  g.strokeStyle = 'rgba(126,231,190,0.25)'; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(90, H - 170); g.lineTo(W - 90, H - 170); g.stroke();
+
+  g.fillStyle = '#6e8f85'; g.font = `400 32px ${fam}`;
+  g.fillText(t(app.lang, 'shareFooter'), W / 2, H - 100);
+
+  return cv.toDataURL('image/png');
+}
+
 // ── 驱动 ────────────────────────────────────────────────
 // 播放动画跟着 rAF 走（要跟渲染同步），文字刷新走 setInterval
 // （后台标签页 rAF 会被完全暂停，而 setInterval 只是降频）。
@@ -594,6 +724,7 @@ function playFrame(tNow) {
 function tick() {
   if (!app.playing) globe.time = now();
   renderBars(); renderCity(); renderRamadan(); renderEid();
+  cityPopup.refresh();   // 空操作居多——refresh() 内部有「没开就直接返回」的哨兵
 }
 
 // ── 杂项 ────────────────────────────────────────────────
