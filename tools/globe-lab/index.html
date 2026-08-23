@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+  地球方案渲染台 —— 只给 tools/build-globe-variants.mjs 里的 Playwright 用，
+  不属于站点，不进 dist。
+
+  它走的是站上那个 globe.js，不是另写一个近似版：所以这里看到的就是
+  用户会看到的。选中的方案搬进 THEME 默认值即可，没有翻译损耗。
+-->
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>NoorWaqt globe lab</title>
+<style>html,body{margin:0;background:#04100e}</style>
+</head>
+<body>
+<script type="module">
+  import { Globe } from '/assets/js/globe.js';
+  import { THEMES } from '/tools/globe-lab/themes.mjs';
+
+  window.OG_THEMES = THEMES.map((t) => ({ id: t.id, name: t.name, note: t.note }));
+
+  const host = document.createElement('div');
+  host.style.cssText = 'position:fixed;left:-9999px;top:0;pointer-events:none';
+  document.body.appendChild(host);
+
+  /** 每个方案一个 Globe 实例：光晕精灵是构造时按 theme 烘的，不能中途换 */
+  const made = new Map();
+  function globeFor(id, size) {
+    const key = id + '@' + size;
+    if (made.has(key)) return made.get(key);
+    const box = document.createElement('div');
+    box.style.cssText = `width:${size}px;height:${size}px`;
+    const cv = document.createElement('canvas');
+    box.appendChild(cv);
+    host.appendChild(box);
+    const theme = THEMES.find((t) => t.id === id)?.theme ?? {};
+    const g = new Globe(cv, { interactive: false, zoom: 0.92, theme });
+    made.set(key, g);
+    return g;
+  }
+
+  window.renderTheme = async (id, size, lon0, lat0, ts, quality) => {
+    const g = globeFor(id, size);
+    g.time = ts;
+    g.mode = 'prayer';
+    g.shadow = 1;
+    g.lon0 = lon0;
+    g.lat0 = lat0;
+    g.selected = null;
+    g._statesAt = -1; g._sunAt = -1;
+    g.draw();
+    const blob = await new Promise((r) => g.cv.toBlob(r, 'image/jpeg', quality));
+    const b = new Uint8Array(await blob.arrayBuffer());
+    let s = '';
+    for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+    return btoa(s);
+  };
+
+  window.LAB_READY = document.fonts.ready.then(() => true);
+</script>
+</body>
+</html>

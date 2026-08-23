@@ -23,17 +23,72 @@ const FAST_COLOR = [126, 231, 190];   // 斋戒模式：翡翠绿
 /** 刚进入某番礼拜的这段时间里，光最亮（宣礼刚响的那一刻） */
 const FLASH_MS = 20 * 60e3;
 
+/**
+ * 地球的视觉参数。
+ *
+ * 抽出来是为了能并排比较不同的方案（见 tools/globe-lab/）—— 这些数字之间
+ * 是互相牵扯的：陆地提亮一档，城市的光就得跟着压，否则晨昏线会被糊掉。
+ * 散在 draw() 里逐个试，改一处看不出全局，得整套一起换。
+ *
+ * 默认值就是站上现在跑的那一套。传 opts.theme 只覆盖你写的那几个键。
+ */
+export const THEME = {
+  /** 大气辉光。起点必须紧贴球面并迅速衰减，否则会变成一圈套在地球外的绿环 */
+  halo: {
+    from: 0.995, to: 1.14,
+    stops: [[0, 'rgba(52,211,153,0.13)'], [0.28, 'rgba(16,185,129,0.05)'],
+      [0.62, 'rgba(16,185,129,0.015)'], [1, 'rgba(16,185,129,0)']],
+  },
+  /** 球体本身。高光偏左上，模拟一个球该有的受光 */
+  body: {
+    hx: -0.3, hy: -0.35, hr: 0.05,
+    stops: [[0, '#0a2622'], [0.6, '#051815'], [1, '#020a09']],
+  },
+  /**
+   * 陆地点阵。shades 由暗到亮四档，对应夜 / 晨昏 / 昼 / 正午。
+   * 四档刻意拉到极限：夜侧近乎不可见，正午一侧接近纯亮 —— 首屏那句
+   * 「礼拜的光沿着晨昏线一路扫过去」讲的就是这道分界，它得是画面里最硬的一条线。
+   */
+  land: {
+    dot: 0.005,
+    shades: ['rgba(10,30,28,0.22)', 'rgba(30,92,78,0.62)',
+      'rgba(120,215,172,0.96)', 'rgba(205,255,225,1)'],
+  },
+  /**
+   * 城市之光。glow 是光晕精灵的透明度曲线，size/alpha/core 是每座城市的尺寸与亮度。
+   * 比陆地那一档收着来：陆地提亮之后，城市的光再放大就会把晨昏线糊掉。
+   */
+  city: {
+    glow: [[0, 1], [0.28, 0.48], [0.62, 0.1], [1, 0]],
+    size: [0.034, 0.044],     // R 的倍数：底 + 随亮度增加的部分
+    alpha: [0.28, 0.55],
+    core: [0.9, 1.3],         // 中心实心点的半径（像素）
+    idle: { alpha: 0.16, color: 'rgba(150,190,175,1)', size: 1.4 },
+  },
+  /** 球体边缘的一圈细光 */
+  limb: { color: 'rgba(110,220,180,0.14)', width: 1 },
+  /** 经纬网。null 表示不画 —— 现在的地球没有这一层 */
+  graticule: null,
+};
+
+const mergeTheme = (over) => {
+  if (!over) return THEME;
+  const out = {};
+  for (const k in THEME) {
+    out[k] = over[k] && typeof THEME[k] === 'object' && !Array.isArray(THEME[k])
+      ? { ...THEME[k], ...over[k] } : (k in over ? over[k] : THEME[k]);
+  }
+  return out;
+};
+
 /** 预渲染光晕精灵，避免每帧为每座城市新建渐变 */
-function makeGlow(rgb) {
+function makeGlow(rgb, curve) {
   const S = 64, cv = document.createElement('canvas');
   cv.width = cv.height = S;
   const g = cv.getContext('2d');
   const grad = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
   const [r, gg, b] = rgb;
-  grad.addColorStop(0, `rgba(${r},${gg},${b},1)`);
-  grad.addColorStop(0.25, `rgba(${r},${gg},${b},0.55)`);
-  grad.addColorStop(0.6, `rgba(${r},${gg},${b},0.14)`);
-  grad.addColorStop(1, `rgba(${r},${gg},${b},0)`);
+  for (const [at, a] of curve) grad.addColorStop(at, `rgba(${r},${gg},${b},${a})`);
   g.fillStyle = grad;
   g.fillRect(0, 0, S, S);
   return cv;
@@ -57,9 +112,10 @@ export class Globe {
     this.isLit = opts.isLit || (() => false);
     this.interactive = opts.interactive !== false;
 
+    this.theme = mergeTheme(opts.theme);
     this.glow = {};
-    for (const k in PRAYER_COLOR) this.glow[k] = makeGlow(PRAYER_COLOR[k]);
-    this.glow.fasting = makeGlow(FAST_COLOR);
+    for (const k in PRAYER_COLOR) this.glow[k] = makeGlow(PRAYER_COLOR[k], this.theme.city.glow);
+    this.glow.fasting = makeGlow(FAST_COLOR, this.theme.city.glow);
 
     this._proj = new Float32Array(CITIES.length * 3); // 每座城市的 x,y,可见性
     this._states = new Array(CITIES.length);
@@ -232,24 +288,56 @@ export class Globe {
     // 1. 球体本身 + 大气辉光
     // 光晕必须紧贴球体边缘并迅速衰减。起点若离球面太远、透明度若给太高，
     // 画出来就是一圈实心绿环，像个甜甜圈套在地球外面，而不是大气层。
-    const halo = g.createRadialGradient(cx, cy, R * 0.995, cx, cy, R * 1.14);
-    halo.addColorStop(0, 'rgba(52,211,153,0.13)');
-    halo.addColorStop(0.28, 'rgba(16,185,129,0.05)');
-    halo.addColorStop(0.62, 'rgba(16,185,129,0.015)');
-    halo.addColorStop(1, 'rgba(16,185,129,0)');
+    const T = this.theme;
+    const halo = g.createRadialGradient(cx, cy, R * T.halo.from, cx, cy, R * T.halo.to);
+    for (const [at, c] of T.halo.stops) halo.addColorStop(at, c);
     g.fillStyle = halo;
-    g.beginPath(); g.arc(cx, cy, R * 1.14, 0, 7); g.fill();
+    g.beginPath(); g.arc(cx, cy, R * T.halo.to, 0, 7); g.fill();
 
-    const body = g.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.05, cx, cy, R);
-    body.addColorStop(0, '#0d2b26');
-    body.addColorStop(0.65, '#08201d');
-    body.addColorStop(1, '#04120f');
+    const body = g.createRadialGradient(
+      cx + R * T.body.hx, cy + R * T.body.hy, R * T.body.hr, cx, cy, R);
+    for (const [at, c] of T.body.stops) body.addColorStop(at, c);
     g.fillStyle = body;
     g.beginPath(); g.arc(cx, cy, R, 0, 7); g.fill();
 
+    // 经纬网。画在陆地之下：它属于底图，压在点阵上会把陆地搅浑。
+    //
+    // 逐点采样而不是套椭圆公式：倾斜的正交投影下，纬线确实是椭圆，
+    // 经线却是被转过一个角度的椭圆，两者要分别推导，还得单独处理正视时
+    // 短轴退化成 0 的情形。采样几十个点连起来，背面直接剔除，一套代码管两种线。
+    if (T.graticule) {
+      const { step, color, width } = T.graticule;
+      g.strokeStyle = color; g.lineWidth = width;
+
+      // 球面 (纬,经) → 屏幕坐标；z <= 0 是背面
+      const project = (lat, lon) => {
+        const cl = Math.cos(lat), x = cl * Math.sin(lon), y = Math.sin(lat), z = cl * Math.cos(lon);
+        const x1 = x * ca - z * sa, z1 = x * sa + z * ca;
+        const z2 = y * sb + z1 * cb;
+        return { x: cx + x1 * R, y: cy - (y * cb - z1 * sb) * R, vis: z2 > 0 };
+      };
+      const stroke = (pts) => {
+        let pen = false;
+        g.beginPath();
+        for (const p of pts) {
+          if (!p.vis) { pen = false; continue; }
+          if (pen) g.lineTo(p.x, p.y); else { g.moveTo(p.x, p.y); pen = true; }
+        }
+        g.stroke();
+      };
+
+      const S = step * D, N = 96;
+      for (let lat = -60 * D; lat <= 60 * D + 1e-9; lat += S) {
+        stroke(Array.from({ length: N + 1 }, (_, i) => project(lat, (i / N) * 360 * D)));
+      }
+      for (let lon = 0; lon < 360 * D - 1e-9; lon += S) {
+        stroke(Array.from({ length: N + 1 }, (_, i) => project((-90 + (i / N) * 180) * D, lon)));
+      }
+    }
+
     // 2. 陆地点阵。按昼夜明暗分档批量绘制，减少 fillStyle 切换
     const sun = this._sun;
-    const dot = Math.max(0.7, R * 0.0042);
+    const dot = Math.max(0.7, R * T.land.dot);
     const buckets = [[], [], [], []];
     for (let i = 0; i < LAND_COUNT; i++) {
       const x = LAND[i * 3], y = LAND[i * 3 + 1], z = LAND[i * 3 + 2];
@@ -267,7 +355,7 @@ export class Globe {
       arr.push(cx + x1 * R, cy - y2 * R);
     }
     // 昼夜对比拉开一些，晨昏线才看得出来
-    const shades = ['rgba(20,62,55,0.5)', 'rgba(34,96,82,0.72)', 'rgba(62,150,124,0.9)', 'rgba(96,196,158,1)'];
+    const shades = T.land.shades;
     for (let k = 0; k < 4; k++) {
       const arr = buckets[k];
       if (!arr.length) continue;
@@ -303,9 +391,10 @@ export class Globe {
       const active = fasting ? s.fasting : !!s.current;
       const edge = Math.min(1, z2 * 4);              // 靠近球体边缘时淡出
       if (!active) {
-        g.globalAlpha = 0.30 * edge;
-        g.fillStyle = 'rgba(150,190,175,1)';
-        g.fillRect(sx - 0.9, sy - 0.9, 1.8, 1.8);
+        g.globalAlpha = T.city.idle.alpha * edge;
+        g.fillStyle = T.city.idle.color;
+        const s2 = T.city.idle.size;
+        g.fillRect(sx - s2 / 2, sy - s2 / 2, s2, s2);
         if (this.isLit(c)) drawLitRing(sx, sy, edge);
         continue;
       }
@@ -320,14 +409,14 @@ export class Globe {
       }
       const key = fasting ? 'fasting' : s.current;
       const sprite = this.glow[key];
-      const size = R * (0.045 + 0.055 * intensity);
-      g.globalAlpha = (0.35 + 0.65 * intensity) * edge;
+      const size = R * (T.city.size[0] + T.city.size[1] * intensity);
+      g.globalAlpha = (T.city.alpha[0] + T.city.alpha[1] * intensity) * edge;
       g.drawImage(sprite, sx - size / 2, sy - size / 2, size, size);
 
       g.globalAlpha = edge;
       const rgb = fasting ? FAST_COLOR : PRAYER_COLOR[s.current];
       g.fillStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
-      const r = 1.1 + 1.5 * intensity;
+      const r = T.city.core[0] + T.city.core[1] * intensity;
       g.beginPath(); g.arc(sx, sy, r, 0, 7); g.fill();
       if (this.isLit(c)) drawLitRing(sx, sy, edge);
     }
@@ -348,7 +437,7 @@ export class Globe {
     }
 
     // 5. 球体边缘的一圈细光
-    g.strokeStyle = 'rgba(110,220,180,0.20)'; g.lineWidth = 1;
+    g.strokeStyle = T.limb.color; g.lineWidth = T.limb.width;
     g.beginPath(); g.arc(cx, cy, R, 0, 7); g.stroke();
   }
 }
