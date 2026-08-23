@@ -1,0 +1,18 @@
+# 构建产物 ────────────────────────────────────────────
+dist/
+node_modules/
+
+# APK 一律不进仓库。发布包走 GitHub Releases，页面上的下载链接、体积和
+# 更新说明都由 release/latest.json 提供（见 main.js 的 loadManifest）。
+# 仓库里再留一份，只会让每个 clone 多背几十 MB，而且很快就和线上版本对不上。
+*.apk
+*.aab
+
+# 翻译管线的中转文件 ──────────────────────────────────
+# split-translations.mjs 拆完就会自己删掉它；万一中途出错留在原地，
+# 也不该被当成某个语言的文案提交进来。
+tools/translations/_incoming.json
+
+# 系统与编辑器杂物 ────────────────────────────────────
+.DS_Store
+Thumbs.db
