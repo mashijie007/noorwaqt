@@ -104,5 +104,7 @@
  "litShareAria": "Bagikan progresmu",
  "popupClose": "Tutup",
  "litCardTagline": "Kota-kota yang telah saya nyalakan di peta salat dunia",
- "litMilestone": "Anda telah menyalakan {pct}% peta dunia!"
+ "litMilestone": "Anda telah menyalakan {pct}% peta dunia!",
+ "shareSend": "Bagikan",
+ "shareSave": "Simpan gambar"
 }

@@ -592,6 +592,9 @@ dialog.share {
 dialog.share::backdrop { background: rgba(2, 8, 7, 0.8); backdrop-filter: blur(4px); }
 dialog.share img { border-radius: 12px; width: 100%; }
 dialog.share .row { display: flex; gap: 0.6rem; margin-block-start: 1rem; flex-wrap: wrap; }
+/* 分享/保存都是图标按钮，图标要跟旁边的 ↓ ✕ 一样占中 */
+dialog.share .row .btn { display: inline-flex; align-items: center; justify-content: center; }
+dialog.share .row svg { width: 16px; height: 16px; }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

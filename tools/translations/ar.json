@@ -106,5 +106,7 @@
  "litShareAria": "شارك تقدّمك",
  "popupClose": "إغلاق",
  "litCardTagline": "المدن التي أضأتها على خريطة الصلاة العالمية",
- "litMilestone": "أضأتَ {pct}٪ من خريطة العالم!"
+ "litMilestone": "أضأتَ {pct}٪ من خريطة العالم!",
+ "shareSend": "مشاركة",
+ "shareSave": "حفظ الصورة"
 }

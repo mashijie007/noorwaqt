@@ -118,5 +118,7 @@
  "litShareAria": "分享你的点亮进度",
  "popupClose": "关闭",
  "litCardTagline": "我在全球礼拜地图上点亮的城市",
- "litMilestone": "你已点亮世界地图的 {pct}%！"
+ "litMilestone": "你已点亮世界地图的 {pct}%！",
+ "shareSend": "分享",
+ "shareSave": "保存图片"
 }

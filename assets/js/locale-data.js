@@ -353,6 +353,8 @@ export const EN = {
  "shareFooter": "noorwaqt.com",
  "shareDone": "Image saved",
  "shareFail": "Could not save — long-press the image instead.",
+ "shareSend": "Share",
+ "shareSave": "Save image",
  "hijriDate": "{d} {m} {y} AH",
  "hijriDateShort": "{d} {m}",
  "consentText": "May we use Google Analytics to count visits? It records which buttons you press and the city you look up on this page. Prayer times are always computed on your device.",

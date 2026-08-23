@@ -520,6 +520,79 @@ function renderDownload() {
 $('#dl-btn').addEventListener('click', () => window.track?.('download_click', { version: manifest?.version || 'unknown' }));
 
 // ── 分享卡 ──────────────────────────────────────────────
+
+/** 上一张卡的对象地址。换下一张时撤销，否则每点一次都漏一张位图 */
+let cardUrl = null;
+
+/**
+ * 分享卡的编码格式。
+ *
+ * 同一张卡：PNG 1188KB，JPEG q0.95 只要 146KB —— 小 8 倍，而平均误差
+ * 0.66/255、仅 0.15% 的通道差超过 ±8（且都落在文字硬边，卡上最小的字也有 32px，
+ * 肉眼分辨不出）。主力市场是印尼、巴基斯坦、孟加拉，大量用户走移动数据，
+ * 为无损省下的那点画质不值得让他们多传 1MB。
+ *
+ * 不用 WebP（39KB，更小）：WhatsApp 会把 webp 当贴纸处理，
+ * 部分安卓分享目标也认不好 —— 分享出去打不开，比大一点严重得多。
+ */
+const CARD_TYPE = 'image/jpeg';
+const CARD_QUALITY = 0.95;
+const CARD_EXT = '.jpg';
+
+/**
+ * 把画好的卡片交给对话框。
+ *
+ * 走 Blob 而不是 dataURL，是为了手机 —— 而分享几乎只发生在手机上。
+ * dataURL 只能喂给 <a download>，那条路在 iOS Safari 上时灵时不灵，
+ * 用户得先存相册、再切到聊天软件、再翻相册找图，多数人在第二步就放弃了。
+ * Blob 能包成 File 交给系统分享面板，一步就到对话框里。
+ */
+async function openShareCard(canvas, basename, shareText) {
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, CARD_TYPE, CARD_QUALITY));
+  if (!blob) return;
+
+  // 先把新地址挂上去，再撤销上一张。反过来写的话，从撤销到换 src 之间
+  // <img> 和下载链接仍指着一个已经失效的地址；浏览器多半不会在这一瞬去取它，
+  // 但这个窗口没有存在的必要。
+  const prev = cardUrl;
+  cardUrl = URL.createObjectURL(blob);
+
+  const filename = basename + CARD_EXT;
+  $('#share-img').src = cardUrl;
+  $('#share-img').alt = shareText;
+  $('#share-save').href = cardUrl;
+  $('#share-save').download = filename;
+  if (prev) URL.revokeObjectURL(prev);
+
+  // navigator.share 存在，不代表这台设备能发文件（桌面 Chrome 就是）。
+  // 必须拿真实的 File 去问 canShare，否则会亮出一个按不动的按钮。
+  const send = $('#share-send');
+  const file = new File([blob], filename, { type: CARD_TYPE });
+  const canSend = !!navigator.canShare?.({ files: [file] });
+
+  send.hidden = !canSend;
+  send.onclick = canSend ? () => sendCard(file, shareText) : null;
+  // 能唤起系统面板时，主按钮让给「分享」，下载退成次要选项
+  $('#share-save').classList.toggle('btn-primary', !canSend);
+  $('#share-save').classList.toggle('btn-ghost', canSend);
+
+  $('#share-dlg').showModal();
+}
+
+/** 交给系统分享面板。不带 url —— 卡片上已经印着站点地址，
+ *  而多数聊天软件在附带文件时会把 url 字段直接丢掉，写了只是徒增重复。 */
+async function sendCard(file, shareText) {
+  try {
+    await navigator.share({ files: [file], title: shareText, text: shareText });
+    window.track?.('share_sheet', { ok: true });
+  } catch (e) {
+    // 用户在系统面板上点了取消 —— 这是正常操作，不该当成失败
+    if (e?.name === 'AbortError') return;
+    window.track?.('share_sheet', { ok: false });
+    $('#share-save').click();   // 面板唤不起来，至少还能存下来
+  }
+}
+
 $('#share').addEventListener('click', async () => {
   const c = app.city;
   if (!c) return;
@@ -527,11 +600,8 @@ $('#share').addEventListener('click', async () => {
   const btn = $('#share');
   btn.textContent = t(app.lang, 'cityShareSaving');
   try {
-    const url = await drawShareCard(c);
-    $('#share-img').src = url;
-    $('#share-save').href = url;
-    $('#share-save').download = 'noorwaqt.png';
-    $('#share-dlg').showModal();
+    const text = `${cityName(c, app.lang)} · ${t(app.lang, 'shareTitle')}`;
+    await openShareCard(await drawShareCard(c), 'noorwaqt', text);
     window.track?.('share_card', { city: c.en });
   } finally {
     btn.textContent = t(app.lang, 'cityShare');
@@ -546,11 +616,12 @@ $('#lit-share').addEventListener('click', async () => {
   const original = btn.textContent;
   btn.textContent = '…';
   try {
-    const url = await drawLitShareCard();
-    $('#share-img').src = url;
-    $('#share-save').href = url;
-    $('#share-save').download = 'noorwaqt-progress.png';
-    $('#share-dlg').showModal();
+    // 卡面上是「大数字 + 一句话」，分享文案也照这个来：
+    // 光一个 litCardTitle 是「2/152」，落到聊天窗口里没人看得懂
+    const text = t(app.lang, 'litCardTitle', {
+      n: nf().format(litCount()), total: nf().format(LIT_TOTAL),
+    }) + ' · ' + t(app.lang, 'litCardTagline');
+    await openShareCard(await drawLitShareCard(), 'noorwaqt-progress', text);
     window.track?.('lit_share_card', { n: litCount() });
   } finally {
     btn.textContent = original;
@@ -657,7 +728,7 @@ async function drawShareCard(c) {
   g.fillStyle = '#6e8f85'; g.font = `400 32px ${fam}`;
   g.fillText(t(app.lang, 'shareFooter'), x, H - 100);
 
-  return cv.toDataURL('image/png');
+  return cv;   // 交给 openShareCard 决定出口：分享面板还是下载
 }
 
 /**
@@ -700,7 +771,7 @@ async function drawLitShareCard() {
   g.fillStyle = '#6e8f85'; g.font = `400 32px ${fam}`;
   g.fillText(t(app.lang, 'shareFooter'), W / 2, H - 100);
 
-  return cv.toDataURL('image/png');
+  return cv;   // 同上：出口交给 openShareCard
 }
 
 // ── 驱动 ────────────────────────────────────────────────
