@@ -42,31 +42,37 @@ export const THEME = {
   /** 球体本身。高光偏左上，模拟一个球该有的受光 */
   body: {
     hx: -0.3, hy: -0.35, hr: 0.05,
-    stops: [[0, '#0a2622'], [0.6, '#051815'], [1, '#020a09']],
+    stops: [[0, '#0b2622'], [0.65, '#071c19'], [1, '#04120f']],
   },
   /**
    * 陆地点阵。shades 由暗到亮四档，对应夜 / 晨昏 / 昼 / 正午。
-   * 四档刻意拉到极限：夜侧近乎不可见，正午一侧接近纯亮 —— 首屏那句
-   * 「礼拜的光沿着晨昏线一路扫过去」讲的就是这道分界，它得是画面里最硬的一条线。
+   *
+   * 四档刻意压得暗、且彼此靠拢 —— 这是有代价换来的教训：
+   * 陆地是 7701 个格点，纬向步进 1.25°，在 720px 的球上点距约 8.1px 而点本身只有 2px。
+   * 稀疏 + 高对比 + 规则网格，看久了是会让人生理不适的那种构型（密集恐惧）。
+   * 一度把亮端推到近白色去强调晨昏线，结果正是把这个问题放大了。
+   *
+   * 现在的取向：陆地退成一层若有若无的底纹，只提供地理参照；
+   * 画面上唯一的高对比元素是城市的光 —— 那才是这颗地球要讲的东西。
+   *
+   * style: 'soft' 可以把点画成柔边光斑、连成雾状陆地，网格感会彻底消失，
+   * 但四档明暗会变成可见色带，且极区的网格收敛会暴露成弧状伪影。见 tools/globe-lab/。
    */
   land: {
-    dot: 0.005,
-    shades: ['rgba(10,30,28,0.22)', 'rgba(30,92,78,0.62)',
-      'rgba(120,215,172,0.96)', 'rgba(205,255,225,1)'],
+    dot: 0.0044,
+    shades: ['rgba(16,50,45,0.30)', 'rgba(24,70,60,0.40)',
+      'rgba(34,94,78,0.50)', 'rgba(46,118,98,0.60)'],
   },
-  /**
-   * 城市之光。glow 是光晕精灵的透明度曲线，size/alpha/core 是每座城市的尺寸与亮度。
-   * 比陆地那一档收着来：陆地提亮之后，城市的光再放大就会把晨昏线糊掉。
-   */
+  /** 城市之光。glow 是光晕精灵的透明度曲线，size/alpha/core 是每座城市的尺寸与亮度 */
   city: {
-    glow: [[0, 1], [0.28, 0.48], [0.62, 0.1], [1, 0]],
-    size: [0.034, 0.044],     // R 的倍数：底 + 随亮度增加的部分
-    alpha: [0.28, 0.55],
-    core: [0.9, 1.3],         // 中心实心点的半径（像素）
-    idle: { alpha: 0.16, color: 'rgba(150,190,175,1)', size: 1.4 },
+    glow: [[0, 1], [0.25, 0.55], [0.6, 0.14], [1, 0]],
+    size: [0.045, 0.058],     // R 的倍数：底 + 随亮度增加的部分
+    alpha: [0.38, 0.62],
+    core: [1.1, 1.5],         // 中心实心点的半径（像素）
+    idle: { alpha: 0.30, color: 'rgba(150,190,175,1)', size: 1.6 },
   },
   /** 球体边缘的一圈细光 */
-  limb: { color: 'rgba(110,220,180,0.14)', width: 1 },
+  limb: { color: 'rgba(110,220,180,0.20)', width: 1 },
   /** 经纬网。null 表示不画 —— 现在的地球没有这一层 */
   graticule: null,
 };
@@ -80,6 +86,28 @@ const mergeTheme = (over) => {
   }
   return out;
 };
+
+/**
+ * 柔边陆地点的精灵。
+ *
+ * 陆地默认画成硬边方块：便宜，但 8.1px 的点距配 2px 的点，是一张扎眼的规则网格。
+ * 换成柔边光斑、尺寸放到超过点距，相邻的斑互相渗透融成雾状陆地，网格感随之消失。
+ * 代价是每帧 7701 次 drawImage，比 fillRect 贵 —— 所以做成可选，不是默认。
+ */
+function makeSoftDot(rgba) {
+  const m = /rgba?\(([^)]+)\)/.exec(rgba);
+  const [r, g0, b, a = 1] = (m ? m[1].split(',') : [0, 0, 0, 1]).map(Number);
+  const S = 32, cv = document.createElement('canvas');
+  cv.width = cv.height = S;
+  const g = cv.getContext('2d');
+  const grad = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+  grad.addColorStop(0, `rgba(${r},${g0},${b},${a})`);
+  grad.addColorStop(0.45, `rgba(${r},${g0},${b},${a * 0.55})`);
+  grad.addColorStop(1, `rgba(${r},${g0},${b},0)`);
+  g.fillStyle = grad;
+  g.fillRect(0, 0, S, S);
+  return cv;
+}
 
 /** 预渲染光晕精灵，避免每帧为每座城市新建渐变 */
 function makeGlow(rgb, curve) {
@@ -113,6 +141,8 @@ export class Globe {
     this.interactive = opts.interactive !== false;
 
     this.theme = mergeTheme(opts.theme);
+    this.landSprite = this.theme.land.style === 'soft'
+      ? this.theme.land.shades.map(makeSoftDot) : null;
     this.glow = {};
     for (const k in PRAYER_COLOR) this.glow[k] = makeGlow(PRAYER_COLOR[k], this.theme.city.glow);
     this.glow.fasting = makeGlow(FAST_COLOR, this.theme.city.glow);
@@ -359,6 +389,14 @@ export class Globe {
     for (let k = 0; k < 4; k++) {
       const arr = buckets[k];
       if (!arr.length) continue;
+      if (this.landSprite) {
+        // 柔边：斑比点距大，相邻的互相渗透，融成连续的陆地而不是一张网格
+        const sp = this.landSprite[k];
+        for (let i = 0; i < arr.length; i += 2) {
+          g.drawImage(sp, arr[i] - dot / 2, arr[i + 1] - dot / 2, dot, dot);
+        }
+        continue;
+      }
       g.fillStyle = shades[k];
       for (let i = 0; i < arr.length; i += 2) g.fillRect(arr[i] - dot / 2, arr[i + 1] - dot / 2, dot, dot);
     }
