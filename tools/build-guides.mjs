@@ -140,6 +140,18 @@ function alternates(all, slug) {
   return Object.keys(all).filter((l) => all[l].some((a) => a.slug === slug));
 }
 
+/**
+ * 默认的链接预览图。用 build-og.mjs 出的那张站点卡，不用方形 logo ——
+ * 1057×1057 的方图在 WhatsApp / Telegram 里只渲染成一个小缩略图，出不了大卡。
+ * 尺寸标注只在用默认图时写：某篇文章要是自带插图，标个 1200×630 就是在骗抓取端。
+ */
+const OG_DEFAULT = 'og/_site.jpg';
+const OG_DEFAULT_SIZE = [
+  '<meta property="og:image:width" content="1200">',
+  '<meta property="og:image:height" content="630">',
+  '<meta property="og:image:type" content="image/jpeg">',
+].join('\n');
+
 function head({ lang, url, title, desc, alts, jsonld, image }) {
   const L = LANGS[lang];
   const links = alts.map((l) =>
@@ -165,7 +177,9 @@ ${links.join('\n')}
 <meta property="og:url" content="${ORIGIN}${url}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:image" content="${ORIGIN}/${image || 'noorwaqt.png'}">
+<meta property="og:image" content="${ORIGIN}/${image || OG_DEFAULT}">
+<meta name="twitter:image" content="${ORIGIN}/${image || OG_DEFAULT}">
+${image ? '' : OG_DEFAULT_SIZE}
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

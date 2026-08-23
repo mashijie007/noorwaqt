@@ -120,8 +120,7 @@
  "litCardTitle": "{n}/{total}",
  "litCardTagline": "Cities I've lit up on the world prayer map",
  "litMilestone": "You've lit up {pct}% of the world map!",
- "shareSend": "Share image",
+ "shareSend": "Share",
  "shareSave": "Save image",
- "shareLink": "Share link",
  "shareCopied": "Link copied"
 }

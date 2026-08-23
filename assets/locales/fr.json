@@ -136,8 +136,7 @@
  "popupClose": "Fermer",
  "litCardTagline": "Les villes que j'ai allumées sur la carte mondiale des prières",
  "litMilestone": "Vous avez allumé {pct}% de la carte du monde !",
- "shareSend": "Partager l’image",
+ "shareSend": "Partager",
  "shareSave": "Enregistrer l’image",
- "shareLink": "Partager le lien",
  "shareCopied": "Lien copié"
 }

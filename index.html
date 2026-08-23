@@ -329,27 +329,19 @@
 <dialog class="share" id="share-dlg">
   <img id="share-img" alt="">
   <div class="row">
-    <!-- 系统分享面板。默认藏着：能不能发文件要拿真实的 File 问过 canShare
-         才知道，桌面浏览器多半不行，main.js 判完再决定显不显示。 -->
-    <button class="btn btn-primary btn-sm" id="share-send" hidden
-            data-i18n-attr="aria-label:shareSend" aria-label="分享图片">
+    <!-- 分享。发的是链接不是图片：带 files 时多数聊天软件只取图片、
+         把 url 丢掉，收到的就是一张点不进来的图。链接反过来能把图装进去 ——
+         对方那边会展开成带 og:image 的预览卡。
+         不按能力隐藏：唤不起系统面板的设备退回复制到剪贴板，总有结果。 -->
+    <button class="btn btn-primary btn-sm" id="share-send"
+            data-i18n-attr="aria-label:shareSend" aria-label="分享">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 16V4M12 4 7 9M12 4l5 5"/><path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/>
       </svg>
     </button>
-    <!-- 分享链接。图片分享在多数聊天软件里只落下一张图，text / url 会被丢掉 ——
-         这条才是真正能把人带回来的路：收到的是一条可点的地址。
-         没有系统面板的设备退回复制到剪贴板，所以它不需要按能力隐藏。 -->
-    <button class="btn btn-ghost btn-sm" id="share-link"
-            data-i18n-attr="aria-label:shareLink" aria-label="分享链接">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/>
-        <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>
-      </svg>
-    </button>
-    <a class="btn btn-primary btn-sm" id="share-save" download="noorwaqt.jpg"
+    <!-- 卡片图本身留给这里：存相册、发限时动态这些场景不吃链接预览 -->
+    <a class="btn btn-ghost btn-sm" id="share-save" download="noorwaqt.jpg"
        data-i18n-attr="aria-label:shareSave" aria-label="保存图片">↓</a>
     <button class="btn btn-ghost btn-sm" id="share-close">✕</button>
   </div>
