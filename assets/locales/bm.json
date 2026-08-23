@@ -111,7 +111,7 @@
  "privacy2d": "Kurana 7.3MB bɛ na porogaramu kɔnɔ. A bɛ baara kɛ pankurun cogoya la fana.",
  "privacy3": "Jate tɛ wajibi ye",
  "privacy3d": "A sigi ka daminɛ. Telefɔni nimɔrɔ tɛ, imɛli tɛ.",
- "privacyWeb": "Nin ja fana ye o cogo kelen de ye. Dugu {n} bɛɛ bɛ jate i ka navigatɛri kɔnɔ — rezo ɲininkali kelen yɛrɛ tɛ yen.",
+ "privacyWeb": "Nin ja fana bɛ baara kɛ o cogo kelen na: dugu {n} bɛɛ bɛ jate i ka navigatɛri kɔnɔ, i yɔrɔ tɛ bɔ i ka minɛn kɔnɔ. Nka ɛntɛrinɛti sɛbɛnnifura bɛ jigin, ani ni i sɔnna, bɔyɔrɔ jatebla fana.",
  "dlTitle": "Nin yeelen bila i ka bɔrɔ kɔnɔ",
  "dlLead": "Android bɛ beta dayɛlɛlen na. A ye fu ye, piblisite tɛ, sanni tɛ.",
  "dlBtn": "Android APK jigin",
@@ -119,11 +119,15 @@
  "dlSideload": "I ka kan ka sira di ko a bɛ se ka sigi ka bɔ yɔrɔ dɔnbaliw la. Sisan, 64-bit (arm64-v8a) sugandi dɔrɔn de bɔra — minɛn kɔrɔw 32-bit ma dɛmɛ fɔlɔ. iOS sugandi bɛ sira kan.",
  "dlChangelog": "Nin sugandi kɔnɔ",
  "footerTag": "I ka seli. I ka waati. I ka diɲɛ.",
- "footerPrivacy": "100% bɛ baara kɛ minɛn kɔnɔ. An bɛ layidu ta ko an tɛna i ka gundo kunnafoni lajɛ abada.",
+ "footerPrivacy": "Porogaramu bɛ baara kɛ i ka minɛn kɔnɔ. An tɛ i yɛrɛ ka sɛbɛnw lajɛ.",
  "footerCalc": "Nin ja waatiw jatera i ka navigatɛri kɔnɔ interinɛti kɔ, hakilijigin dama ye. I sigida misiri kɔlɔsi.",
  "shareTitle": "Bi seli waatiw",
  "shareDone": "Ja marala",
  "shareFail": "A ma se ka mara — digi ja kan ka mɛn.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "An bɛ se ka Google Analytics kɛ ka bɔyɔrɔw jate wa? A bɛ butɔn minnu digi i fɛ ani dugu min ɲini nin ɲɛ kan, o bɛ sɛbɛn. Seli waatiw bɛ jate i ka minɛn kɔnɔ tuma bɛɛ.",
+ "consentAllow": "Sɔn a ma",
+ "consentDeny": "Ayi, i ni ce",
+ "consentManage": "Jatebla labɛnw"
 }

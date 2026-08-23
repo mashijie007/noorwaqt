@@ -474,6 +474,28 @@ html[dir='rtl'] .ev-title { letter-spacing: 0; text-transform: none; }
 .footer-inner { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center; }
 .footer-tag { font-size: 1.1rem; font-weight: 600; }
 .footer small { display: block; color: var(--ink-3); font-size: 0.8rem; max-width: 52ch; margin-block-start: 0.5rem; }
+.footer a { text-decoration: underline; text-underline-offset: 3px; }
+.footer a:hover { color: var(--brand-2); }
+
+/* ── 统计同意条 ─────────────────────────────────────
+   固定在视口底部。不做遮罩、不锁滚动：它请求的是一个可选的统计权限，
+   不该把整个页面扣下来当人质。地球和时间轴在它后面照常能用。 */
+.consent {
+  position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 60;
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center;
+  padding: 1rem clamp(1rem, 4vw, 2rem);
+  padding-block-end: max(1rem, env(safe-area-inset-bottom));
+  background: rgba(7, 26, 23, 0.94);
+  backdrop-filter: blur(14px);
+  border-block-start: 1px solid var(--line);
+}
+.consent[hidden] { display: none; }
+.consent p { margin: 0; font-size: 0.88rem; color: var(--ink-2); max-width: 70ch; }
+.consent-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .consent { justify-content: flex-start; }
+  .consent p { font-size: 0.84rem; }
+}
 
 /* ── 分享卡对话框 ───────────────────────────────────── */
 dialog.share {

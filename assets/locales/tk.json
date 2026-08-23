@@ -111,7 +111,7 @@
  "privacy2d": "7,3 MB Gurhan programmanyň içinde gelýär. Uçar tertibinde-de işleýär.",
  "privacy3": "Hasap gerek däl",
  "privacy3d": "Guruň we başlaň. Telefon belgisi-de, e-poçta-da gerek däl.",
- "privacyWeb": "Ýeri gelende, bu karta-da şeýle. Ähli {n} şäher brauzeriňiziň içinde hasaplanýar — bir sany-da tor soragy ýok.",
+ "privacyWeb": "Bu karta hem şeýle işleýär: ähli {n} şäher brauzeriňiziň içinde hasaplanýar we ýerleşýän ýeriňiz enjamyňyzdan çykmaýar. Şonda-da sahypanyň özi web şriftlerini, siz rugsat berseňiz bolsa girim hasaplaýjysyny hem ýükleýär.",
  "dlTitle": "Bu nury jübiňize salyň",
  "dlLead": "Android açyk betada. Mugt, mahabatsyz, satyn almasyz.",
  "dlBtn": "Android APK ýükle",
@@ -119,11 +119,15 @@
  "dlSideload": "Näbelli çeşmelerden gurnamaga rugsat bermeli bolarsyňyz. Häzirlikçe diňe 64-bit (arm64-v8a) wersiýa çykaryldy — köne 32-bit enjamlar entek goldanylanok. iOS wersiýasy ýolda.",
  "dlChangelog": "Şu wersiýada",
  "footerTag": "Namazyňyz. Wagtyňyz. Dünýäňiz.",
- "footerPrivacy": "100% enjamda işleýär. Şahsy maglumatlaryňyzy hiç haçan ýygnamajakdygymyza söz berýäris.",
+ "footerPrivacy": "Programma enjamyňyzda işleýär. Şahsy ýazgylaryňyzy ýygnamaýarys.",
  "footerCalc": "Şu kartadaky wagtlar brauzeriňizde oflaýn hasaplanan bolup, diňe maglumat üçindir. Öz metjidiňize eýeriň.",
  "shareTitle": "Şu günki namaz wagtlary",
  "shareDone": "Surat saklandy",
  "shareFail": "Saklap bolmady — surada uzak basyň.",
  "hijriDate": "{d} {m} {y} h.",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Girimleri hasaplamak üçin Google Analytics ulanyp bilerismi? Ol haýsy düwmelere basanyňyzy we bu sahypada haýsy şäheri gözländigiňizi ýazýar. Namaz wagtlary hemişe enjamyňyzda hasaplanýar.",
+ "consentAllow": "Rugsat berýärin",
+ "consentDeny": "Ýok, sag boluň",
+ "consentManage": "Statistika sazlamalary"
 }

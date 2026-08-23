@@ -111,7 +111,7 @@
  "privacy2d": "Xuraana 7.3MB ni ri porogaraame konŋo. A ni golle awiyon kille konŋo fana.",
  "privacy3": "Konte wa naani",
  "privacy3d": "A siginŋa an ŋa joppe. Telefon noome wa, imeel wa.",
- "privacyWeb": "Ke kaarte fana ni nna. Debe {n} su ni xisaabu an navigateer konŋo — reso ñiininde kutuye fana wa.",
+ "privacyWeb": "Ke kaarte fana ni golle ti kiye baane: debe {n} su ni xisaabu an navigateer konŋo, an noqqu nta an tanmunte konŋo yaha. Xa ɲaɲe fana ni web harfu wuttu, a do yillaano xisaabinde da an ga sellin.",
  "dlTitle": "Ke ñiiñe wutu an jeebe konŋo",
  "dlLead": "Android ni beta ñiiñinte konŋo. Fu ye, jeeyinde wa, sanŋinde wa.",
  "dlBtn": "Android APK jiginŋa",
@@ -119,11 +119,15 @@
  "dlSideload": "An ŋa kille kini siginde ŋa noqqu ga wa tuunte. Ke waxati, 64-bit (arm64-v8a) yamme dorone ni ñiiña — tanmunte kore 32-bit wa denmandi fillo. iOS yamme ni kille konŋo.",
  "dlChangelog": "Ke yamme konŋo",
  "footerTag": "An sallinde. An waxati. An duna.",
- "footerPrivacy": "100% ni golle tanmunte konŋo. An ni ahdi ti an nta an gundo xibaaru wuttu abada.",
+ "footerPrivacy": "Aplikaasinde ni golle an tanmunte konŋo. An nta an gundo kitaabu wuttu.",
  "footerCalc": "Ke kaarte waxatu ni xisaabu an navigateer konŋo enternet wa, hakkilinŋinde dorone danŋa. An noqqu misiide tanŋa.",
  "shareTitle": "Ke koota sallinde waxatu",
  "shareDone": "Nate ke ni tanŋa",
  "shareFail": "A wa ñi tanŋa — nate ke daba an ŋa a tanŋa.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "An ga sellin, o ga Google Analytics ta yillaano xisaabu? A ni butoŋu ke an ga digi, do debe ke an ga ɲiini ɲaɲe konŋo, sefe. Sallinde waxatu su ni xisaabu an tanmunte konŋo.",
+ "consentAllow": "N sellin",
+ "consentDeny": "Ayi, barka",
+ "consentManage": "Xisaabu paramaatiri"
 }

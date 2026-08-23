@@ -111,7 +111,7 @@
  "privacy2d": "Al-Qur'an 7,3 MB ikut di dalam aplikasi. Tetap jalan dalam mode pesawat.",
  "privacy3": "Tanpa akun",
  "privacy3d": "Pasang dan langsung pakai. Tanpa nomor telepon, tanpa surel.",
- "privacyWeb": "Omong-omong, peta ini pun sama. Seluruh {n} kota dihitung di dalam peramban Anda — tanpa satu pun permintaan jaringan.",
+ "privacyWeb": "Peta ini pun bekerja dengan cara yang sama: seluruh {n} kota dihitung di dalam peramban Anda, dan lokasi Anda tidak meninggalkan perangkat. Halamannya sendiri tetap memuat fon web, dan penghitung kunjungan bila Anda mengizinkannya.",
  "dlTitle": "Bawa cahaya ini di saku Anda",
  "dlLead": "Versi Android dalam beta terbuka. Gratis, tanpa iklan, tanpa pembelian.",
  "dlBtn": "Unduh APK Android",
@@ -119,11 +119,15 @@
  "dlSideload": "Anda perlu mengizinkan pemasangan dari sumber tidak dikenal. Yang dirilis baru versi 64-bit (arm64-v8a) — perangkat 32-bit lama belum didukung. Versi iOS sedang disiapkan.",
  "dlChangelog": "Pada rilis ini",
  "footerTag": "Salat Anda. Waktu Anda. Dunia Anda.",
- "footerPrivacy": "100% berjalan di perangkat. Kami berjanji tidak akan pernah mengumpulkan data pribadi Anda.",
+ "footerPrivacy": "Aplikasi berjalan di perangkat Anda. Kami tidak mengumpulkan catatan pribadi Anda.",
  "footerCalc": "Waktu pada peta ini dihitung luring di peramban Anda, hanya sebagai rujukan. Ikuti masjid setempat.",
  "shareTitle": "Jadwal salat hari ini",
  "shareDone": "Gambar tersimpan",
  "shareFail": "Gagal menyimpan — tekan lama pada gambar.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Boleh kami memakai Google Analytics untuk menghitung kunjungan? Ia mencatat tombol yang Anda tekan dan kota yang Anda cari di halaman ini. Waktu salat selalu dihitung di perangkat Anda.",
+ "consentAllow": "Izinkan",
+ "consentDeny": "Tidak, terima kasih",
+ "consentManage": "Pengaturan statistik"
 }

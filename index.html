@@ -239,7 +239,7 @@
       <div class="privacy-item"><h3 data-i18n="privacy2">完全离线</h3><p data-i18n="privacy2d">7.3MB 古兰经包随应用打包。</p></div>
       <div class="privacy-item"><h3 data-i18n="privacy3">无需账号</h3><p data-i18n="privacy3d">装上就能用。</p></div>
     </div>
-    <p class="note reveal" style="margin-block-start:2rem" id="privacy-web" data-i18n="privacyWeb">顺带一提：你正在看的这个地图也是一样的。</p>
+    <p class="note reveal" style="margin-block-start:2rem" id="privacy-web" data-i18n="privacyWeb">这张地图也是同样的做法：城市的礼拜时刻全部在你的浏览器里算出来，你的位置不会离开这台设备。</p>
   </div>
 </section>
 
@@ -268,12 +268,22 @@
   <div class="wrap footer-inner">
     <div>
       <div class="footer-tag" data-i18n="footerTag">Your prayer. Your time. Your world.</div>
-      <small data-i18n="footerPrivacy">100% 本地运行，承诺永不收集您的隐私数据。</small>
+      <small data-i18n="footerPrivacy">App 在你的设备上运行，我们不收集你的个人记录。</small>
       <small data-i18n="footerCalc">地图上的礼拜时刻由本页离线推算，仅供参考。</small>
+      <small><a href="#" id="consent-manage" data-i18n="consentManage">统计设置</a></small>
     </div>
     <small>&copy; 2026 NoorWaqt</small>
   </div>
 </footer>
+
+<!-- 统计同意条：没做过选择时才出现，选完就记在本地。逻辑见 assets/js/consent.js -->
+<div class="consent" id="consent" role="dialog" aria-labelledby="consent-text" aria-live="polite" hidden>
+  <p id="consent-text" data-i18n="consentText">可以用 Google Analytics 统计访问量吗？它会记录你在本页点了哪些按钮、查了哪座城市。礼拜时刻始终在你的设备上算出。</p>
+  <div class="consent-actions">
+    <button class="btn btn-primary btn-sm" id="consent-allow" data-i18n="consentAllow">同意</button>
+    <button class="btn btn-ghost btn-sm" id="consent-deny" data-i18n="consentDeny">不用了</button>
+  </div>
+</div>
 
 <dialog class="share" id="share-dlg">
   <img id="share-img" alt="">
@@ -283,27 +293,9 @@
   </div>
 </dialog>
 
-<!-- Firebase Analytics：访问量与下载事件 -->
+<!-- Firebase Analytics：默认不加载，等 consent.js 拿到同意再说 -->
 <script>window.track = function () {};</script>
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-  import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
-  try {
-    const app = initializeApp({
-      apiKey: 'AIzaSyAu3jdUQRC1ApxUTo-Wg_XSryzDL1WQAOE',
-      authDomain: 'prayer-app-beta.firebaseapp.com',
-      projectId: 'prayer-app-beta',
-      storageBucket: 'prayer-app-beta.firebasestorage.app',
-      messagingSenderId: '187276729560',
-      appId: '1:187276729560:web:7f41bf4a760e87a4c74bad',
-      measurementId: 'G-VRM9DCM286',
-    });
-    const analytics = getAnalytics(app);
-    window.track = (name, params) => logEvent(analytics, name, params || {});
-  } catch (e) {
-    console.warn('Analytics unavailable:', e);
-  }
-</script>
+<script type="module" src="./assets/js/consent.js"></script>
 
 <script type="module" src="./assets/js/main.js"></script>
 </body>

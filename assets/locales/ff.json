@@ -111,7 +111,7 @@
  "privacy2d": "Alqur'aana 7.3MB no ari e nder jaaɓnirgal. No golla kadi e mbaydi laana diwoowa.",
  "privacy3": "Alaa konte",
  "privacy3d": "Aafnu fuɗɗoɗaa. Alaa limngal telefon, alaa imel.",
- "privacyWeb": "Ndee kaarte kadi ko noon. Ca'e {n} fof no limee e nder wanngorde maa — hay ɗaɓɓitannde rewbe wootere alaa.",
+ "privacyWeb": "Ndee kaarte kadi no golla noon: ca'e {n} fof no limee e nder wanngorde maa, nokku maa kadi yaltataa e kaɓirgal maa. Kono hello ngoo no loowa bindi web, e limoowo yilloyaaɓe so a jaɓii.",
  "dlTitle": "Waɗ ndee annoora e jeyba maa",
  "dlLead": "Android no e beta udditiindi. Meere, alaa jeeynde, alaa coodgu.",
  "dlBtn": "Aawto APK Android",
@@ -119,11 +119,15 @@
  "dlSideload": "A foti yamirde aafnugol immorde e iwdi ndi anndaaka. Jooni ko yamre 64-bit (arm64-v8a) tan yaltinaa — kaɓirɗe kiiɗɗe 32-bit njaɓaaka tawo. Yamre iOS no e laawol.",
  "dlChangelog": "E ndee yamre",
  "footerTag": "Juulde maa. Waqtu maa. Aduna maa.",
- "footerPrivacy": "100% no golla e kaɓirgal. Min ahdii min ndentintaa keɓe maa suuɗiiɗe hay sahaa.",
+ "footerPrivacy": "Jaaɓnirgal ngal no golla e kaɓirgal maa. Min ndentintaa keɓe maa keeriiɗe.",
  "footerCalc": "Waqtuuji ndee kaarte limaama e wanngorde maa ko aldaa e enternet, ngam siftinaade tan. Rew jumaa nokku maa.",
  "shareTitle": "Waqtuuji juulde hannde",
  "shareDone": "Nate ndee mooftaama",
  "shareFail": "Waawaaka mooftude — ñoƴƴu e nate ndee juuto.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Mbaɗ-ɗen Google Analytics ngam limde yilloyaaɓe? No winnda butoŋaaji ɗi njaggu-ɗaa e saare nde nduɗɗitu-ɗaa e ndee hello. Waqtuuji juulde ko e kaɓirgal maa ɗi limetee sahaa kala.",
+ "consentAllow": "Mi jaɓii",
+ "consentDeny": "Alaa, a jaaraama",
+ "consentManage": "Teelte limoore"
 }

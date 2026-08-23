@@ -111,7 +111,7 @@
  "privacy2d": "Qur'aneke 7,3 MB di hundirê sepanê de tê. Di moda balafirê de jî dixebite.",
  "privacy3": "Bêyî hesab",
  "privacy3d": "Saz bike û dest pê bike. Ne hejmara telefonê, ne e-name.",
- "privacyWeb": "Ji bo vê nexşeyê jî heman tişt e. Hemû {n} bajar di hundirê gerokê te de tên hesibandin — tevahî yek daxwaza torê jî nîne.",
+ "privacyWeb": "Ev nexşe jî bi heman awayî dixebite: hemû {n} bajar di hundirê gerokê te de tên hesibandin û cihê te ji cîhaza te dernakeve. Lê rûpel bi xwe hîn jî fontên webê, û eger tu destûr bidî jimarvanek serdanan jî bar dike.",
  "dlTitle": "Vê ronahiyê têxe bêrîka xwe",
  "dlLead": "Android di beta ya vekirî de ye. Belaş, bê reklam, bê kirîn.",
  "dlBtn": "APK ya Android daxîne",
@@ -119,11 +119,15 @@
  "dlSideload": "Divê tu destûrê bidî sazkirina ji çavkaniyên nenas. Tenê guhertoya 64-bit (arm64-v8a) hatiye weşandin — cîhazên kevn ên 32-bit hê nayên piştgirîkirin. Guhertoya iOS di rê de ye.",
  "dlChangelog": "Di vê guhertoyê de",
  "footerTag": "Nimêja te. Dema te. Cîhana te.",
- "footerPrivacy": "100% li ser cîhazê dixebite. Em soz didin ku em tu carî daneyên te yên kesane kom nakin.",
+ "footerPrivacy": "Sepan li ser cîhaza te dixebite. Em qeydên te yên kesane kom nakin.",
  "footerCalc": "Demên vê nexşeyê di gerokê te de bêyî înternetê hatine hesibandin, tenê ji bo agahiyê. Mizgefta herêma xwe bişopîne.",
  "shareTitle": "Demên nimêjê yên îro",
  "shareDone": "Wêne hat tomarkirin",
  "shareFail": "Nehat tomarkirin — dirêj li wêneyê bitikîne.",
  "hijriDate": "{d} {m} {y} k.",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Ma em dikarin ji bo jimartina serdanan Google Analytics bi kar bînin? Ew tomar dike ku te kîjan bişkok pêl kir û di vê rûpelê de kîjan bajar lêgeriya. Demên nimêjê her tim li ser cîhaza te tên hesibandin.",
+ "consentAllow": "Destûr didim",
+ "consentDeny": "Na, spas",
+ "consentManage": "Mîhengên statîstîkê"
 }

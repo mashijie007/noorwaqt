@@ -111,7 +111,7 @@
  "privacy2d": "7,3 MB hajmli Qur'on ilova ichida keladi. Samolyot rejimida ham ishlaydi.",
  "privacy3": "Hisob kerak emas",
  "privacy3d": "O'rnating va boshlang. Telefon raqami ham, e-pochta ham kerak emas.",
- "privacyWeb": "Aytgancha, bu xarita ham xuddi shunday. Barcha {n} ta shahar brauzeringiz ichida hisoblanadi — bitta ham tarmoq so'rovi yo'q.",
+ "privacyWeb": "Bu xarita ham xuddi shunday ishlaydi: barcha {n} ta shahar brauzeringiz ichida hisoblanadi va joylashuvingiz qurilmangizdan chiqmaydi. Shunga qaramay sahifaning o‘zi veb-shriftlarni, siz ruxsat bersangiz esa tashrif hisoblagichini ham yuklaydi.",
  "dlTitle": "Bu nurni cho'ntagingizga soling",
  "dlLead": "Android ochiq betada. Bepul, reklamasiz, ichki xaridsiz.",
  "dlBtn": "Android APK yuklab olish",
@@ -119,11 +119,15 @@
  "dlSideload": "Noma'lum manbalardan o'rnatishga ruxsat berishingiz kerak. Hozircha faqat 64 bitli (arm64-v8a) versiya chiqarilgan — eski 32 bitli qurilmalar hali qo'llab-quvvatlanmaydi. iOS versiyasi yo'lda.",
  "dlChangelog": "Ushbu versiyada",
  "footerTag": "Namozingiz. Vaqtingiz. Dunyoyingiz.",
- "footerPrivacy": "100% qurilmada ishlaydi. Shaxsiy ma'lumotlaringizni hech qachon yig'maymiz deb va'da beramiz.",
+ "footerPrivacy": "Ilova qurilmangizda ishlaydi. Shaxsiy yozuvlaringizni yig‘maymiz.",
  "footerCalc": "Ushbu xaritadagi vaqtlar brauzeringizda oflayn hisoblangan bo'lib, faqat ma'lumot uchun. O'z mahallangiz masjidiga amal qiling.",
  "shareTitle": "Bugungi namoz vaqtlari",
  "shareDone": "Rasm saqlandi",
  "shareFail": "Saqlab bo'lmadi — rasmni uzoq bosib turing.",
  "hijriDate": "{d} {m} {y} h.",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Tashriflarni sanash uchun Google Analytics ishlatsak bo‘ladimi? U qaysi tugmalarni bosganingizni va bu sahifada qaysi shaharni qidirganingizni yozib boradi. Namoz vaqtlari doim qurilmangizda hisoblanadi.",
+ "consentAllow": "Ruxsat beraman",
+ "consentDeny": "Yo‘q, rahmat",
+ "consentManage": "Statistika sozlamalari"
 }

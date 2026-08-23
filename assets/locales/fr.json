@@ -111,7 +111,7 @@
  "privacy2d": "Un Coran de 7,3 Mo est inclus dans l'application. Il fonctionne en mode avion.",
  "privacy3": "Sans compte",
  "privacy3d": "Installez et c'est parti. Ni numéro de téléphone, ni e-mail.",
- "privacyWeb": "Il en va de même pour cette carte, d'ailleurs. Les {n} villes sont calculées dans votre navigateur — pas une seule requête réseau.",
+ "privacyWeb": "Cette carte fonctionne de la même manière : les {n} villes sont calculées dans votre navigateur et votre position ne quitte pas votre appareil. La page charge tout de même des polices web, et un compteur de visites si vous l'autorisez.",
  "dlTitle": "Mettez la lumière dans votre poche",
  "dlLead": "Android est en bêta ouverte. Gratuit, sans publicité, sans achat.",
  "dlBtn": "Télécharger l'APK Android",
@@ -119,11 +119,15 @@
  "dlSideload": "Vous devrez autoriser les installations depuis des sources inconnues. Seule une version 64 bits (arm64-v8a) est publiée — les anciens appareils 32 bits ne sont pas encore pris en charge. iOS arrive bientôt.",
  "dlChangelog": "Dans cette version",
  "footerTag": "Votre prière. Votre temps. Votre monde.",
- "footerPrivacy": "100 % sur l'appareil. Nous nous engageons à ne jamais collecter vos données personnelles.",
+ "footerPrivacy": "L'application tourne sur votre appareil. Nous ne collectons pas vos données personnelles.",
  "footerCalc": "Les horaires de cette carte sont calculés hors ligne dans votre navigateur, à titre indicatif. Suivez votre mosquée locale.",
  "shareTitle": "Horaires de prière du jour",
  "shareDone": "Image enregistrée",
  "shareFail": "Enregistrement impossible — appuyez longuement sur l'image.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Pouvons-nous utiliser Google Analytics pour compter les visites ? Il enregistre les boutons sur lesquels vous cliquez et la ville que vous recherchez sur cette page. Les horaires de prière sont toujours calculés sur votre appareil.",
+ "consentAllow": "J'accepte",
+ "consentDeny": "Non merci",
+ "consentManage": "Paramètres de statistiques"
 }

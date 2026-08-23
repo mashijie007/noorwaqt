@@ -111,7 +111,7 @@
  "privacy2d": "7,3 MB'lık bir Mushaf uygulamanın içinde gelir. Uçak modunda da çalışır.",
  "privacy3": "Hesap gerekmez",
  "privacy3d": "Kurun ve başlayın. Telefon numarası yok, e-posta yok.",
- "privacyWeb": "Bu arada bu harita için de aynısı geçerli. {n} şehrin tamamı tarayıcınızın içinde hesaplanır — tek bir ağ isteği bile yok.",
+ "privacyWeb": "Bu harita da aynı şekilde çalışır: {n} şehrin tamamı tarayıcınızın içinde hesaplanır ve konumunuz cihazınızdan çıkmaz. Yine de sayfa web yazı tiplerini, izin verirseniz bir ziyaret sayacını da yükler.",
  "dlTitle": "Işığı cebinize koyun",
  "dlLead": "Android açık betada. Ücretsiz, reklamsız, uygulama içi satın alma yok.",
  "dlBtn": "Android APK'yı indir",
@@ -119,11 +119,15 @@
  "dlSideload": "Bilinmeyen kaynaklardan kuruluma izin vermeniz gerekir. Yalnızca 64 bit (arm64-v8a) sürüm yayınlanıyor — eski 32 bit cihazlar henüz desteklenmiyor. iOS yolda.",
  "dlChangelog": "Bu sürümde",
  "footerTag": "Namazınız. Vaktiniz. Dünyanız.",
- "footerPrivacy": "%100 cihazda çalışır. Kişisel verilerinizi asla toplamayacağımıza söz veriyoruz.",
+ "footerPrivacy": "Uygulama cihazınızda çalışır. Kişisel kayıtlarınızı toplamıyoruz.",
  "footerCalc": "Bu haritadaki vakitler tarayıcınızda çevrimdışı hesaplanır, yalnızca bilgi amaçlıdır. Kendi caminizi esas alın.",
  "shareTitle": "Bugünün namaz vakitleri",
  "shareDone": "Görsel kaydedildi",
  "shareFail": "Kaydedilemedi — görsele uzun basın.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Ziyaretleri saymak için Google Analytics kullanabilir miyiz? Hangi düğmelere bastığınızı ve bu sayfada hangi şehri aradığınızı kaydeder. Namaz vakitleri her zaman cihazınızda hesaplanır.",
+ "consentAllow": "İzin veriyorum",
+ "consentDeny": "Hayır, teşekkürler",
+ "consentManage": "İstatistik ayarları"
 }

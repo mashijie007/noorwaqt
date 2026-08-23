@@ -111,7 +111,7 @@
  "privacy2d": "Kur'an od 7,3 MB dolazi unutar aplikacije. Radi i u zrakoplovnom načinu.",
  "privacy3": "Bez računa",
  "privacy3d": "Instalirajte i krenite. Bez broja telefona, bez e-pošte.",
- "privacyWeb": "Isto vrijedi i za ovu kartu. Svih {n} gradova računa se unutar vašeg preglednika — ni jedan jedini mrežni zahtjev.",
+ "privacyWeb": "I ova karta radi na isti način: svih {n} gradova računa se unutar vašeg preglednika, a vaša lokacija ne napušta uređaj. Sama stranica ipak učitava web fontove, a uz vaše dopuštenje i brojač posjeta.",
  "dlTitle": "Stavite ovo svjetlo u džep",
  "dlLead": "Android je u otvorenoj beti. Besplatno, bez oglasa, bez kupnji.",
  "dlBtn": "Preuzmi Android APK",
@@ -119,11 +119,15 @@
  "dlSideload": "Trebat ćete dopustiti instalaciju iz nepoznatih izvora. Objavljena je samo 64-bitna verzija (arm64-v8a) — stariji 32-bitni uređaji još nisu podržani. iOS je u pripremi.",
  "dlChangelog": "U ovom izdanju",
  "footerTag": "Vaša molitva. Vaše vrijeme. Vaš svijet.",
- "footerPrivacy": "100% na uređaju. Obećavamo da nikada nećemo prikupljati vaše osobne podatke.",
+ "footerPrivacy": "Aplikacija radi na vašem uređaju. Vaše osobne zapise ne prikupljamo.",
  "footerCalc": "Vremena na ovoj karti računaju se izvanmrežno u vašem pregledniku, samo kao smjernica. Slijedite svoju džamiju.",
  "shareTitle": "Molitvena vremena za danas",
  "shareDone": "Slika je spremljena",
  "shareFail": "Nije spremljeno — dugo pritisnite sliku.",
  "hijriDate": "{d} {m} {y} h.",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Smijemo li koristiti Google Analytics za brojanje posjeta? Bilježi koje gumbe pritisnete i koji grad potražite na ovoj stranici. Vremena namaza uvijek se računaju na vašem uređaju.",
+ "consentAllow": "Dopuštam",
+ "consentDeny": "Ne, hvala",
+ "consentManage": "Postavke statistike"
 }

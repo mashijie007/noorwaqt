@@ -111,7 +111,7 @@
  "privacy2d": "7,3 MB həcmində Quran tətbiqin içindədir. Təyyarə rejimində də işləyir.",
  "privacy3": "Hesab tələb olunmur",
  "privacy3d": "Quraşdırın və başlayın. Nə telefon nömrəsi, nə e-poçt.",
- "privacyWeb": "Yeri gəlmişkən, bu xəritə də belədir. Bütün {n} şəhər brauzerinizin içində hesablanır — bir dənə də şəbəkə sorğusu yoxdur.",
+ "privacyWeb": "Bu xəritə də eyni şəkildə işləyir: bütün {n} şəhər brauzerinizin içində hesablanır və yeriniz cihazınızdan çıxmır. Səhifənin özü isə veb şriftlərini, sizin icazənizlə də ziyarət sayğacını yükləyir.",
  "dlTitle": "Bu işığı cibinizə qoyun",
  "dlLead": "Android açıq betadadır. Pulsuz, reklamsız, satınalmasız.",
  "dlBtn": "Android APK yüklə",
@@ -119,11 +119,15 @@
  "dlSideload": "Naməlum mənbələrdən quraşdırmaya icazə verməlisiniz. Yalnız 64-bit (arm64-v8a) versiya dərc olunub — köhnə 32-bit cihazlar hələ dəstəklənmir. iOS versiyası yoldadır.",
  "dlChangelog": "Bu versiyada",
  "footerTag": "Namazınız. Vaxtınız. Dünyanız.",
- "footerPrivacy": "100% cihazda işləyir. Şəxsi məlumatlarınızı heç vaxt toplamayacağımıza söz veririk.",
+ "footerPrivacy": "Tətbiq cihazınızda işləyir. Şəxsi qeydlərinizi toplamırıq.",
  "footerCalc": "Bu xəritədəki vaxtlar brauzerinizdə oflayn hesablanıb, yalnız istinad üçündür. Öz məscidinizə əməl edin.",
  "shareTitle": "Bu günün namaz vaxtları",
  "shareDone": "Şəkil yadda saxlanıldı",
  "shareFail": "Saxlanılmadı — şəklə uzun basın.",
  "hijriDate": "{d} {m} {y} h.",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Ziyarətləri saymaq üçün Google Analytics istifadə edə bilərikmi? Hansı düymələri basdığınızı və bu səhifədə hansı şəhəri axtardığınızı qeyd edir. Namaz vaxtları həmişə cihazınızda hesablanır.",
+ "consentAllow": "İcazə verirəm",
+ "consentDeny": "Xeyr, təşəkkürlər",
+ "consentManage": "Statistika ayarları"
 }

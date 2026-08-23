@@ -111,7 +111,7 @@
  "privacy2d": "Alƙur'ani mai girman 7.3MB yana zuwa cikin manhajar. Yana aiki cikin yanayin jirgi.",
  "privacy3": "Ba sai asusu ba",
  "privacy3d": "Shigar da ita ka fara. Babu lambar waya, babu imel.",
- "privacyWeb": "Haka ma wannan taswirar. Ana lissafin dukan birane {n} a cikin burauzarka — babu ko buƙatar hanyar sadarwa ɗaya.",
+ "privacyWeb": "Wannan taswirar ma haka take aiki: ana lissafin dukkan birane {n} a cikin burauzarka, kuma wurin da kake ba ya fita daga na'urarka. Shafin da kansa yana ɗaukar rubutun yanar gizo, da kuma na'urar ƙidayar ziyara idan ka yarda.",
  "dlTitle": "Ka sa hasken a aljihunka",
  "dlLead": "Android yana cikin gwaji a bayyane. Kyauta, babu talla, babu saye.",
  "dlBtn": "Sauke APK na Android",
@@ -119,11 +119,15 @@
  "dlSideload": "Za ka buƙaci ba da izinin shigarwa daga tushen da ba a sani ba. Sigar 64-bit (arm64-v8a) kaɗai aka fitar — na'urorin 32-bit na dā ba a tallafa musu ba tukuna. Sigar iOS tana kan hanya.",
  "dlChangelog": "A wannan sigar",
  "footerTag": "Sallarka. Lokacinka. Duniyarka.",
- "footerPrivacy": "Kashi 100 a cikin na'urar. Mun yi alkawari ba za mu taɓa tattara bayananka na sirri ba.",
+ "footerPrivacy": "Manhajar tana aiki a cikin na'urarka. Ba mu tattara bayananka na sirri.",
  "footerCalc": "An lissafa lokutan wannan taswira ba tare da yanar gizo ba a burauzarka, domin nuni kawai. Ka bi masallacin unguwarka.",
  "shareTitle": "Lokutan sallah na yau",
  "shareDone": "An adana hoton",
  "shareFail": "Ba a iya adanawa ba — ka danna hoton na tsawon lokaci.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Za mu iya amfani da Google Analytics don ƙidaya ziyara? Yana rubuta maɓallan da ka danna da birnin da ka nema a wannan shafin. Ana lissafin lokutan sallah koyaushe a cikin na'urarka.",
+ "consentAllow": "Na yarda",
+ "consentDeny": "A'a, na gode",
+ "consentManage": "Saitunan ƙidaya"
 }

@@ -111,7 +111,7 @@
  "privacy2d": "Quraan 7.3MB ah ayaa app-ka gudihiisa ku jira. Wuxuu ka shaqeeyaa qaabka diyaaradda.",
  "privacy3": "Akoon looma baahna",
  "privacy3d": "Ku rakib oo bilow. Lambar telefoon iyo iimayl midna looma baahna.",
- "privacyWeb": "Sidoo kale khariidaddan. Dhammaan {n} magaalo waxay ku xisaabmayaan browserkaaga gudihiisa — xitaa hal codsi shabakadeed ma jiro.",
+ "privacyWeb": "Khariidaddanina sidaas ayay u shaqeysaa: dhammaan {n} magaalo waxay ku xisaabmayaan browserkaaga gudihiisa, goobtaaduna kama baxdo qalabkaaga. Bogga laftiisu wuxuu weli soo dejiyaa farta shabakadda, iyo tirakoobka booqashada haddaad ogolaato.",
  "dlTitle": "Iftiinka jeebkaaga ku rid",
  "dlLead": "Android waa beta furan. Bilaash, xayaysiis la'aan, iibsi la'aan.",
  "dlBtn": "Soo deji APK-ga Android",
@@ -119,11 +119,15 @@
  "dlSideload": "Waxaad u baahan doontaa inaad ogolaato rakibidda ilo aan la aqoon. Waxaa la sii daayay oo keliya nooca 64-bit (arm64-v8a) — qalabka duugga ah ee 32-bit weli lama taageerin. Nooca iOS waa socdaa.",
  "dlChangelog": "Noocan",
  "footerTag": "Salaaddaada. Waqtigaaga. Adduunkaaga.",
- "footerPrivacy": "100% qalabka ayuu ku shaqeeyaa. Waxaan ballan qaadaynaa inaanan weligeen ururin xogtaada gaarka ah.",
+ "footerPrivacy": "Barnaamijku wuxuu ku shaqeeyaa qalabkaaga. Diiwaannadaada gaarka ah ma ururinno.",
  "footerCalc": "Waqtiyada khariidaddan waxaa lagu xisaabiyay offline browserkaaga, tixraac ahaan oo keliya. Raac masaajidkaaga.",
  "shareTitle": "Waqtiyada salaadda maanta",
  "shareDone": "Sawirka waa la keydiyay",
  "shareFail": "Lama keydin karin — si dheer u taabo sawirka.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Ma isticmaali karnaa Google Analytics si aan u tirinno booqashooyinka? Wuxuu diiwaan geliyaa badhamada aad riixdo iyo magaalada aad bogga ka raadiso. Waqtiyada salaadda had iyo jeer waxay ku xisaabmaan qalabkaaga.",
+ "consentAllow": "Waan ogolahay",
+ "consentDeny": "Maya, mahadsanid",
+ "consentManage": "Goobaha tirakoobka"
 }

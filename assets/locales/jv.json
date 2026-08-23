@@ -111,7 +111,7 @@
  "privacy2d": "Al-Qur'an 7,3 MB melu ing njero aplikasi. Tetep lumaku ing mode pesawat.",
  "privacy3": "Tanpa akun",
  "privacy3d": "Pasang banjur wiwiti. Tanpa nomer telpun, tanpa surel.",
- "privacyWeb": "Mangkono uga peta iki. Kabeh {n} kutha diitung ing njero panjelajahmu — ora ana sepisan wae panjaluk jaringan.",
+ "privacyWeb": "Peta iki uga nyambut gawe kanthi cara sing padha: kabeh {n} kutha diitung ing njero panjelajahmu, lan papanmu ora metu saka pirantimu. Nanging kacane isih ngundhuh font web, lan pencacah kunjungan yen kowe ngidini.",
  "dlTitle": "Selehna cahya iki ing sakumu",
  "dlLead": "Android ing beta terbuka. Gratis, tanpa iklan, tanpa tuku.",
  "dlBtn": "Undhuh APK Android",
@@ -119,11 +119,15 @@
  "dlSideload": "Sampeyan kudu ngidini pamasangan saka sumber sing ora dikenal. Sing dirilis lagi versi 64-bit (arm64-v8a) — piranti 32-bit lawas durung didhukung. Versi iOS lagi digarap.",
  "dlChangelog": "Ing rilis iki",
  "footerTag": "Salatmu. Wektumu. Donyamu.",
- "footerPrivacy": "100% lumaku ing piranti. Kita janji ora bakal nglumpukake data pribadimu.",
+ "footerPrivacy": "Aplikasi lumaku ing pirantimu. Cathetan pribadimu ora kita klumpukake.",
  "footerCalc": "Wektu ing peta iki diitung tanpa internet ing panjelajahmu, mung minangka acuan. Tutna masjid ing panggonanmu.",
  "shareTitle": "Wektu salat dina iki",
  "shareDone": "Gambar wis disimpen",
  "shareFail": "Ora bisa disimpen — penet suwe ing gambare.",
  "hijriDate": "{d} {m} {y} H",
- "hijriDateShort": "{d} {m}"
+ "hijriDateShort": "{d} {m}",
+ "consentText": "Apa kita kena nganggo Google Analytics kanggo ngetung kunjungan? Iki nyathet tombol sing kokpencet lan kutha sing kokgoleki ing kaca iki. Wektu salat tansah diitung ing pirantimu.",
+ "consentAllow": "Idinana",
+ "consentDeny": "Ora, matur nuwun",
+ "consentManage": "Setelan statistik"
 }
