@@ -105,7 +105,8 @@
  "popupClose": "Kapat",
  "litCardTagline": "Dünya namaz haritasında aydınlattığım şehirler",
  "litMilestone": "Dünya haritasının %{pct}'ini aydınlattınız!",
- "shareSend": "Paylaş",
+ "shareSend": "Görseli paylaş",
  "shareSave": "Görseli kaydet",
+ "shareLink": "Bağlantıyı paylaş",
  "shareCopied": "Bağlantı kopyalandı"
 }

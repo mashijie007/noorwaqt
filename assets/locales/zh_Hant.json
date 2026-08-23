@@ -149,7 +149,8 @@
  "popupClose": "關閉",
  "litCardTagline": "我在全球禮拜地圖上點亮的城市",
  "litMilestone": "你已點亮世界地圖的 {pct}%！",
- "shareSend": "分享",
+ "shareSend": "分享圖片",
  "shareSave": "儲存圖片",
+ "shareLink": "分享連結",
  "shareCopied": "連結已複製"
 }

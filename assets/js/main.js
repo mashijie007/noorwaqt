@@ -525,12 +525,15 @@ $('#dl-btn').addEventListener('click', () => window.track?.('download_click', { 
 let cardUrl = null;
 
 /**
- * 分享卡的编码格式（保存下来的那张图）。
+ * 分享卡的编码格式。
  *
  * 同一张卡：PNG 1188KB，JPEG q0.95 只要 146KB —— 小 8 倍，而平均误差
  * 0.66/255、仅 0.15% 的通道差超过 ±8（且都落在文字硬边，卡上最小的字也有 32px，
  * 肉眼分辨不出）。主力市场是印尼、巴基斯坦、孟加拉，大量用户走移动数据，
  * 为无损省下的那点画质不值得让他们多传 1MB。
+ *
+ * 不用 WebP（39KB，更小）：WhatsApp 会把 webp 当贴纸处理，
+ * 部分安卓分享目标也认不好 —— 分享出去打不开，比大一点严重得多。
  */
 const CARD_TYPE = 'image/jpeg';
 const CARD_QUALITY = 0.95;
@@ -539,12 +542,10 @@ const CARD_EXT = '.jpg';
 /**
  * 把画好的卡片交给对话框。
  *
- * 「分享」发的是链接不是图片 —— 这是试过之后的结论：带 files 时
- * WhatsApp / Telegram 只取图片，把 title / text / url 一并丢掉，
- * 收到的就是一张没有出处、点不进来的图。而链接反过来能把图装进去：
- * 聊天软件会自己抓 og:image 展开成预览卡，一条消息里图和地址都有。
- *
- * 卡片图本身留给「保存」：存相册、发限时动态这些场景不吃链接预览。
+ * 走 Blob 而不是 dataURL，是为了手机 —— 而分享几乎只发生在手机上。
+ * dataURL 只能喂给 <a download>，那条路在 iOS Safari 上时灵时不灵，
+ * 用户得先存相册、再切到聊天软件、再翻相册找图，多数人在第二步就放弃了。
+ * Blob 能包成 File 交给系统分享面板，一步就到对话框里。
  */
 async function openShareCard(canvas, basename, shareText, url) {
   const blob = await new Promise((resolve) => canvas.toBlob(resolve, CARD_TYPE, CARD_QUALITY));
@@ -556,14 +557,25 @@ async function openShareCard(canvas, basename, shareText, url) {
   const prev = cardUrl;
   cardUrl = URL.createObjectURL(blob);
 
+  const filename = basename + CARD_EXT;
   $('#share-img').src = cardUrl;
   $('#share-img').alt = shareText;
   $('#share-save').href = cardUrl;
-  $('#share-save').download = basename + CARD_EXT;
+  $('#share-save').download = filename;
   if (prev) URL.revokeObjectURL(prev);
 
-  // 分享按钮不按能力隐藏：唤不起系统面板的设备退回复制到剪贴板，总有结果
-  $('#share-send').onclick = () => sendLink(shareText, url);
+  // navigator.share 存在，不代表这台设备能发文件（桌面 Chrome 就是）。
+  // 必须拿真实的 File 去问 canShare，否则会亮出一个按不动的按钮。
+  const send = $('#share-send');
+  const file = new File([blob], filename, { type: CARD_TYPE });
+  const canSend = !!navigator.canShare?.({ files: [file] });
+
+  send.hidden = !canSend;
+  send.onclick = canSend ? () => sendCard(file, shareText, url) : null;
+  $('#share-link').onclick = () => sendLink(shareText, url);
+  // 能唤起系统面板时，主按钮让给「分享图片」，下载退成次要选项
+  $('#share-save').classList.toggle('btn-primary', !canSend);
+  $('#share-save').classList.toggle('btn-ghost', canSend);
   note('');
 
   $('#share-dlg').showModal();
@@ -580,12 +592,37 @@ function note(text) {
 }
 
 /**
- * 分享：发链接，不发图片。
+ * 把图片交给系统分享面板。
  *
- * 曾经这里是两个按钮，「分享图片」和「分享链接」。合成一个，是因为
- * 一次 navigator.share 不可能让图片和链接都活下来 —— 带 files 时
- * 多数聊天软件只取图片。既然只能二选一，就得选链接：链接会被展开成
- * 带图的预览卡，图和地址一起到；而图片永远变不回链接。
+ * 要有心理准备：带 files 的时候，多数聊天软件只取图片，把 title / text / url
+ * 一并丢掉 —— 这是各家分享目标自己的取舍，不是我们能改的。所以能给的都给上，
+ * 谁认就归谁；一条都不认的，旁边还有「分享链接」那个按钮兜着。
+ */
+async function sendCard(file, shareText, url) {
+  // 从最全的一份开始退：有的实现只要发现某个字段不支持，就整个 payload 拒收
+  const tries = [
+    { files: [file], title: shareText, text: shareText, url },
+    { files: [file], title: shareText, text: shareText },
+    { files: [file] },
+  ];
+  const data = tries.find((d) => navigator.canShare?.(d)) || tries[tries.length - 1];
+  try {
+    await navigator.share(data);
+    window.track?.('share_sheet', { ok: true, withUrl: 'url' in data });
+  } catch (e) {
+    // 用户在系统面板上点了取消 —— 这是正常操作，不该当成失败
+    if (e?.name === 'AbortError') return;
+    window.track?.('share_sheet', { ok: false });
+    $('#share-save').click();   // 面板唤不起来，至少还能存下来
+  }
+}
+
+/**
+ * 分享链接，不带图片。
+ *
+ * 这条路才是真正能把人带回来的：收到的是一条可点的地址，聊天软件还会自己
+ * 抓出预览卡。图片分享好看，但在多数平台上落地时只剩一张图 ——
+ * 图上印着的 noorwaqt.com 得靠人手打，等于没有链接。
  *
  * 没有分享面板的设备（桌面基本都是）退回复制到剪贴板。
  */
