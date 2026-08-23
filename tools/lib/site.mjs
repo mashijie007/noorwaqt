@@ -94,10 +94,9 @@ export const release = () => readJson(resolve(ROOT, 'release/latest.json'));
 
 // ── 路径 ────────────────────────────────────────────────
 
-/** 城市 URL 片段。用英文名去掉音标符，保证是纯 ASCII —— 阿文名做路径会被编码成一串 % */
-export const slug = (name) =>
-  name.normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+/** 城市 URL 片段。定义在 cities.js 里 —— 浏览器拼分享链接用的是同一个函数，
+ *  两边各写一份迟早会漂移，而漂移的后果是分享出去的链接指向 404 */
+export { citySlug as slug } from '../../assets/js/cities.js';
 
 /**
  * 按站点路径往 dist 里写文件。

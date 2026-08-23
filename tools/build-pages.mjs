@@ -19,7 +19,7 @@ import {
   renderI18n, setTitle, setMeta, setCanonical, setHtmlAttrs,
   injectHead, rootAbsolute, fill, escapeAttr, escapeText,
 } from './lib/prerender.mjs';
-import { hreflangBlock, appJsonLd, siteJsonLd, langHrefScript, languageCloud, cityCloud } from './lib/blocks.mjs';
+import { hreflangBlock, appJsonLd, siteJsonLd, langHrefScript, cityLangsScript, languageCloud, cityCloud } from './lib/blocks.mjs';
 import { hijri } from '../assets/js/hijri.js';
 
 const COUNTRIES = new Set(CITIES.map((c) => c.cc)).size;
@@ -110,6 +110,7 @@ export function buildPages() {
       appJsonLd(dict),
       siteJsonLd(dict, code),
       langHrefScript(codes, hrefFor),
+      cityLangsScript([...CITY_LANGS]),
     ].join('\n'));
 
     // 页脚互链：hreflang 只是提示，能点的链接才是爬虫真正走的路

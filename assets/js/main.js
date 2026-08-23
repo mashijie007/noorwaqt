@@ -3,7 +3,7 @@
  * 一个共享的「当前时刻」贯穿全站：实时走动，或者被时间轴接管。
  * 地球、统计条、城市卡、斋戒列表全部读同一个时刻，因此永远不会互相打架。
  */
-import { CITIES, nearestCity, searchCities } from './cities.js';
+import { CITIES, nearestCity, searchCities, citySlug } from './cities.js';
 import { Globe, PRAYER_COLOR } from './globe.js';
 import { stateAt, todayFor, localClock, fastingAt, resolveMethod, METHOD_LABEL, PRAYERS, timeline } from './prayer.js';
 import { LOCALES, t, cityName, loadLocale, dirOf, isSupported, bcp47, monthNames } from './i18n.js';
@@ -547,7 +547,7 @@ const CARD_EXT = '.jpg';
  * 用户得先存相册、再切到聊天软件、再翻相册找图，多数人在第二步就放弃了。
  * Blob 能包成 File 交给系统分享面板，一步就到对话框里。
  */
-async function openShareCard(canvas, basename, shareText) {
+async function openShareCard(canvas, basename, shareText, url) {
   const blob = await new Promise((resolve) => canvas.toBlob(resolve, CARD_TYPE, CARD_QUALITY));
   if (!blob) return;
 
@@ -571,26 +571,96 @@ async function openShareCard(canvas, basename, shareText) {
   const canSend = !!navigator.canShare?.({ files: [file] });
 
   send.hidden = !canSend;
-  send.onclick = canSend ? () => sendCard(file, shareText) : null;
-  // 能唤起系统面板时，主按钮让给「分享」，下载退成次要选项
+  send.onclick = canSend ? () => sendCard(file, shareText, url) : null;
+  $('#share-link').onclick = () => sendLink(shareText, url);
+  // 能唤起系统面板时，主按钮让给「分享图片」，下载退成次要选项
   $('#share-save').classList.toggle('btn-primary', !canSend);
   $('#share-save').classList.toggle('btn-ghost', canSend);
+  note('');
 
   $('#share-dlg').showModal();
 }
 
-/** 交给系统分享面板。不带 url —— 卡片上已经印着站点地址，
- *  而多数聊天软件在附带文件时会把 url 字段直接丢掉，写了只是徒增重复。 */
-async function sendCard(file, shareText) {
+/** 对话框底部那行小字：复制成功之类的即时反馈 */
+let noteTimer = null;
+function note(text) {
+  const el = $('#share-note');
+  el.textContent = text;
+  el.hidden = !text;
+  clearTimeout(noteTimer);
+  if (text) noteTimer = setTimeout(() => { el.hidden = true; }, 2400);
+}
+
+/**
+ * 把图片交给系统分享面板。
+ *
+ * 要有心理准备：带 files 的时候，多数聊天软件只取图片，把 title / text / url
+ * 一并丢掉 —— 这是各家分享目标自己的取舍，不是我们能改的。所以能给的都给上，
+ * 谁认就归谁；一条都不认的，旁边还有「分享链接」那个按钮兜着。
+ */
+async function sendCard(file, shareText, url) {
+  // 从最全的一份开始退：有的实现只要发现某个字段不支持，就整个 payload 拒收
+  const tries = [
+    { files: [file], title: shareText, text: shareText, url },
+    { files: [file], title: shareText, text: shareText },
+    { files: [file] },
+  ];
+  const data = tries.find((d) => navigator.canShare?.(d)) || tries[tries.length - 1];
   try {
-    await navigator.share({ files: [file], title: shareText, text: shareText });
-    window.track?.('share_sheet', { ok: true });
+    await navigator.share(data);
+    window.track?.('share_sheet', { ok: true, withUrl: 'url' in data });
   } catch (e) {
     // 用户在系统面板上点了取消 —— 这是正常操作，不该当成失败
     if (e?.name === 'AbortError') return;
     window.track?.('share_sheet', { ok: false });
     $('#share-save').click();   // 面板唤不起来，至少还能存下来
   }
+}
+
+/**
+ * 分享链接，不带图片。
+ *
+ * 这条路才是真正能把人带回来的：收到的是一条可点的地址，聊天软件还会自己
+ * 抓出预览卡。图片分享好看，但在多数平台上落地时只剩一张图 ——
+ * 图上印着的 noorwaqt.com 得靠人手打，等于没有链接。
+ *
+ * 没有分享面板的设备（桌面基本都是）退回复制到剪贴板。
+ */
+async function sendLink(shareText, url) {
+  const data = { title: shareText, text: shareText, url };
+  if (navigator.canShare ? navigator.canShare(data) : !!navigator.share) {
+    try {
+      await navigator.share(data);
+      window.track?.('share_link', { via: 'sheet' });
+      return;
+    } catch (e) {
+      if (e?.name === 'AbortError') return;
+      // 面板唤不起来，继续往剪贴板退
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    note(t(app.lang, 'shareCopied'));
+    window.track?.('share_link', { via: 'clipboard' });
+  } catch {
+    // 剪贴板也被拒（非安全上下文或用户拒绝）：把地址显出来，让人自己选中
+    note(url);
+  }
+}
+
+/**
+ * 分享出去的那条地址。
+ *
+ * 落点选这座城市自己的页面而不是首页：卡片上是它的礼拜时刻，链接就该是同一件事，
+ * 点进去看到的和图上一致。城市页只在有 SEO 文案的语言下存在，是哪几种由构建期
+ * 通过 NW_SITE 告知；其余语言、以及本地开发时拿不到这份注入，都退回该语言首页。
+ */
+function shareUrlFor(city) {
+  const site = window.NW_SITE;
+  const origin = site?.origin || location.origin;
+  return city && site?.cityLangs?.includes(app.lang)
+    ? `${origin}/${app.lang}/prayer-times/${citySlug(city.en)}/`
+    : `${origin}/${app.lang}/`;
 }
 
 $('#share').addEventListener('click', async () => {
@@ -601,7 +671,7 @@ $('#share').addEventListener('click', async () => {
   btn.textContent = t(app.lang, 'cityShareSaving');
   try {
     const text = `${cityName(c, app.lang)} · ${t(app.lang, 'shareTitle')}`;
-    await openShareCard(await drawShareCard(c), 'noorwaqt', text);
+    await openShareCard(await drawShareCard(c), 'noorwaqt', text, shareUrlFor(c));
     window.track?.('share_card', { city: c.en });
   } finally {
     btn.textContent = t(app.lang, 'cityShare');
@@ -621,7 +691,7 @@ $('#lit-share').addEventListener('click', async () => {
     const text = t(app.lang, 'litCardTitle', {
       n: nf().format(litCount()), total: nf().format(LIT_TOTAL),
     }) + ' · ' + t(app.lang, 'litCardTagline');
-    await openShareCard(await drawLitShareCard(), 'noorwaqt-progress', text);
+    await openShareCard(await drawLitShareCard(), 'noorwaqt-progress', text, shareUrlFor(null));
     window.track?.('lit_share_card', { n: litCount() });
   } finally {
     btn.textContent = original;

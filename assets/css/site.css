@@ -595,6 +595,11 @@ dialog.share .row { display: flex; gap: 0.6rem; margin-block-start: 1rem; flex-w
 /* 分享/保存都是图标按钮，图标要跟旁边的 ↓ ✕ 一样占中 */
 dialog.share .row .btn { display: inline-flex; align-items: center; justify-content: center; }
 dialog.share .row svg { width: 16px; height: 16px; }
+/* 复制成功之类的即时反馈。地址复制不了时这里会显示地址本身，所以要能换行 */
+dialog.share .share-note {
+  margin-block-start: 0.7rem; font-size: 0.8rem; color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

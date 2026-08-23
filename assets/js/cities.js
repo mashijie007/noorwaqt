@@ -210,6 +210,19 @@ export function nearestCity(lat, lon) {
   return { city: best, km: Math.round(Math.acos(Math.min(1, bd)) * 6371) };
 }
 
+/**
+ * 城市在 URL 里的写法：/<lang>/prayer-times/<slug>/
+ *
+ * 放在这里而不是构建脚本里，是因为两边都要用它 —— 构建期拿它生成 1300 多个
+ * 城市页的路径，浏览器里拿它拼分享链接。各写一份迟早会漂移，
+ * 而漂移的后果是分享出去的链接指向 404。
+ *
+ * 用英文名去掉音标符，保证是纯 ASCII：阿文名做路径会被编码成一长串 %。
+ */
+export const citySlug = (name) =>
+  name.normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 /** 按任意语言的名字做模糊搜索 */
 export function searchCities(q, limit = 8) {
   const s = q.trim().toLowerCase();

@@ -92,6 +92,16 @@ export function cityJsonLd(dict, code, city, cityLabel, countryLabel) {
 export const langHrefScript = (codes, hrefFor) =>
   '<script>window.NW_LANG_HREF=' + JSON.stringify(Object.fromEntries(codes.map((c) => [c, hrefFor(c)]))) + ';</script>';
 
+/**
+ * 哪些语言下有城市页，以及站点的根地址。
+ *
+ * 分享卡要带一条能点的链接回来，最合适的落点就是那座城市自己的页面。
+ * 但城市页只在有 SEO 文案的语言下存在，浏览器无从知道是哪几种 ——
+ * 由构建期告诉它，缺这份清单时 main.js 退回该语言的首页。
+ */
+export const cityLangsScript = (codes) =>
+  '<script>window.NW_SITE=' + JSON.stringify({ origin: SITE.origin, cityLangs: codes }) + ';</script>';
+
 const cloud = (title, items) =>
   '<div class="wrap seo-links"><h2>' + escapeText(title) + '</h2><nav class="link-cloud">'
   + items.map(([href, label]) => '<a href="' + escapeAttr(href) + '">' + escapeText(label) + '</a>').join('')
