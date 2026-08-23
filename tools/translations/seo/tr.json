@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "Namaz vakitleri",
+  "ptDocTitle": "{city} Namaz Vakitleri Bugün — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
+  "ptDocDesc": "{city}, {country} bugünkü namaz vakitleri: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. {method} yöntemiyle hesaplanır, her gün güncellenir.",
+  "ptH1": "{city} namaz vakitleri",
+  "ptIntro": "{city}, {country} için beş vakit namaz. Bu sayfadaki her vakit, şehrin kendi koordinatlarındaki güneş konumundan hesaplanır — sunucu yok, takip yok.",
+  "ptToday": "Bugün",
+  "ptMonthTable": "{month} takvimi",
+  "ptColDate": "Tarih",
+  "ptQibla": "Kıble yönü",
+  "ptQiblaVal": "Gerçek kuzeyden {deg}°",
+  "ptDistance": "Mekke’ye {km} km",
+  "ptCoords": "Koordinatlar",
+  "ptTimezone": "Saat dilimi",
+  "ptNearby": "Yakın şehirler",
+  "ptOtherCities": "Diğer şehirlerin namaz vakitleri",
+  "ptCta": "{city} namaz vakitlerini cebinizde taşıyın",
+  "ptCtaLead": "NoorWaqt bu vakitleri çevrimdışı sunar, namaz hatırlatmalarıyla birlikte. Ücretsiz, reklamsız, hesapsız.",
+  "ptRamadan": "{city} Ramazan {year}",
+  "ptSuhoorEnds": "Sahur biter",
+  "ptFastLength": "Oruç süresi"
+}

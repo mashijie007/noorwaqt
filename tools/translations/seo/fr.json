@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "Horaires de prière",
+  "ptDocTitle": "Horaires de prière à {city} aujourd’hui — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
+  "ptDocDesc": "Horaires de prière à {city}, {country} aujourd’hui : {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. Calculés selon {method}, mis à jour chaque jour.",
+  "ptH1": "Horaires de prière à {city}",
+  "ptIntro": "Les cinq prières quotidiennes pour {city}, {country}. Chaque horaire de cette page est calculé à partir de la position du soleil aux coordonnées de la ville — sans serveur, sans suivi.",
+  "ptToday": "Aujourd’hui",
+  "ptMonthTable": "Calendrier de {month}",
+  "ptColDate": "Date",
+  "ptQibla": "Direction de la qibla",
+  "ptQiblaVal": "{deg}° depuis le nord géographique",
+  "ptDistance": "{km} km jusqu’à La Mecque",
+  "ptCoords": "Coordonnées",
+  "ptTimezone": "Fuseau horaire",
+  "ptNearby": "Villes proches",
+  "ptOtherCities": "Horaires de prière dans d’autres villes",
+  "ptCta": "Gardez les horaires de {city} dans votre poche",
+  "ptCtaLead": "NoorWaqt vous donne ces horaires hors ligne, avec des rappels de prière. Gratuit, sans publicité, sans compte.",
+  "ptRamadan": "Ramadan {year} à {city}",
+  "ptSuhoorEnds": "Fin du souhour",
+  "ptFastLength": "Durée du jeûne"
+}

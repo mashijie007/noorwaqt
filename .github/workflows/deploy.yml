@@ -1,0 +1,76 @@
+# 站点构建与部署
+#
+# dist/ 不进版本库：城市页每天重算，1300 多个文件天天变，提交进仓库只会
+# 让 git 历史迅速膨胀。所以这里构建完把产物直接交给 Pages，仓库里只留源码。
+#
+# ⚠️ 首次启用前，需要在仓库 Settings → Pages 里把 Source 从
+#    「Deploy from a branch」改成「GitHub Actions」，否则 deploy 这一步会失败。
+name: Build and deploy site
+
+on:
+  push:
+    branches: [main]
+  # 城市页写的是"今天"的礼拜时刻，隔夜就旧了。每天重建一次，
+  # 保证抓取端看到的始终是当天的。01:20 UTC —— 避开整点，那会儿排队最长。
+  schedule:
+    - cron: '20 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Pages 同时只接受一个部署。不打断进行中的那次，排队等它完成
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 预渲染扫描器是整套构建的地基。它错了不会报错，
+      # 而是安静地产出 44 份坏 HTML —— 所以先跑它的自测
+      - name: 自测预渲染扫描器
+        run: node tools/lib/_test-prerender.mjs
+
+      - name: 构建站点
+        run: node tools/build.mjs
+        env:
+          INDEXNOW_KEY: ${{ vars.INDEXNOW_KEY }}
+
+      # 站内链接、hreflang、站点地图三者必须都落到真实文件。
+      # 这一步拦的是"改了路径规则忘了同步"那一类 —— 它不会让构建失败，只会让页面挂掉
+      - name: 校验产物
+        run: node tools/verify-dist.mjs
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      # 主动通报变更。定时那次不发：每天把上千条地址重推一遍没有意义。
+      # 没配 INDEXNOW_KEY 就自己跳过，不影响部署
+      - name: IndexNow
+        if: github.event_name != 'schedule'
+        env:
+          INDEXNOW_KEY: ${{ vars.INDEXNOW_KEY }}
+        run: node tools/indexnow.mjs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

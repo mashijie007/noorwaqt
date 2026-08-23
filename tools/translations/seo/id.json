@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "Jadwal sholat",
+  "ptDocTitle": "Jadwal Sholat {city} Hari Ini — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
+  "ptDocDesc": "Jadwal sholat {city}, {country} hari ini: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. Dihitung dengan metode {method}, diperbarui setiap hari.",
+  "ptH1": "Jadwal sholat {city}",
+  "ptIntro": "Waktu sholat lima waktu untuk {city}, {country}. Setiap waktu di halaman ini dihitung dari posisi matahari pada koordinat kota itu sendiri — tanpa server, tanpa pelacakan.",
+  "ptToday": "Hari ini",
+  "ptMonthTable": "Jadwal {month}",
+  "ptColDate": "Tanggal",
+  "ptQibla": "Arah kiblat",
+  "ptQiblaVal": "{deg}° dari utara sejati",
+  "ptDistance": "{km} km ke Makkah",
+  "ptCoords": "Koordinat",
+  "ptTimezone": "Zona waktu",
+  "ptNearby": "Kota terdekat",
+  "ptOtherCities": "Jadwal sholat kota lain",
+  "ptCta": "Simpan jadwal sholat {city} di saku Anda",
+  "ptCtaLead": "NoorWaqt memberi Anda waktu-waktu ini secara luring, lengkap dengan pengingat sholat. Gratis, tanpa iklan, tanpa akun.",
+  "ptRamadan": "Ramadan {year} di {city}",
+  "ptSuhoorEnds": "Imsak berakhir",
+  "ptFastLength": "Lama puasa"
+}

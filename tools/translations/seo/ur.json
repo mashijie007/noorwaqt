@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "نماز کے اوقات",
+  "ptDocTitle": "{city} میں آج نماز کے اوقات — {pFajr}، {pDhuhr}، {pAsr}، {pMaghrib}، {pIsha}",
+  "ptDocDesc": "{city}، {country} میں آج نماز کے اوقات: {pFajr} {fajr}، {pDhuhr} {dhuhr}، {pAsr} {asr}، {pMaghrib} {maghrib}، {pIsha} {isha}۔ {method} کے مطابق شمار کیے گئے، روزانہ تازہ۔",
+  "ptH1": "{city} میں نماز کے اوقات",
+  "ptIntro": "{city}، {country} کے لیے پانچوں نمازوں کے اوقات۔ اس صفحے کا ہر وقت شہر کے اپنے عرض بلد و طول بلد پر سورج کی پوزیشن سے نکالا گیا ہے — نہ کوئی سرور، نہ کوئی ٹریکنگ۔",
+  "ptToday": "آج",
+  "ptMonthTable": "{month} کا نقشہ",
+  "ptColDate": "تاریخ",
+  "ptQibla": "سمتِ قبلہ",
+  "ptQiblaVal": "حقیقی شمال سے {deg}°",
+  "ptDistance": "مکہ مکرمہ سے {km} کلومیٹر",
+  "ptCoords": "عرض بلد و طول بلد",
+  "ptTimezone": "ٹائم زون",
+  "ptNearby": "قریبی شہر",
+  "ptOtherCities": "دوسرے شہروں میں نماز کے اوقات",
+  "ptCta": "{city} کے نماز اوقات اپنی جیب میں رکھیں",
+  "ptCtaLead": "نور وقت یہ اوقات آف لائن دیتا ہے، نماز کی یاد دہانی کے ساتھ۔ مفت، بغیر اشتہار، بغیر اکاؤنٹ۔",
+  "ptRamadan": "{city} میں رمضان {year}",
+  "ptSuhoorEnds": "سحری ختم",
+  "ptFastLength": "روزے کا دورانیہ"
+}

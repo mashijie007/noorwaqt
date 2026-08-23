@@ -1,0 +1,12 @@
+# robots.txt — www.noorwaqt.com
+#
+# 站点全部内容都欢迎抓取。这里存在的唯一理由是指出 sitemap 的位置：
+# 新域名没有外链时，sitemap 往往是搜索引擎发现内页的唯一入口。
+
+User-agent: *
+Allow: /
+
+# 安装包没有被索引的价值，抓一次还要拖 37MB
+Disallow: /NoorWaqt.apk
+
+Sitemap: https://www.noorwaqt.com/sitemap.xml

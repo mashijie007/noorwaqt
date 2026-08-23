@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "مواقيت الصلاة",
+  "ptDocTitle": "مواقيت الصلاة اليوم في {city} — {pFajr} و{pDhuhr} و{pAsr} و{pMaghrib} و{pIsha}",
+  "ptDocDesc": "مواقيت الصلاة اليوم في {city}، {country}: {pFajr} {fajr}، {pDhuhr} {dhuhr}، {pAsr} {asr}، {pMaghrib} {maghrib}، {pIsha} {isha}. محسوبة بطريقة {method}، وتُحدَّث يوميًا.",
+  "ptH1": "مواقيت الصلاة في {city}",
+  "ptIntro": "الصلوات الخمس في {city}، {country}. كل وقت في هذه الصفحة محسوب من موضع الشمس على إحداثيات المدينة نفسها — بلا خادم وبلا تتبع.",
+  "ptToday": "اليوم",
+  "ptMonthTable": "جدول {month}",
+  "ptColDate": "التاريخ",
+  "ptQibla": "اتجاه القبلة",
+  "ptQiblaVal": "{deg}° من الشمال الحقيقي",
+  "ptDistance": "{km} كم إلى مكة المكرمة",
+  "ptCoords": "الإحداثيات",
+  "ptTimezone": "المنطقة الزمنية",
+  "ptNearby": "مدن قريبة",
+  "ptOtherCities": "مواقيت الصلاة في مدن أخرى",
+  "ptCta": "احفظ مواقيت صلاة {city} في جيبك",
+  "ptCtaLead": "يعطيك نور وقت هذه المواقيت دون إنترنت، مع تنبيهات الصلاة. مجاني، بلا إعلانات، وبلا حساب.",
+  "ptRamadan": "رمضان {year} في {city}",
+  "ptSuhoorEnds": "ينتهي السحور",
+  "ptFastLength": "مدة الصيام"
+}

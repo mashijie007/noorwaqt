@@ -32,7 +32,7 @@ export async function loadLocale(code) {
   if (cache.has(code)) return cache.get(code);
   if (inflight.has(code)) return inflight.get(code);
 
-  const p = fetch(`./assets/locales/${code}.json`)
+  const p = fetch(`/assets/locales/${code}.json`)
     .then((r) => (r.ok ? r.json() : null))
     .then((dict) => {
       const merged = dict ? { ...EN, ...dict } : EN;

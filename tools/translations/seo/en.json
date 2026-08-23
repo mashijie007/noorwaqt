@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "Prayer times",
+  "ptDocTitle": "{city} Prayer Times Today — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
+  "ptDocDesc": "Prayer times in {city}, {country} today: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. Calculated with {method}, updated daily.",
+  "ptH1": "Prayer times in {city}",
+  "ptIntro": "The five daily prayers for {city}, {country}. Every time on this page is computed from the position of the sun at the city’s own coordinates — no server, no tracking.",
+  "ptToday": "Today",
+  "ptMonthTable": "{month} timetable",
+  "ptColDate": "Date",
+  "ptQibla": "Qibla direction",
+  "ptQiblaVal": "{deg}° from true north",
+  "ptDistance": "{km} km to Makkah",
+  "ptCoords": "Coordinates",
+  "ptTimezone": "Time zone",
+  "ptNearby": "Nearby cities",
+  "ptOtherCities": "Prayer times in other cities",
+  "ptCta": "Keep {city} prayer times in your pocket",
+  "ptCtaLead": "NoorWaqt gives you these times offline, with prayer reminders. Free, no ads, no account.",
+  "ptRamadan": "Ramadan {year} in {city}",
+  "ptSuhoorEnds": "Suhoor ends",
+  "ptFastLength": "Fast length"
+}

@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "礼拜时间",
+  "ptDocTitle": "{city}礼拜时间表（今日）—— {pFajr}、{pDhuhr}、{pAsr}、{pMaghrib}、{pIsha}",
+  "ptDocDesc": "{city}（{country}）今日礼拜时间：{pFajr} {fajr}、{pDhuhr} {dhuhr}、{pAsr} {asr}、{pMaghrib} {maghrib}、{pIsha} {isha}。按{method}推算，每日更新。",
+  "ptH1": "{city}的礼拜时间",
+  "ptIntro": "{city}（{country}）的五番拜时刻。本页每一个时刻都按这座城市自己的经纬度、由太阳位置推算得出——不经服务器，也不做追踪。",
+  "ptToday": "今日",
+  "ptMonthTable": "{month}时刻表",
+  "ptColDate": "日期",
+  "ptQibla": "朝向",
+  "ptQiblaVal": "正北偏 {deg}°",
+  "ptDistance": "距麦加 {km} 公里",
+  "ptCoords": "经纬度",
+  "ptTimezone": "时区",
+  "ptNearby": "邻近城市",
+  "ptOtherCities": "其他城市的礼拜时间",
+  "ptCta": "把{city}的礼拜时间装进口袋",
+  "ptCtaLead": "NoorWaqt 离线提供这些时刻，并按时提醒。免费，无广告，无需账号。",
+  "ptRamadan": "{city}的{year}年斋月",
+  "ptSuhoorEnds": "封斋止",
+  "ptFastLength": "斋戒时长"
+}

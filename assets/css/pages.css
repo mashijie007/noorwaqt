@@ -1,0 +1,154 @@
+/* pages.css —— 生成页面专用的样式
+ *
+ * 只有构建期生成的页面会加载它：44 个语言页脚上的互链区，
+ * 以及 /<lang>/prayer-times/<city>/ 这批城市页。
+ * 变量全部沿用 site.css 里那套，这里不新起一套配色。
+ */
+
+/* ── 页脚互链：光靠 sitemap 的页面是孤岛，得有真链接把它们串起来 ── */
+.seo-links {
+  border-block-start: 1px solid var(--line);
+  padding-block: 2.5rem;
+}
+.seo-links + .seo-links { border-block-start: none; padding-block-start: 0; }
+.seo-links h2 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-block-end: 1rem;
+}
+.link-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.85rem;
+}
+.link-cloud a { color: var(--ink-2); }
+.link-cloud a:hover { color: var(--brand-2); }
+
+/* ── 城市页 ────────────────────────────────────────────── */
+.city-page { padding-block: 2rem 4rem; }
+
+.crumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  margin-block-end: 1.5rem;
+}
+.crumb a { color: var(--ink-3); }
+.crumb a:hover { color: var(--brand-2); }
+.crumb li { list-style: none; }
+.crumb ol { display: contents; }
+.crumb li + li::before { content: '/'; margin-inline-end: 0.5rem; color: var(--line); }
+
+.pt-head { display: grid; gap: 0.75rem; margin-block-end: 2.5rem; }
+.pt-head h1 { font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.12; }
+.pt-head .lead { color: var(--ink-2); max-width: 62ch; }
+.pt-date { font-size: 0.9rem; color: var(--ink-3); }
+
+/* 今日六个时刻。auto-fit 让它在手机上自然掉成两列 */
+.pt-times {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.75rem;
+  margin-block-end: 2.5rem;
+}
+.pt-time {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 1rem 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+.pt-time .name { font-size: 0.8rem; color: var(--ink-3); }
+.pt-time .clock {
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.pt-time[data-slot='fajr']    { border-color: color-mix(in srgb, var(--fajr) 40%, transparent); }
+.pt-time[data-slot='dhuhr']   { border-color: color-mix(in srgb, var(--dhuhr) 40%, transparent); }
+.pt-time[data-slot='asr']     { border-color: color-mix(in srgb, var(--asr) 40%, transparent); }
+.pt-time[data-slot='maghrib'] { border-color: color-mix(in srgb, var(--maghrib) 40%, transparent); }
+.pt-time[data-slot='isha']    { border-color: color-mix(in srgb, var(--isha) 40%, transparent); }
+.pt-time[data-slot='sunrise'] { border-color: var(--line); }
+.pt-time[data-slot='sunrise'] .clock { color: var(--ink-2); font-size: 1.35rem; }
+
+/* 事实区：朝向、经纬度、时区、计算方法 */
+.pt-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-block-end: 3rem;
+}
+.pt-fact { background: var(--bg-2); padding: 1rem 1.1rem; display: grid; gap: 0.3rem; }
+.pt-fact dt { font-size: 0.75rem; color: var(--ink-3); }
+.pt-fact dd { font-size: 0.95rem; font-weight: 500; }
+
+.pt-section { margin-block-end: 3rem; }
+.pt-section h2 { font-size: 1.35rem; margin-block-end: 1rem; }
+
+/* 月度时刻表。宽表在窄屏必须自己横向滚，不能把整页撑出横向滚动条 */
+.pt-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); }
+.pt-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 34rem; }
+.pt-table th, .pt-table td {
+  padding: 0.55rem 0.9rem;
+  text-align: start;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.pt-table thead th {
+  background: var(--bg-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  position: sticky;
+  top: 0;
+}
+.pt-table tbody tr + tr td { border-block-start: 1px solid var(--line); }
+.pt-table tbody tr.is-today { background: color-mix(in srgb, var(--brand) 12%, transparent); }
+.pt-table tbody tr.is-today td { font-weight: 600; }
+.pt-table td:first-child { color: var(--ink-2); }
+
+.pt-cta {
+  background: linear-gradient(135deg, var(--bg-3), var(--bg-2));
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+  margin-block-end: 3rem;
+}
+.pt-cta h2 { font-size: clamp(1.25rem, 3vw, 1.7rem); }
+.pt-cta p { color: var(--ink-2); max-width: 54ch; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .pt-time, .pt-fact { transition: border-color 0.2s ease; }
+}
+
+/* 城市名的另一种写法。城市表只备了中/英/阿三种，乌尔都语、孟加拉语这些
+   拿到的是就近的一种；把英文名并排写出来，两种搜法都能对上这一页。 */
+.pt-alt {
+  font-size: 0.95rem;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+
+/* 此刻正处在窗口内的那一番。页面一打开就该看得出现在是哪番拜，
+   不用自己拿手表去比对六个时刻。 */
+.pt-time.is-now {
+  background: color-mix(in srgb, var(--brand) 14%, var(--bg-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand-2) 45%, transparent);
+}
+.pt-time.is-now .name { color: var(--brand-2); }

@@ -469,6 +469,33 @@ html[dir='rtl'] .ev-title { letter-spacing: 0; text-transform: none; }
 .changelog li::before { content: '·'; position: absolute; inset-inline-start: 0.3rem; color: var(--brand-2); }
 .changelog ul { margin: 0; padding: 0; display: grid; gap: 0.3rem; }
 
+/* ── 功修问答入口 ───────────────────────────────────
+   通往 /<lang>/guide/ 的四个链接。文章页里的同类卡片样式在 guide.css，
+   两处刻意长得一样，但不共用规则 —— 首页没必要为几张卡片多加载一份样式表。 */
+.guide-links {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 0.9rem;
+}
+.guide-links a {
+  display: grid; gap: 0.4rem; height: 100%;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.025);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.guide-links a:hover {
+  border-color: rgba(126, 231, 190, 0.32);
+  background: rgba(16, 185, 129, 0.06);
+  transform: translateY(-2px);
+}
+.guide-links b { color: var(--ink); font-size: 1.02rem; line-height: 1.45; }
+.guide-links span { color: var(--ink-3); font-size: 0.88rem; line-height: 1.65; }
+@media (prefers-reduced-motion: reduce) {
+  .guide-links a { transition: none; }
+  .guide-links a:hover { transform: none; }
+}
+
 /* ── 页脚 ───────────────────────────────────────────── */
 .footer { border-block-start: 1px solid var(--line); padding-block: 3rem; }
 .footer-inner { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center; }

@@ -1,0 +1,22 @@
+{
+  "ptCrumb": "নামাজের সময়",
+  "ptDocTitle": "{city} নামাজের সময়সূচি আজ — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
+  "ptDocDesc": "{city}, {country}-এ আজকের নামাজের সময়: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}। {method} অনুযায়ী হিসাব করা, প্রতিদিন হালনাগাদ।",
+  "ptH1": "{city} নামাজের সময়সূচি",
+  "ptIntro": "{city}, {country}-এর পাঁচ ওয়াক্ত নামাজের সময়। এই পাতার প্রতিটি সময় শহরের নিজস্ব স্থানাঙ্কে সূর্যের অবস্থান থেকে হিসাব করা — কোনো সার্ভার নেই, কোনো ট্র্যাকিং নেই।",
+  "ptToday": "আজ",
+  "ptMonthTable": "{month} মাসের সময়সূচি",
+  "ptColDate": "তারিখ",
+  "ptQibla": "কিবলার দিক",
+  "ptQiblaVal": "প্রকৃত উত্তর থেকে {deg}°",
+  "ptDistance": "মক্কা থেকে {km} কিমি",
+  "ptCoords": "স্থানাঙ্ক",
+  "ptTimezone": "সময় অঞ্চল",
+  "ptNearby": "কাছের শহর",
+  "ptOtherCities": "অন্যান্য শহরের নামাজের সময়",
+  "ptCta": "{city}-এর নামাজের সময় পকেটে রাখুন",
+  "ptCtaLead": "NoorWaqt এই সময়গুলো অফলাইনে দেয়, নামাজের রিমাইন্ডারসহ। বিনামূল্যে, বিজ্ঞাপন নেই, অ্যাকাউন্ট লাগে না।",
+  "ptRamadan": "{city}-এ রমজান {year}",
+  "ptSuhoorEnds": "সেহরি শেষ",
+  "ptFastLength": "রোজার দৈর্ঘ্য"
+}

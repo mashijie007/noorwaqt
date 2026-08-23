@@ -26,6 +26,12 @@ const now = () => app.scrub ?? Date.now();
 
 // ── 语言 ────────────────────────────────────────────────
 function detectLang() {
+  // 预渲染页面（/ar/、/id/ 这些）把自己的语言写在 <html data-locale> 上。
+  // 那是 URL 和 canonical 共同认定的语言，必须压过浏览器偏好和上次的选择 ——
+  // 否则从搜索结果点进 /ar/ 的人，会看着页面自己跳成英文。
+  const declared = document.documentElement.dataset.locale;
+  if (declared && isSupported(declared)) return declared;
+
   const saved = localStorage.getItem('nw-lang');
   if (saved && isSupported(saved)) return saved;
 
@@ -73,6 +79,14 @@ async function applyLang(lang) {
     el.setAttribute(attr, t(lang, key));
   }
   $('#lang').value = lang;
+
+  // 教法问答目前只有中英两份译文。语言切走时链接要跟着改写：
+  // 让阿拉伯语用户点进一个中文页面，比不给这个链接更糟。
+  const guideLang = lang.startsWith('zh') ? 'zh' : 'en';
+  for (const el of $$('[data-guide]')) {
+    const slug = el.dataset.guide;
+    el.setAttribute('href', slug ? `/${guideLang}/guide/${slug}/` : `/${guideLang}/guide/`);
+  }
 
   renderBars(); renderCity(); renderRamadan(); renderEid(); renderDownload();
 }
@@ -412,7 +426,7 @@ let manifest = null, apkEntry = null, apkAbi = '';
 
 async function loadManifest() {
   try {
-    const r = await fetch('./release/latest.json', { cache: 'no-cache' });
+    const r = await fetch('/release/latest.json', { cache: 'no-cache' });
     if (!r.ok) return;
     manifest = await r.json();
     const abis = Object.keys(manifest.apk || {});
@@ -583,7 +597,16 @@ function tick() {
 }
 
 // ── 杂项 ────────────────────────────────────────────────
-$('#lang').addEventListener('change', (e) => { applyLang(e.target.value); window.track?.('lang_switch', { lang: e.target.value }); });
+$('#lang').addEventListener('change', (e) => {
+  const lang = e.target.value;
+  window.track?.('lang_switch', { lang });
+  // 预渲染页面的语言写在地址里，换语言就得换地址：留在原地只会让
+  // /ar/ 显示成土耳其语，内容和 canonical 各说各话。
+  // 这张表由构建期注入（根页面没有，于是照旧原地切换）。
+  const href = window.NW_LANG_HREF?.[lang];
+  if (href) { location.href = href; return; }
+  applyLang(lang);
+});
 
 const nav = $('#nav');
 addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20), { passive: true });

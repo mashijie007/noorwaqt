@@ -1,0 +1,219 @@
+/* guide.css — 教法问答页
+ *
+ * 只在 /<lang>/guide/ 下加载，首页不背这份重量。
+ * 变量、按钮、导航、页脚都复用 site.css，这里只补正文排版。
+ *
+ * 首页的主角是地球，这里的主角是字。所以正文单栏、行长控制在 68ch 上下，
+ * 段间距比首页松——这些页面是拿来读完的，不是拿来扫一眼的。
+ *
+ * 方向相关一律用逻辑属性，阿拉伯语切 RTL 时不需要第二套规则。
+ */
+
+.guide-body { padding-block-start: 4.5rem; }
+
+.guide { padding-block: 2.5rem 5rem; max-width: 1180px; }
+
+/* ── 面包屑 ─────────────────────────────────────────── */
+.crumbs {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-block-end: 2rem;
+}
+.crumbs a { color: var(--ink-3); text-decoration: none; }
+.crumbs a:hover { color: var(--brand-2); }
+
+/* ── 正文 ───────────────────────────────────────────── */
+.prose { max-width: 68ch; }
+
+.prose h1 {
+  font-size: clamp(1.75rem, 4.2vw, 2.6rem);
+  line-height: 1.25;
+  margin-block-end: 1.1rem;
+}
+.prose .lead {
+  font-size: clamp(1.02rem, 1.7vw, 1.18rem);
+  color: var(--ink-2);
+  margin-block-end: 1.2rem;
+}
+.prose .meta {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  margin-block-end: 1.5rem;
+}
+
+.prose h2 {
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  line-height: 1.35;
+  margin-block: 3rem 1rem;
+  padding-block-start: 1.6rem;
+  border-block-start: 1px solid var(--line);
+}
+.prose h2:first-of-type { border-block-start: 0; padding-block-start: 0; }
+.prose h3 { font-size: 1.08rem; margin-block: 2rem 0.6rem; color: var(--brand-2); }
+
+.prose p { margin-block: 0 1.15rem; color: var(--ink-2); }
+.prose strong { color: var(--ink); font-weight: 600; }
+.prose a { color: var(--brand-2); text-underline-offset: 3px; }
+.prose a:hover { color: var(--ink); }
+
+.prose ul, .prose ol { margin-block: 0 1.3rem; padding-inline-start: 1.3rem; color: var(--ink-2); }
+.prose li { margin-block-end: 0.45rem; }
+.prose li::marker { color: var(--brand); }
+
+/* 圣训与经文。装饰性的引号压在起始一侧，RTL 下自动换边。 */
+.prose blockquote {
+  margin: 1.6rem 0;
+  padding: 1.2rem 1.4rem;
+  border-inline-start: 3px solid var(--brand);
+  border-radius: 0 var(--r) var(--r) 0;
+  background: rgba(16, 185, 129, 0.07);
+}
+html[dir='rtl'] .prose blockquote { border-radius: var(--r) 0 0 var(--r); }
+.prose blockquote p { margin: 0; color: var(--ink); font-size: 1.04rem; line-height: 1.75; }
+.prose blockquote cite {
+  display: block;
+  margin-block-start: 0.7rem;
+  font-style: normal;
+  font-size: 0.83rem;
+  color: var(--ink-3);
+}
+
+/* ── 学派对照表 ─────────────────────────────────────── */
+/* 窄屏放不下就让表格自己横向滚，绝不允许页面整体横滚。 */
+.table-scroll {
+  overflow-x: auto;
+  margin-block: 1.5rem 2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  -webkit-overflow-scrolling: touch;
+}
+.prose table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 30rem; }
+.prose th, .prose td {
+  padding: 0.7rem 0.95rem;
+  text-align: start;
+  border-block-end: 1px solid var(--line);
+  vertical-align: top;
+}
+.prose th { background: rgba(16, 185, 129, 0.1); color: var(--ink); font-weight: 600; white-space: nowrap; }
+.prose td { color: var(--ink-2); }
+.prose tbody tr:last-child td { border-block-end: 0; }
+.prose tbody tr:hover td { background: rgba(255, 255, 255, 0.025); }
+
+/* ── 提示框 ─────────────────────────────────────────── */
+.callout {
+  margin-block: 2rem;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.03);
+}
+.callout p { margin: 0; font-size: 0.9rem; color: var(--ink-3); }
+.callout strong { color: var(--ink-2); }
+
+/* 审阅声明比免责声明更该被看见：它在正文开头，且带色。 */
+.callout-review {
+  border-color: rgba(255, 215, 110, 0.28);
+  background: rgba(255, 215, 110, 0.07);
+}
+.callout-review p { color: var(--ink-2); }
+.callout-review strong { color: var(--dhuhr); }
+
+/* ── 语言切换 ───────────────────────────────────────── */
+.lang-switch { font-size: 0.85rem; color: var(--ink-3); margin-block-end: 1.6rem; }
+.lang-switch a { color: var(--brand-2); text-decoration: none; border-block-end: 1px solid transparent; }
+.lang-switch a:hover { border-block-end-color: currentColor; }
+
+/* ── 常见问题 ───────────────────────────────────────── */
+/* 用 details 而不是自己写折叠：键盘、读屏、页内查找都是浏览器给的。 */
+.faq { max-width: 68ch; margin-block-start: 3.5rem; }
+.faq h2 {
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  padding-block-start: 1.6rem;
+  border-block-start: 1px solid var(--line);
+  margin-block-end: 1.2rem;
+}
+.faq details {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  margin-block-end: 0.6rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+.faq summary {
+  padding: 0.95rem 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+  list-style: none;
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before {
+  content: '+';
+  color: var(--brand-2);
+  font-weight: 400;
+  line-height: 1.5;
+  flex: none;
+}
+.faq details[open] summary::before { content: '−'; }
+.faq details[open] summary { padding-block-end: 0.3rem; }
+.faq details p { margin: 0; padding: 0 1.2rem 1.1rem 2.6rem; color: var(--ink-2); font-size: 0.95rem; }
+html[dir='rtl'] .faq details p { padding: 0 2.6rem 1.1rem 1.2rem; }
+
+/* ── 下载位 ─────────────────────────────────────────── */
+.guide-cta {
+  margin-block-start: 3.5rem;
+  padding: 2rem;
+  border: 1px solid rgba(126, 231, 190, 0.28);
+  border-radius: var(--r);
+  background: linear-gradient(160deg, rgba(16, 185, 129, 0.12), rgba(4, 16, 14, 0));
+  max-width: 68ch;
+}
+.guide-cta h2 { font-size: 1.3rem; margin-block-end: 0.7rem; }
+.guide-cta p { color: var(--ink-2); font-size: 0.95rem; margin-block-end: 1.2rem; }
+.guide-cta p:last-child { margin-block-end: 0; }
+
+/* ── 栏目页与相关链接 ───────────────────────────────── */
+.hub-list, .related-list { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 0.8rem; }
+.hub-list { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.related { max-width: 68ch; margin-block-start: 3.5rem; }
+.related h2 {
+  font-size: 1.1rem;
+  padding-block-start: 1.6rem;
+  border-block-start: 1px solid var(--line);
+}
+
+.hub-list a, .related-list a {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.15rem 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.025);
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  height: 100%;
+}
+.hub-list a:hover, .related-list a:hover {
+  border-color: rgba(126, 231, 190, 0.35);
+  background: rgba(16, 185, 129, 0.07);
+  transform: translateY(-2px);
+}
+.hub-list b, .related-list b { color: var(--ink); font-size: 1.02rem; line-height: 1.45; }
+.hub-list span, .related-list span { color: var(--ink-3); font-size: 0.87rem; line-height: 1.6; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-list a, .related-list a { transition: none; }
+  .hub-list a:hover, .related-list a:hover { transform: none; }
+}
+
+/* ── 窄屏 ───────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .guide { padding-block: 1.5rem 3.5rem; }
+  .guide-cta { padding: 1.4rem; }
+  .prose h2 { margin-block-start: 2.4rem; }
+}

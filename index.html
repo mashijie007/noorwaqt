@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04100e">
-<title>NoorWaqt — 此刻，世界各地的穆斯林正在礼拜</title>
-<meta name="description" content="全球礼拜地图：看着礼拜的光沿着晨昏线扫过地球。NoorWaqt 是一款高度关注女性功修的伊斯兰双日历应用，教法推演全部在手机本地完成。">
+<title>NoorWaqt — 全球礼拜时间地图 · 伊历双日历 · 女性功修</title>
+<meta name="description" content="实时的全球礼拜时间地图：152 座城市的晨礼、晌礼、晡礼、昏礼、宵礼时刻在你的浏览器里算出来。NoorWaqt 是一款公历伊历双日历的礼拜应用，内置女性功修教法引擎（经期、产后、病血的礼拜与斋戒判定），全部推演在手机本地完成。">
 <link rel="canonical" href="https://www.noorwaqt.com/">
 <link rel="icon" href="./noorwaqt.png">
 <link rel="apple-touch-icon" href="./noorwaqt.png">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.noorwaqt.com/">
-<meta property="og:title" content="NoorWaqt — 此刻，世界各地的穆斯林正在礼拜">
+<meta property="og:title" content="NoorWaqt — 全球礼拜时间地图 · 伊历双日历 · 女性功修">
 <meta property="og:description" content="拖动地球，看礼拜的光沿着晨昏线一路扫过去。一座城市进入礼拜时间，它就亮起一束光。">
 <meta property="og:image" content="https://www.noorwaqt.com/noorwaqt.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -31,6 +31,7 @@
     <a href="#global" data-i18n="navGlobal">全球礼拜</a>
     <a href="#ramadan" data-i18n="navRamadan">斋月</a>
     <a href="#women" data-i18n="navWomen">女性功修</a>
+    <a href="/zh/guide/" data-guide="" data-i18n="navGuide">功修问答</a>
     <a href="#privacy" data-i18n="navPrivacy">隐私</a>
   </div>
   <div class="nav-right">
@@ -160,7 +161,7 @@
     <div class="section-head reveal">
       <p class="moon-badge" id="ramadan-badge">🌙 —</p>
       <h2 data-i18n="ramadanTitle">斋月：世界正在一起封斋</h2>
-      <p class="lead" data-i18n="ramadanLead">随着太阳西移，一座城市接一座城市进入斋戒，又一座接一座开斋。</p>
+      <p class="lead" data-i18n="ramadanLead">随着太阳西移，一座城市接一座城市进入斋戒，又一座接一座开斋。你在这一头忍着渴，地球那一头有人刚刚咽下第一口水。</p>
     </div>
 
     <div class="time-controls reveal" style="margin-block-end:1.5rem">
@@ -177,7 +178,7 @@
   <div class="wrap">
     <div class="section-head reveal">
       <h2 data-i18n="eidTitle">节日会从东边一路亮到西边</h2>
-      <p class="lead" data-i18n="eidLead">开斋节不是全世界同一秒到来的。</p>
+      <p class="lead" data-i18n="eidLead">开斋节不是全世界同一秒到来的。它从太平洋出发，一路向西点亮每一座城市——雅加达、达卡、开罗、伊斯坦布尔、伦敦、纽约。</p>
     </div>
     <p class="eyebrow" id="eid-label">—</p>
     <div class="countdown reveal" id="eid-countdown"></div>
@@ -200,22 +201,22 @@
       <div class="feature">
         <div class="ico">🌸</div>
         <h3 data-i18n="women1Title">女性专属教法引擎</h3>
-        <p data-i18n="women1Desc">内置哈乃斐等多学派状态机。</p>
+        <p data-i18n="women1Desc">内置哈乃斐等多学派状态机，依据你自己记录的生理周期推演经期与病血，自动调度礼拜豁免、补拜与提醒——不用每个月再去翻一遍教法书。</p>
       </div>
       <div class="feature">
         <div class="ico">📿</div>
         <h3 data-i18n="women2Title">经期的功修不是空白</h3>
-        <p data-i18n="women2Desc">免除礼拜不等于停下功修。</p>
+        <p data-i18n="women2Desc">免除礼拜不等于停下功修。这段时间应用自动切换到相应的赞念与祈祷模式，让每一天仍然有着落。</p>
       </div>
       <div class="feature">
         <div class="ico">🕌</div>
         <h3 data-i18n="women3Title">杜哈拜的黄金时间窗</h3>
-        <p data-i18n="women3Desc">公历伊历双日历。</p>
+        <p data-i18n="women3Desc">公历伊历双日历，独创的杜哈时间窗提醒，精准避开日出与日中两个受禁时刻。</p>
       </div>
       <div class="feature">
         <div class="ico">🗓️</div>
         <h3 data-i18n="women4Title">全周期功修计划</h3>
-        <p data-i18n="women4Desc">每日的 Wird、每周的聚礼、每月的斋戒。</p>
+        <p data-i18n="women4Desc">每日的 Wird、每周的聚礼、每月的斋戒，一并纳入同一套节奏里。</p>
       </div>
     </div>
 
@@ -227,17 +228,52 @@
   </div>
 </section>
 
+<!-- ═══ 功修问答 ═════════════════════════════════════════ -->
+<!-- 这一段既是内容，也是站内链接的枢纽：/zh/guide/ 与 /en/guide/ 下的
+     文章全靠它被发现。链接的语言由 main.js 跟着当前语言改写。 -->
+<section class="section" id="guide">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="guideTitle">经期能不能礼拜？总得有人把这些写清楚</h2>
+      <p class="lead" data-i18n="guideLead">经期、产后、病血、孕期——这些日子里的礼拜与斋戒，教法典籍上写得清楚，却很少有人整理成能直接查的样子。我们按问题写了七篇，每一处学派分歧都写成分歧，并注明经训依据。</p>
+    </div>
+
+    <ul class="guide-links reveal">
+      <li><a href="/zh/guide/menstruation-and-prayer/" data-guide="menstruation-and-prayer">
+        <b data-i18n="guideQ1">经期能礼拜吗？错过的礼拜需要补吗？</b>
+        <span data-i18n="guideA1">不礼拜，事后也不需要补——四大学派一致。有分歧的是经血刚来和刚净的那一番拜。</span>
+      </a></li>
+      <li><a href="/zh/guide/menstruation-and-fasting/" data-guide="menstruation-and-fasting">
+        <b data-i18n="guideQ2">经期的斋戒要补吗？为什么斋要补、拜不补？</b>
+        <span data-i18n="guideA2">斋必须补，礼拜不补。补斋的时限、拖过下一个斋月的处理，各派意见不同。</span>
+      </a></li>
+      <li><a href="/zh/guide/menstruation-and-quran/" data-guide="menstruation-and-quran">
+        <b data-i18n="guideQ3">经期能读古兰经、进清真寺吗？</b>
+        <span data-i18n="guideA3">分歧最大的一块。手机上读经、隔物翻阅、进寺停留、环游天房，逐条列出。</span>
+      </a></li>
+      <li><a href="/zh/guide/end-of-menstruation/" data-guide="end-of-menstruation">
+        <b data-i18n="guideQ4">月经什么时候算结束？黄褐色分泌物算吗？</b>
+        <span data-i18n="guideA4">洁净的两个征象、各学派认定的最短与最长天数，决定了今天到底该不该礼拜。</span>
+      </a></li>
+    </ul>
+
+    <div class="dl-actions reveal" style="justify-content:flex-start">
+      <a class="btn btn-ghost" href="/zh/guide/" data-guide="" data-i18n="guideMore">查看全部七篇</a>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ 隐私 ═════════════════════════════════════════════ -->
 <section class="section" id="privacy">
   <div class="wrap">
     <div class="section-head reveal">
       <h2 data-i18n="privacyTitle">这些数据，一个字节都不会离开你的手机</h2>
-      <p class="lead" data-i18n="privacyLead">生理记录是最私密的一类数据。</p>
+      <p class="lead" data-i18n="privacyLead">生理记录是最私密的一类数据。NoorWaqt 的教法推演全部在设备本地完成，没有账号，没有云端同步，没有上传。</p>
     </div>
     <div class="privacy-grid reveal">
-      <div class="privacy-item"><h3 data-i18n="privacy1">零上传</h3><p data-i18n="privacy1d">生理记录与教法推演不出设备。</p></div>
-      <div class="privacy-item"><h3 data-i18n="privacy2">完全离线</h3><p data-i18n="privacy2d">7.3MB 古兰经包随应用打包。</p></div>
-      <div class="privacy-item"><h3 data-i18n="privacy3">无需账号</h3><p data-i18n="privacy3d">装上就能用。</p></div>
+      <div class="privacy-item"><h3 data-i18n="privacy1">零上传</h3><p data-i18n="privacy1d">生理记录与教法推演不出设备，我们没有服务器可以存它。</p></div>
+      <div class="privacy-item"><h3 data-i18n="privacy2">完全离线</h3><p data-i18n="privacy2d">7.3MB 古兰经包随应用打包，飞行模式下照样能用。</p></div>
+      <div class="privacy-item"><h3 data-i18n="privacy3">无需账号</h3><p data-i18n="privacy3d">装上就能用，不留手机号，不留邮箱。</p></div>
     </div>
     <p class="note reveal" style="margin-block-start:2rem" id="privacy-web" data-i18n="privacyWeb">这张地图也是同样的做法：城市的礼拜时刻全部在你的浏览器里算出来，你的位置不会离开这台设备。</p>
   </div>
@@ -256,7 +292,7 @@
          download="NoorWaqt.apk" data-i18n="dlBtn">下载 Android APK</a>
     </div>
     <p class="dl-meta reveal" id="dl-meta">—</p>
-    <p class="dl-meta reveal" data-i18n="dlSideload">需要在系统设置里允许「安装未知来源应用」。</p>
+    <p class="dl-meta reveal" data-i18n="dlSideload">需要在系统设置里允许「安装未知来源应用」。当前只提供 64 位（arm64-v8a）安装包，2016 年前后的老旧 32 位设备暂不支持。iOS 版还在路上。</p>
     <div class="changelog reveal" id="changelog" hidden>
       <h3 data-i18n="dlChangelog">本次更新</h3>
       <ul id="changelog-list"></ul>

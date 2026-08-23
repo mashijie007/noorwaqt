@@ -1,0 +1,14 @@
+{
+  "name": "noorwaqt-site",
+  "private": true,
+  "type": "module",
+  "description": "NoorWaqt 落地页 —— 静态站点与多语言/城市页生成器",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "verify": "node tools/verify-dist.mjs",
+    "test": "node tools/lib/_test-prerender.mjs",
+    "preview": "node tools/dev-server.mjs --root=dist 4190",
+    "dev": "node tools/dev-server.mjs",
+    "locales": "node tools/build-locales.mjs"
+  }
+}
