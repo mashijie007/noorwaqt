@@ -10,5 +10,8 @@
     "preview": "node tools/dev-server.mjs --root=dist 4190",
     "dev": "node tools/dev-server.mjs",
     "locales": "node tools/build-locales.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
   }
 }

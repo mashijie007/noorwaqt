@@ -117,24 +117,11 @@ export const abs = (path) => SITE.origin + path;
 
 // ── 地理 ────────────────────────────────────────────────
 
-const KAABA = { lat: 21.4225, lon: 39.8262 };
 const R = Math.PI / 180, EARTH_KM = 6371;
 
-/** 朝向：大圆航线在出发点的初始方位角，正北为 0，顺时针 */
-export function qiblaBearing(lat, lon) {
-  const dLon = (KAABA.lon - lon) * R;
-  const y = Math.sin(dLon);
-  const x = Math.cos(lat * R) * Math.tan(KAABA.lat * R) - Math.sin(lat * R) * Math.cos(dLon);
-  return (Math.atan2(y, x) / R + 360) % 360;
-}
-
-/** 到麦加的大圆距离（公里） */
-export function distanceToMakkah(lat, lon) {
-  const dLat = (KAABA.lat - lat) * R, dLon = (KAABA.lon - lon) * R;
-  const a = Math.sin(dLat / 2) ** 2
-    + Math.cos(lat * R) * Math.cos(KAABA.lat * R) * Math.sin(dLon / 2) ** 2;
-  return 2 * EARTH_KM * Math.asin(Math.min(1, Math.sqrt(a)));
-}
+/** 朝向与到麦加的距离都定义在 cities.js 里 —— 城市页、OG 图和浏览器
+ *  用的必须是同一套数字：这两个数是会被人拿去礼拜的，不能有两份实现 */
+export { qiblaBearing, distanceToMakkah } from '../../assets/js/cities.js';
 
 /** 最近的 n 座城市，用于页面之间互相打通（光靠 sitemap 的页面等于孤岛） */
 export function nearbyCities(city, n = 8) {

@@ -19,7 +19,8 @@ import {
   cityName, countryName, intlLocale, slug, qiblaBearing, distanceToMakkah, nearbyCities,
 } from './lib/site.mjs';
 import { escapeText as esc, escapeAttr as escA, fill } from './lib/prerender.mjs';
-import { hreflangBlock, cityJsonLd, langHrefScript, cityCloud } from './lib/blocks.mjs';
+import { hreflangBlock, cityJsonLd, langHrefScript, cityCloud, ogImageTags } from './lib/blocks.mjs';
+import { SITE_CARD } from './build-og.mjs';
 import { prayerTimes, localClock, SLOTS, METHOD_LABEL } from '../assets/js/prayer.js';
 import { hijri } from '../assets/js/hijri.js';
 
@@ -52,7 +53,7 @@ const pad2 = (n) => String(n).padStart(2, '0');
  * 标注会让整组作废。但语言下拉里是全部 44 种，所以地址表得单独按全集来生成：
  * 没有城市页的语言，hrefFor 会把它落到该语言的首页。
  */
-function head({ code, title, desc, url, codes, hrefFor, extra = '' }) {
+function head({ code, title, desc, url, codes, hrefFor, ogName = SITE_CARD, extra = '' }) {
   return `<!DOCTYPE html>
 <html lang="${escA(bcp47(code))}" dir="${dirOf(code)}" data-locale="${escA(code)}">
 <head>
@@ -69,7 +70,7 @@ function head({ code, title, desc, url, codes, hrefFor, extra = '' }) {
 <meta property="og:url" content="${escA(url)}">
 <meta property="og:title" content="${escA(title)}">
 <meta property="og:description" content="${escA(desc)}">
-<meta property="og:image" content="${escA(abs('/noorwaqt.png'))}">
+${ogImageTags(ogName)}
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,6 +187,9 @@ function cityPageHtml(code, city, codes) {
 
   return head({
     code, title, desc, url, codes: [...codes], hrefFor,
+    // 这一页的预览图就是这座城市那张 —— 同一座城的 9 种语言共用一张，
+    // 图上是英文与阿文名、地球和朝向，本来就不随界面语言变
+    ogName: s,
     extra: cityJsonLd(dict, code, city, label, country),
   }) + nav(code, dict) + `
 <main class="wrap city-page">

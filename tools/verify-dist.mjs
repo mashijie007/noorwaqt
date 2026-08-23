@@ -64,7 +64,14 @@ function main() {
     if (!canon) note('缺 canonical', where, '');
     else if (!canon[1].startsWith(SITE.origin)) note('canonical 不是本站地址', where, canon[1]);
 
-    // 3. 站内链接必须落到真实文件
+    // 3. og:image 必须真的存在。抓不到预览图的链接在聊天里只剩一行光秃秃的地址，
+    //    而这条不会以任何形式报错 —— 只有专门查才查得出来
+    const og = /<meta[^>]*property="og:image"[^>]*content="([^"]+)"/i.exec(html);
+    if (!og) note('缺 og:image', where, '');
+    else if (!og[1].startsWith(SITE.origin)) note('og:image 不是本站地址', where, og[1]);
+    else if (!resolveSitePath(og[1].slice(SITE.origin.length))) note('og:image 指向不存在的文件', where, og[1]);
+
+    // 4. 站内链接必须落到真实文件
     for (const m of html.matchAll(/(?:href|src)="(\/[^"#?]*)"/g)) {
       links++;
       if (resolveSitePath(m[1])) continue;
@@ -72,7 +79,7 @@ function main() {
       else note('站内链接 404', where, m[1]);
     }
 
-    // 4. hreflang 指向的页面必须存在。指向 404 会让整组标注作废
+    // 5. hreflang 指向的页面必须存在。指向 404 会让整组标注作废
     for (const m of html.matchAll(/hreflang="[^"]+"\s+href="([^"]+)"/g)) {
       const p = m[1].startsWith(SITE.origin) ? m[1].slice(SITE.origin.length) : null;
       if (!p) { note('hreflang 不是本站地址', where, m[1]); continue; }
@@ -81,7 +88,7 @@ function main() {
     }
   }
 
-  // 5. 站点地图里的地址必须都能打开
+  // 6. 站点地图里的地址必须都能打开
   const smDir = resolve(DIST, 'sitemaps');
   let smUrls = 0;
   if (existsSync(smDir)) {
@@ -95,7 +102,7 @@ function main() {
     }
   }
 
-  // 6. 几个必须存在的文件
+  // 7. 几个必须存在的文件
   for (const must of ['/index.html', '/robots.txt', '/sitemap.xml', '/CNAME', '/assets/css/pages.css']) {
     if (!resolveSitePath(must)) note('缺少必需文件', must, '');
   }

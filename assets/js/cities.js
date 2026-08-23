@@ -223,6 +223,29 @@ export const citySlug = (name) =>
   name.normalize('NFD').replace(/[̀-ͯ]/g, '')
     .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+// ── 到麦加的方位与距离 ────────────────────────────────
+// 和 citySlug 一样放在这里：构建期生成城市页与 OG 图要用，
+// 浏览器里也要用。各写一份就会有两套数字，而这两个数字是会被人拿去礼拜的。
+
+const KAABA = { lat: 21.4225, lon: 39.8262 };
+const EARTH_KM = 6371;
+
+/** 朝向：大圆航线在出发点的初始方位角，正北为 0，顺时针 */
+export function qiblaBearing(lat, lon) {
+  const dLon = (KAABA.lon - lon) * D;
+  const y = Math.sin(dLon);
+  const x = Math.cos(lat * D) * Math.tan(KAABA.lat * D) - Math.sin(lat * D) * Math.cos(dLon);
+  return (Math.atan2(y, x) / D + 360) % 360;
+}
+
+/** 到麦加的大圆距离（公里） */
+export function distanceToMakkah(lat, lon) {
+  const dLat = (KAABA.lat - lat) * D, dLon = (KAABA.lon - lon) * D;
+  const a = Math.sin(dLat / 2) ** 2
+    + Math.cos(lat * D) * Math.cos(KAABA.lat * D) * Math.sin(dLon / 2) ** 2;
+  return 2 * EARTH_KM * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+
 /** 按任意语言的名字做模糊搜索 */
 export function searchCities(q, limit = 8) {
   const s = q.trim().toLowerCase();

@@ -41,6 +41,14 @@ jobs:
       - name: 自测预渲染扫描器
         run: node tools/lib/_test-prerender.mjs
 
+      # OG 预览图要真浏览器来画：globe.js 依赖 ResizeObserver / devicePixelRatio /
+      # getBoundingClientRect，拿 canvas 库在 Node 里跑得逐个打桩，而打歪不报错，
+      # 只会让 153 张图悄悄画错。--with-deps 装的是无头 Chromium 缺的系统库
+      - name: 安装 Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
       - name: 构建站点
         run: node tools/build.mjs
         env:

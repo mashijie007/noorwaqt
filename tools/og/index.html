@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+  OG 图渲染台 —— 只给构建期的 Playwright 用，不属于站点，不进 dist。
+
+  存在的理由是 globe.js 要一个真浏览器：它用 ResizeObserver 量尺寸、
+  用 devicePixelRatio 定像素比、用 getBoundingClientRect 取父容器大小。
+  在 Node 里拿 canvas 库跑就得把这些一一打桩，而任何一处打歪都不会报错，
+  只会让 152 张图悄悄画错。开一个真页面反而是最省心、也最不会漂移的做法。
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NoorWaqt OG renderer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap">
+<style>
+  html, body { margin: 0; background: #04100e; }
+</style>
+</head>
+<body>
+<script type="module">
+  import { CITIES, citySlug } from '/assets/js/cities.js';
+  import { drawOgCard, drawOgSiteCard } from '/assets/js/og-card.js';
+
+  const BY_SLUG = new Map(CITIES.map((c) => [citySlug(c.en), c]));
+
+  // 字体没就位就开画，城市名会先用兜底字体量宽度，缩放判断随之出错
+  const ready = document.fonts.ready.then(() => document.fonts.load('700 76px "Noto Sans SC"'))
+    .then(() => document.fonts.load('400 44px "Amiri"'));
+
+  window.OG_READY = ready.then(() => true);
+  window.OG_SLUGS = [...BY_SLUG.keys()];
+
+  const toBase64 = async (cv, quality) => {
+    const blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', quality));
+    const b = new Uint8Array(await blob.arrayBuffer());
+    let s = '';
+    // 一次性 apply 会在几十万字节的数组上爆栈，分块拼
+    for (let i = 0; i < b.length; i += 0x8000) {
+      s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+    }
+    return btoa(s);
+  };
+
+  /** 站点级的那一张：44 个语言首页与无城市页语言的兜底 */
+  window.renderOgSite = (cities, countries, quality) =>
+    toBase64(drawOgSiteCard(cities, countries), quality);
+
+  /** 画一座城市，返回 JPEG 的 base64（不含 data: 前缀），交给 Node 落盘 */
+  window.renderOg = async (slug, country, quality) => {
+    const city = BY_SLUG.get(slug);
+    if (!city) throw new Error('未知城市: ' + slug);
+    return toBase64(drawOgCard(city, country), quality);
+  };
+
+</script>
+</body>
+</html>

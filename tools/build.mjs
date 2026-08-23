@@ -16,6 +16,7 @@ import { ROOT, DIST } from './lib/site.mjs';
 import { buildPages } from './build-pages.mjs';
 import { buildCities } from './build-cities.mjs';
 import { buildSitemap } from './build-sitemap.mjs';
+import { buildOg } from './build-og.mjs';
 import { writeKeyFile } from './indexnow.mjs';
 
 /** 原样搬过去的静态资源。APK 不在其列 —— 安装包走 GitHub Releases，
@@ -55,9 +56,14 @@ function countFiles(dir) {
   return { n, bytes };
 }
 
-export function build() {
+export async function build() {
   const t0 = Date.now();
   rmSync(DIST, { recursive: true, force: true });
+
+  // OG 图必须最先出：两个页面生成器都要检查图在不在，
+  // 在就把 og:image 指过去，不在（比如没装 playwright）就退回站点 logo
+  const og = await buildOg();
+  if (!og.skipped) console.log('  OG 预览图    ' + og.made + ' 张（1200×630）');
 
   const langs = buildPages();
   console.log('  语言页      ' + langs + ' 种语言 + 域名根');
@@ -80,4 +86,4 @@ export function build() {
     + ((Date.now() - t0) / 1000).toFixed(1) + ' 秒');
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) build();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await build();

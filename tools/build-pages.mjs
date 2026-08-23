@@ -19,7 +19,8 @@ import {
   renderI18n, setTitle, setMeta, setCanonical, setHtmlAttrs,
   injectHead, rootAbsolute, fill, escapeAttr, escapeText,
 } from './lib/prerender.mjs';
-import { hreflangBlock, appJsonLd, siteJsonLd, langHrefScript, cityLangsScript, languageCloud, cityCloud } from './lib/blocks.mjs';
+import { hreflangBlock, appJsonLd, siteJsonLd, langHrefScript, cityLangsScript, languageCloud, cityCloud, ogImage } from './lib/blocks.mjs';
+import { SITE_CARD } from './build-og.mjs';
 import { hijri } from '../assets/js/hijri.js';
 
 const COUNTRIES = new Set(CITIES.map((c) => c.cc)).size;
@@ -95,6 +96,9 @@ export function buildPages() {
     html = setMeta(html, 'property', 'og:description', desc);
     html = setMeta(html, 'property', 'og:url', url);
     html = setMeta(html, 'property', 'og:site_name', SITE.name);
+    const og = ogImage(SITE_CARD);
+    html = setMeta(html, 'property', 'og:image', og.href);
+    html = setMeta(html, 'name', 'twitter:image', og.href);
     html = setMeta(html, 'name', 'twitter:title', title);
     html = setMeta(html, 'name', 'twitter:description', desc);
     html = setCanonical(html, url);
@@ -111,7 +115,14 @@ export function buildPages() {
       siteJsonLd(dict, code),
       langHrefScript(codes, hrefFor),
       cityLangsScript([...CITY_LANGS]),
-    ].join('\n'));
+      // 告诉抓取端这是 1.91:1 的横图，它才会展开成大卡，而不是缩成角落里的小方块。
+      // 只在真有图时写：退回方形 logo 时标个 1200×630 是在骗抓取端
+      og.sized
+        ? '<meta property="og:image:width" content="1200">\n'
+          + '<meta property="og:image:height" content="630">\n'
+          + '<meta property="og:image:type" content="image/jpeg">'
+        : '',
+    ].filter(Boolean).join('\n'));
 
     // 页脚互链：hreflang 只是提示，能点的链接才是爬虫真正走的路
     const clouds = [languageCloud(code, hrefFor)];

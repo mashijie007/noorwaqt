@@ -5,6 +5,8 @@
  */
 import { SITE, LOCALES, hreflang, abs, langPath, cityPath, cityIndexPath, cityName, slug, release } from './site.mjs';
 import { escapeAttr, escapeText } from './prerender.mjs';
+import { hasOg, ogPath } from '../build-og.mjs';
+import { OG_W, OG_H } from '../../assets/js/og-card.js';
 
 /**
  * 全部语言版本的互指。
@@ -15,6 +17,31 @@ export function hreflangBlock(codes, hrefFor, xDefaultHref) {
     (c) => '<link rel="alternate" hreflang="' + hreflang(c) + '" href="' + escapeAttr(hrefFor(c)) + '">'
   );
   rows.push('<link rel="alternate" hreflang="x-default" href="' + escapeAttr(xDefaultHref) + '">');
+  return rows.join('\n');
+}
+
+/**
+ * og:image 指哪张。
+ *
+ * 图由 build-og.mjs 在构建最开始生成。没装 playwright 时它一张都不出 ——
+ * 那就退回站点 logo，而不是给 1591 个页面留下指向 404 的预览图。
+ * 尺寸标注只在真有图时才写：告诉抓取端这是 1.91:1 的横图，
+ * 它才会展开成大卡，而不是缩成一个角落里的小方块。
+ */
+export function ogImage(name) {
+  const ok = hasOg(name);
+  return { href: abs(ok ? ogPath(name) : '/noorwaqt.png'), sized: ok };
+}
+
+export function ogImageTags(name) {
+  const { href, sized } = ogImage(name);
+  const rows = ['<meta property="og:image" content="' + escapeAttr(href) + '">'];
+  if (sized) {
+    rows.push('<meta property="og:image:width" content="' + OG_W + '">');
+    rows.push('<meta property="og:image:height" content="' + OG_H + '">');
+    rows.push('<meta property="og:image:type" content="image/jpeg">');
+  }
+  rows.push('<meta name="twitter:image" content="' + escapeAttr(href) + '">');
   return rows.join('\n');
 }
 
