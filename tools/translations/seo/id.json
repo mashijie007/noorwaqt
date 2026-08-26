@@ -1,7 +1,7 @@
 {
   "ptCrumb": "Jadwal sholat",
-  "ptDocTitle": "Jadwal Sholat {city} Hari Ini — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
-  "ptDocDesc": "Jadwal sholat {city}, {country} hari ini: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. Dihitung dengan metode {method}, diperbarui setiap hari.",
+  "ptDocTitle": "Jadwal Sholat {city} Hari Ini — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha} — Zuhur Hari Ini & Jadwal Sholat {city}",
+  "ptDocDesc": "Jadwal sholat {city}, {country} hari ini {d} {month} {year}: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. Dihitung dengan metode {method}, diperbarui setiap hari.",
   "ptH1": "Jadwal sholat {city}",
   "ptIntro": "Waktu sholat lima waktu untuk {city}, {country}. Setiap waktu di halaman ini dihitung dari posisi matahari pada koordinat kota itu sendiri — tanpa server, tanpa pelacakan.",
   "ptToday": "Hari ini",

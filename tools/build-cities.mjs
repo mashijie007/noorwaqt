@@ -131,6 +131,7 @@ function cityPageHtml(code, city, codes) {
     method: methodLabel(city.method, code),
     year: hijri(Date.UTC(y, m - 1, d)).y,
     month: new Intl.DateTimeFormat(loc, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(y, m - 1, 1)),
+    d: new Intl.NumberFormat(loc).format(d),
     deg: qiblaBearing(city.lat, city.lon).toFixed(1),
     km: new Intl.NumberFormat(loc).format(Math.round(distanceToMakkah(city.lat, city.lon))),
   };
