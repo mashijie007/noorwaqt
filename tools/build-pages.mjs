@@ -156,6 +156,9 @@ export function buildPages() {
   let root = rootHtml.replace(/\sdata-locale="[^"]*"/, '');
   const scripts = bootScripts(boot);
   root = injectHead(root, scripts.head);
+  // 字符串替换匹配不上时只会原样返回。这个锚点一旦失效，B 段就悄悄不再注入 ——
+  // 页面照常能用，只有闪烁会无声地回来。宁可让构建当场停下。
+  if (!root.includes('</header>')) throw new Error('根页面找不到 </header>，B 段无处注入');
   root = root.replace('</header>', '</header>\n' + scripts.body);
   emit('/index.html', root);
 

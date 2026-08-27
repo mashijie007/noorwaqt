@@ -13,7 +13,8 @@ import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { DIST, SITE, PENDING_PREFIXES } from './lib/site.mjs';
+import { ROOT, DIST, SITE, LOCALES, PENDING_PREFIXES } from './lib/site.mjs';
+import { bootKeys } from './lib/boot-i18n.mjs';
 
 const problems = [];
 const warnings = [];
@@ -85,6 +86,51 @@ function main() {
       if (!p) { note('hreflang 不是本站地址', where, m[1]); continue; }
       checkedHreflang++;
       if (!resolveSitePath(p)) note('hreflang 指向不存在的页面', where, m[1]);
+    }
+  }
+
+  // 7. 域名根的首屏载荷。这一项失效的方式很安静：页面照常出，
+  //    只是首屏那几处又开始先英文后母语 —— 没有任何东西会报错。
+  const rootFile = resolve(DIST, 'index.html');
+  if (!existsSync(rootFile)) {
+    note('根页面不存在', 'index.html', '');
+  } else {
+    const rootHtml = readFileSync(rootFile, 'utf8');
+    const m = /window\.NW_I18N_BOOT=(.+?);<\/script>/.exec(rootHtml);
+    if (!m) {
+      note('根页面缺首屏文案载荷', 'index.html', 'window.NW_I18N_BOOT');
+    } else {
+      let boot = null;
+      try { boot = JSON.parse(m[1]); } catch { note('首屏载荷不是合法 JSON', 'index.html', ''); }
+      if (boot) {
+        const want = bootKeys(readFileSync(resolve(ROOT, 'index.html'), 'utf8'));
+        const langs = Object.keys(boot.d || {});
+        if (langs.length !== LOCALES.length) {
+          note('首屏载荷语言数对不上', 'index.html', langs.length + ' / 应为 ' + LOCALES.length);
+        }
+        for (const code of langs) {
+          const missing = want.filter((k) => boot.d[code][k] == null);
+          if (missing.length) {
+            note('首屏载荷缺键', 'index.html', code + ' 缺 ' + missing.join(' '));
+            break;
+          }
+        }
+        if (!boot.dir || Object.keys(boot.dir).length !== langs.length) {
+          note('首屏载荷缺书写方向表', 'index.html', '');
+        }
+      }
+      // 载荷在、B 段不在，等于白做：首屏文案不会被填上
+      if (!rootHtml.includes('[data-boot]')) {
+        note('根页面缺首屏填充脚本', 'index.html', 'B 段没有注入到 </header> 后');
+      }
+    }
+    // 两段脚本只该出现在根页面上
+    for (const file of files) {
+      if (rel(file) === '/index.html') continue;
+      if (readFileSync(file, 'utf8').includes('NW_I18N_BOOT')) {
+        note('首屏载荷漏进了非根页面', rel(file), '');
+        break;
+      }
     }
   }
 
