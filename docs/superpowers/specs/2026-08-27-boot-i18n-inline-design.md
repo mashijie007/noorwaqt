@@ -57,7 +57,7 @@ litPill  => "أضأتَ <b>{lit}</b>/{total} مدينة"
 
 `docDesc`（`<meta name="description">`）本来也在这份清单里，实现完之后又拿掉了：这个 meta 不会被渲染，爬虫和分享预览抓取的是服务端发出的原始 HTML、不会执行 boot 脚本，而它们真正读到的描述来自 `canonical` 指向的 `/xx/` 页——那份本来就是预渲染好的静态文案。为它多付 4.78KB brotli（占根页面体积的 16%）换不到任何读者，所以删了。
 
-部分语言缺 `navGuide`、`heroEyebrow`，构建期直接跳过该键，运行时照旧回落 EN（`assets/js/i18n.js:38` 的 `{...EN, ...dict}` 已覆盖）。
+部分语言缺 `navGuide`、`heroEyebrow`。这些键不会被跳过 —— `dictFor()`（`tools/lib/site.mjs:90`）本来就是 `{...EN, ...}` 合并出来的，载荷里装的直接就是英文基线那一份，与运行时 `t()` 的回落结果一致。`bootEntry` 里 `dict[k] == null` 的跳过分支只对真正整个词典都没有的键生效。
 
 ## 组件
 
@@ -113,7 +113,7 @@ A 段、B 段都是 classic 内联脚本（不是 module），同步执行。载
 
 1. head：载荷 + A 段 → `<html lang/dir>` 就位，title/description 就位，`dataset.locale` 就位
 2. 解析 hero
-3. `</header>` 后：B 段 → 首屏 23 处文案就位。**首帧画出来就是母语。**
+3. `</header>` 后：B 段 → 首屏 21 处标记（22 个键，另含不在 DOM 上的 `docTitle`）就位。**首帧画出来就是母语。**
 4. `main.js`（module）：`detectLang()` 读到 A 段写的 `dataset.locale`，命中现有的第一分支（`main.js:35`），拿到同一个语言 —— 不会二次跳变
 5. `applyLang()` 照旧 `await` 全量词典，回来后整页再渲染一遍。首屏那 22 个键**大多数**值完全相同，视觉上什么都不发生；但 `heroLive`（`#live-count`）不在此列——它的 `{n}` 在构建期烤成了静态的 152（见上面「硬约束」），`applyLang()` 回来后会被换成当下真实处在礼拜时间内的城市数，所以这个数字会在首帧之后跳一下。**这不是本次改动引入的新行为**：`{n}` → 152 这个烤法在 `pageVars()` 里对所有语言页一直如此，根页面预渲染出的静态 HTML 在这次改动之前就已经写死 152，用户早就会看到它被 `main.js` 的真实统计覆盖——本次改动只是让更多语言的访客在首帧就看到这同一个（会跳的）152，不多带来新的跳变，也没有把它消掉。
 

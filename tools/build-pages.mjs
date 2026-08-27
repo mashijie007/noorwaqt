@@ -151,7 +151,7 @@ export function buildPages() {
   // canonical 保持指向 /en/，所以 / 和 /en/ 不会当成两份内容互相抢排名。
   //
   // 光去掉 data-locale 还不够：main.js 是 module、天生 defer，在首帧之后
-  // 执行是常态，所以非英语访客总要先看一屏英文。两段内联脚本把首屏那 23 个键
+  // 执行是常态，所以非英语访客总要先看一屏英文。两段内联脚本把首屏那 22 个键
   // 提前到首帧之前 —— 只有根页面需要这个，/xx/ 页面的文案本来就是静态的。
   let root = rootHtml.replace(/\sdata-locale="[^"]*"/, '');
   const scripts = bootScripts(boot);

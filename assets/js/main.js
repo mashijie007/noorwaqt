@@ -872,7 +872,8 @@ $('#lang').addEventListener('change', (e) => {
   window.track?.('lang_switch', { lang });
   // 预渲染页面的语言写在地址里，换语言就得换地址：留在原地只会让
   // /ar/ 显示成土耳其语，内容和 canonical 各说各话。
-  // 这张表由构建期注入（根页面没有，于是照旧原地切换）。
+  // 这张表由构建期注入。根页面的 head 沿用英文页那一份，所以它也有这张表 ——
+  // 在根地址切语言同样会跳到 /xx/，而不是原地切。
   const href = window.NW_LANG_HREF?.[lang];
   if (href) { location.href = href; return; }
   applyLang(lang);
