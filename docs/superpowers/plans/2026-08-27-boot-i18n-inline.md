@@ -896,6 +896,7 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 
 **Files:**
 - Modify: `tools/verify-dist.mjs:16`（import）、`:52-59` 附近（加检查）
+- Modify: `tools/build-pages.mjs`（`</header>` 注入前加一道断言）
 
 **Interfaces:**
 - Consumes: `bootKeys()`、`dist/index.html`
@@ -962,6 +963,30 @@ import { bootKeys } from './lib/boot-i18n.mjs';
 
 ```js
 import { ROOT, DIST, SITE, LOCALES, PENDING_PREFIXES } from './lib/site.mjs';
+```
+
+- [ ] **Step 2b: 让 `</header>` 注入失败变成响亮的失败**
+
+两个注入锚点都是字符串替换，`.replace()` 没匹配上时只是原样返回 —— 不抛错、不警告。
+将来有人重构 hero 的标签，B 段就会悄悄不再注入：页面照常能用（`main.js` 会异步补上），
+只有这次改动想消掉的那个闪烁会无声地回来。
+
+在 `tools/build-pages.mjs` 里，`root.replace('</header>', ...)` 那一行**之前**加一道断言：
+
+```js
+  // 字符串替换匹配不上时只会原样返回。这个锚点一旦失效，B 段就悄悄不再注入 ——
+  // 页面照常能用，只有闪烁会无声地回来。宁可让构建当场停下。
+  if (!root.includes('</header>')) throw new Error('根页面找不到 </header>，B 段无处注入');
+```
+
+并在 `tools/verify-dist.mjs` 的第 7 项里补一条：光有载荷不够，B 段也必须真的在页面上。
+在 `if (!m) { ... } else { ... }` 那个分支的末尾（`boot` 检查之后）加：
+
+```js
+      // 载荷在、B 段不在，等于白做：首屏文案不会被填上
+      if (!rootHtml.includes('[data-boot]')) {
+        note('根页面缺首屏填充脚本', 'index.html', 'B 段没有注入到 </header> 后');
+      }
 ```
 
 - [ ] **Step 3: 跑 verify 确认通过**
