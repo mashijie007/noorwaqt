@@ -28,16 +28,16 @@
 <nav class="nav" id="nav">
   <a class="brand" href="#top"><img src="./noorwaqt.png" alt=""> NoorWaqt</a>
   <div class="nav-links">
-    <a href="#global" data-i18n="navGlobal">全球礼拜</a>
-    <a href="#ramadan" data-i18n="navRamadan">斋月</a>
-    <a href="#women" data-i18n="navWomen">女性功修</a>
-    <a href="/zh/guide/" data-guide="" data-i18n="navGuide">功修问答</a>
-    <a href="#privacy" data-i18n="navPrivacy">隐私</a>
+    <a href="#global" data-i18n="navGlobal" data-boot>全球礼拜</a>
+    <a href="#ramadan" data-i18n="navRamadan" data-boot>斋月</a>
+    <a href="#women" data-i18n="navWomen" data-boot>女性功修</a>
+    <a href="/zh/guide/" data-guide="" data-i18n="navGuide" data-boot>功修问答</a>
+    <a href="#privacy" data-i18n="navPrivacy" data-boot>隐私</a>
   </div>
   <div class="nav-right">
     <!-- 选项由 main.js 按 App 的语言清单生成（44 种） -->
     <select class="lang" id="lang" aria-label="Language"></select>
-    <a class="btn btn-primary btn-sm" href="#download" data-i18n="navDownload">下载</a>
+    <a class="btn btn-primary btn-sm" href="#download" data-i18n="navDownload" data-boot>下载</a>
   </div>
 </nav>
 
@@ -60,40 +60,40 @@
 
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow" data-i18n="heroEyebrow">NoorWaqt Global · 全球礼拜</p>
-      <h1 data-i18n="heroTitle" data-html>此刻，世界各地的<em>穆斯林正在礼拜</em>。</h1>
-      <p class="lead" data-i18n="heroLead">你并不是一个人在礼拜。拖动这颗地球，看礼拜的光沿着晨昏线一路扫过去——一座城市进入礼拜时间，它就亮起一束光。</p>
+      <p class="eyebrow" data-i18n="heroEyebrow" data-boot>NoorWaqt Global · 全球礼拜</p>
+      <h1 data-i18n="heroTitle" data-html data-boot>此刻，世界各地的<em>穆斯林正在礼拜</em>。</h1>
+      <p class="lead" data-i18n="heroLead" data-boot>你并不是一个人在礼拜。拖动这颗地球，看礼拜的光沿着晨昏线一路扫过去——一座城市进入礼拜时间，它就亮起一束光。</p>
 
-      <p class="live-pill"><span class="live-dot"></span><span id="live-count" data-i18n="heroLive" data-html>此刻有 <b>—</b> 座城市正处在礼拜时间内</span></p>
+      <p class="live-pill"><span class="live-dot"></span><span id="live-count" data-i18n="heroLive" data-html data-boot>此刻有 <b>—</b> 座城市正处在礼拜时间内</span></p>
 
       <p class="live-pill lit-pill">
-        <span id="lit-count" data-i18n="litPill" data-html>已点亮 <b>0</b>/152 座城市</span>
-        <button class="lit-share-btn" id="lit-share" data-i18n-attr="aria-label:litShareAria" aria-label="邀请好友一起点亮">↗</button>
+        <span id="lit-count" data-i18n="litPill" data-html data-boot>已点亮 <b>0</b>/152 座城市</span>
+        <button class="lit-share-btn" id="lit-share" data-i18n-attr="aria-label:litShareAria" data-boot aria-label="邀请好友一起点亮">↗</button>
       </p>
 
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#city" data-i18n="heroCta">找到我的城市</a>
-        <a class="btn btn-ghost" href="#download" data-i18n="heroCta2">下载 NoorWaqt</a>
+        <a class="btn btn-primary" href="#city" data-i18n="heroCta" data-boot>找到我的城市</a>
+        <a class="btn btn-ghost" href="#download" data-i18n="heroCta2" data-boot>下载 NoorWaqt</a>
       </div>
     </div>
 
     <!-- 操作说明排在控制条上方 -->
     <div class="globe-controls">
       <div class="hero-hints">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M8 12l3-3M8 12l3 3M16 12l-3-3M16 12l-3 3"/></svg><span data-i18n="heroHintDrag">拖动旋转</span></span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span data-i18n="heroHintTap">点击城市</span></span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><circle cx="9" cy="12" r="3" fill="currentColor" stroke="none"/></svg><span data-i18n="heroHintTime">滑动时间轴</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M8 12l3-3M8 12l3 3M16 12l-3-3M16 12l-3 3"/></svg><span data-i18n="heroHintDrag" data-boot>拖动旋转</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span data-i18n="heroHintTap" data-boot>点击城市</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><circle cx="9" cy="12" r="3" fill="currentColor" stroke="none"/></svg><span data-i18n="heroHintTime" data-boot>滑动时间轴</span></span>
       </div>
-      <p class="note" data-i18n="timeLead">拖动时间轴，或者按下播放——二十四小时里，礼拜的光会绕地球整整一圈。</p>
+      <p class="note" data-i18n="timeLead" data-boot>拖动时间轴，或者按下播放——二十四小时里，礼拜的光会绕地球整整一圈。</p>
     </div>
     <!-- 时间轴与两个按钮：浮在地球上，落在操作说明的下方 -->
     <div class="globe-hud" role="group" aria-labelledby="time-title">
-      <h2 class="sr-only" id="time-title" data-i18n="timeTitle">把一天拨过去看看</h2>
+      <h2 class="sr-only" id="time-title" data-i18n="timeTitle" data-boot>把一天拨过去看看</h2>
       <input type="range" id="scrub" min="0" max="1439" step="1" value="0" aria-label="UTC time of day">
       <div class="tick-row"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
       <div class="time-controls">
-        <button class="btn btn-ghost btn-sm" id="play" data-i18n="timePlay">播放一天</button>
-        <button class="btn btn-ghost btn-sm" id="now" data-i18n="timeNow">回到此刻</button>
+        <button class="btn btn-ghost btn-sm" id="play" data-i18n="timePlay" data-boot>播放一天</button>
+        <button class="btn btn-ghost btn-sm" id="now" data-i18n="timeNow" data-boot>回到此刻</button>
         <p class="time-readout" id="time-readout">—</p>
       </div>
     </div>
