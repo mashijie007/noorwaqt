@@ -15,24 +15,37 @@ import { resolve } from 'node:path';
 import { ROOT } from './site.mjs';
 import { fill } from './prerender.mjs';
 
-/** 不是 DOM 元素、没法打标记，但首帧必须就位的两个 */
-const EXTRA = ['docTitle', 'docDesc'];
+/** 不是 DOM 元素、没法打标记，但首帧必须就位的一个 */
+const EXTRA = ['docTitle'];
 
 /**
  * 模板里所有打了 data-boot 的元素用到的文案键。
  * 属性顺序不固定，所以先切出标签、再在标签内部找 data-boot。
+ *
+ * 只扫到 </header> 为止：B 段就是插在 </header> 之后同步执行的，
+ * 它 querySelectorAll('[data-boot]') 那一刻，DOM 解析到哪、它就只能看到哪。
+ * </header> 之后标了 data-boot 的元素会被这里扫进载荷（页面因此变大），
+ * 却永远不会被 B 段填上——不报错、不失败，只是静默地白占字节。
+ * 与其等这种情况在生产上被人肉发现，不如在这里直接抛错。
  */
 export function bootKeys(html) {
   const out = [];
   const add = (k) => { if (k && out.indexOf(k) < 0) out.push(k); };
 
-  for (const m of html.matchAll(/<[a-z][^>]*>/gi)) {
+  const cut = html.indexOf('</header>');
+  const scope = cut < 0 ? html : html.slice(0, cut);
+
+  for (const m of scope.matchAll(/<[a-z][^>]*>/gi)) {
     const tag = m[0];
     if (!/\sdata-boot(?=[\s/>=])/i.test(tag)) continue;
     const key = /\sdata-i18n="([^"]+)"/i.exec(tag);
     if (key) add(key[1]);
     const attr = /\sdata-i18n-attr="([^":]+):([^"]+)"/i.exec(tag);
     if (attr) add(attr[2]);
+  }
+
+  if (cut >= 0 && /\sdata-boot(?=[\s/>=])/i.test(html.slice(cut))) {
+    throw new Error('</header> 之后出现了 data-boot：B 段在解析到那里时还看不见它，标了也不会被填上');
   }
 
   for (const k of EXTRA) add(k);
@@ -64,19 +77,33 @@ export function bootEntry(dict, vars, keys) {
  * 原样塞进 <script> 里，一个 </script> 序列就能把整段脚本提前截断。
  * 顺带把 > 也转义掉，让 <b> 这类标签整体转义、不留半截，更彻底。
  * blocks.mjs 里的 langHrefScript 没做这一步，因为它的值只有 URL：不要照抄它。
+ * U+2028/U+2029（行/段分隔符）JSON.stringify 会原样吐出来，ES2019 之前
+ * 的字符串字面量里这俩是非法的；概率低但转起来就是一行代码，顺手转掉。
  */
-const forScript = (o) => JSON.stringify(o).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+const forScript = (o) => JSON.stringify(o).replace(/</g, '\\u003c').replace(/>/g, '\\u003e')
+  .replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 
 /**
  * pickLang 的源码，去掉 export —— 内联进去的是一段没有模块系统的裸脚本。
  * 顺手把注释也去掉：文件头那段说明文字里恰好提到了 "export" 这个词，
  * 留着的话它会原样躺进内联脚本里，看着像是漏删的 export 关键字。
+ *
+ * `/mg` 而不是只 `/m`：这份源码以后可能不止一处 export（比如加个具名导出
+ * 当内部辅助函数）。只去掉第一个会在裸脚本里留下一个孤零零的 export 关键字——
+ * 一个语法错误，还恰好被两段脚本自己的 try/catch 也捕不住，因为它在
+ * new Function 构造阶段就炸了。
  */
-const pickLangSource = () =>
-  readFileSync(resolve(ROOT, 'assets/js/lang-pick.js'), 'utf8')
+function pickLangSource() {
+  const src = readFileSync(resolve(ROOT, 'assets/js/lang-pick.js'), 'utf8')
     .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/^export\s+/m, '')
+    .replace(/^export\s+/mg, '')
     .trim();
+  // 一行 // 注释里如果混进 </script>，会把内联的 <script> 标签在浏览器的
+  // HTML 解析器眼里提前截断——后面所有东西（包括 B 段本身）都变成文本。
+  // 这是唯一一处出了事没有任何兜底的地方，只能在源头挡掉。
+  if (/<\/?script/i.test(src)) throw new Error('lang-pick.js 里出现了 script 标签文本，会截断内联脚本');
+  return src;
+}
 
 /**
  * 三段脚本。head 插到 </head> 前，body 插到 </header> 后。
@@ -102,8 +129,6 @@ export function bootScripts(boot) {
     + 'var el=document.documentElement;\n'
     + "el.lang=code.replace('_','-');el.dir=B.dir[code]||'ltr';el.setAttribute('data-locale',code);\n"
     + 'if(d.docTitle)document.title=d.docTitle;\n'
-    + 'var m=document.querySelector(\'meta[name="description"]\');\n'
-    + "if(m&&d.docDesc)m.setAttribute('content',d.docDesc);\n"
     + 'window.NW_BOOT_LANG=code;\n'
     + '}catch(e){}})();</script>';
 
