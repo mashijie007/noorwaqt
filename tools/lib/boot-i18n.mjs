@@ -58,3 +58,71 @@ export function bootEntry(dict, vars, keys) {
   }
   return out;
 }
+
+/**
+ * 载荷的序列化。必须把 < 转义掉 —— 词典里有 <b> <em>，
+ * 原样塞进 <script> 里，一个 </script> 序列就能把整段脚本提前截断。
+ * 顺带把 > 也转义掉，让 <b> 这类标签整体转义、不留半截，更彻底。
+ * blocks.mjs 里的 langHrefScript 没做这一步，因为它的值只有 URL：不要照抄它。
+ */
+const forScript = (o) => JSON.stringify(o).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+
+/**
+ * pickLang 的源码，去掉 export —— 内联进去的是一段没有模块系统的裸脚本。
+ * 顺手把注释也去掉：文件头那段说明文字里恰好提到了 "export" 这个词，
+ * 留着的话它会原样躺进内联脚本里，看着像是漏删的 export 关键字。
+ */
+const pickLangSource = () =>
+  readFileSync(resolve(ROOT, 'assets/js/lang-pick.js'), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/^export\s+/m, '')
+    .trim();
+
+/**
+ * 三段脚本。head 插到 </head> 前，body 插到 </header> 后。
+ *
+ * 分两段是因为它们要在不同的时刻生效：
+ *   A 段（head）—— lang / dir 必须在首帧之前定下来，否则 RTL 语言会看到
+ *                  整个布局从左到右翻过去一次，比文案闪一下更刺眼。
+ *   B 段（hero 之后）—— 要改的元素这时才存在。
+ *
+ * 两段都是 classic 脚本、同步执行，写法保守到 ES5 —— 它们跑在首帧之前，
+ * 是这个页面上唯一没有任何兜底的代码。抛错就是回到改动前的行为：
+ * 英文静态页 + main.js 异步纠正。
+ */
+export function bootScripts(boot) {
+  const head =
+    '<script>window.NW_I18N_BOOT=' + forScript(boot) + ';</script>\n'
+    + '<script>(function(){try{\n'
+    + pickLangSource() + '\n'
+    + 'var B=window.NW_I18N_BOOT;if(!B)return;\n'
+    + "var saved=null;try{saved=localStorage.getItem('nw-lang');}catch(e){}\n"
+    + "var code=pickLang(Object.keys(B.d),saved,navigator.languages||[navigator.language||'en']);\n"
+    + 'var d=B.d[code];if(!d)return;\n'
+    + 'var el=document.documentElement;\n'
+    + "el.lang=code.replace('_','-');el.dir=B.dir[code]||'ltr';el.setAttribute('data-locale',code);\n"
+    + 'if(d.docTitle)document.title=d.docTitle;\n'
+    + 'var m=document.querySelector(\'meta[name="description"]\');\n'
+    + "if(m&&d.docDesc)m.setAttribute('content',d.docDesc);\n"
+    + 'window.NW_BOOT_LANG=code;\n'
+    + '}catch(e){}})();</script>';
+
+  // 规则与 main.js 的 applyLang() 逐条对齐：data-html 走 innerHTML，
+  // 其余走 textContent，data-i18n-attr 按 "属性:键" 设属性。
+  const body =
+    '<script>(function(){try{\n'
+    + 'var B=window.NW_I18N_BOOT,code=window.NW_BOOT_LANG;\n'
+    + 'if(!B||!code)return;var d=B.d[code];if(!d)return;\n'
+    + "var els=document.querySelectorAll('[data-boot]');\n"
+    + 'for(var i=0;i<els.length;i++){var el=els[i];\n'
+    + "var k=el.getAttribute('data-i18n');\n"
+    + 'if(k&&d[k]!=null){\n'
+    + "if(el.hasAttribute('data-html'))el.innerHTML=d[k];else el.textContent=d[k];\n"
+    + '}\n'
+    + "var a=el.getAttribute('data-i18n-attr');\n"
+    + "if(a){var p=a.split(':');if(d[p[1]]!=null)el.setAttribute(p[0],d[p[1]]);}\n"
+    + '}\n'
+    + '}catch(e){}})();</script>';
+
+  return { head, body };
+}

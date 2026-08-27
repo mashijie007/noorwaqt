@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { ROOT, dictFor, CITIES } from './site.mjs';
-import { bootKeys, bootEntry } from './boot-i18n.mjs';
+import { bootKeys, bootEntry, bootScripts } from './boot-i18n.mjs';
 
 let failed = 0;
 const eq = (name, got, want) => {
@@ -78,6 +78,22 @@ eq('ar 的 heroTitle 是阿拉伯语', /[؀-ۿ]/.test(ar.heroTitle), true);
 eq('az 缺 navGuide 时回落英文基线',
   bootEntry(dictFor('az'), arVars, ['navGuide']).navGuide,
   dictFor('en').navGuide);
+
+console.log('bootScripts');
+const s = bootScripts({ d: { en: { docTitle: 'T <b>x</b>' }, ar: { docTitle: 'ت' } }, dir: { en: 'ltr', ar: 'rtl' } });
+
+eq('载荷里的尖括号被转义', s.head.indexOf('<b>x</b>'), -1);
+eq('转义成 \\u003c', s.head.includes('\\u003cb\\u003e'), true);
+eq('载荷挂在 window 上', s.head.includes('window.NW_I18N_BOOT='), true);
+eq('pickLang 源码被内联进来', s.head.includes('function pickLang'), true);
+eq('内联的源码里没有 export', /\bexport\b/.test(s.head), false);
+eq('A 段写 data-locale', s.head.includes("'data-locale'"), true);
+eq('A 段不用箭头函数', s.head.includes('=>'), false);
+eq('B 段扫 data-boot', s.body.includes('[data-boot]'), true);
+eq('B 段认 data-html', s.body.includes('data-html'), true);
+eq('B 段认 data-i18n-attr', s.body.includes('data-i18n-attr'), true);
+eq('B 段不用箭头函数', s.body.includes('=>'), false);
+eq('两段都包了 try', s.head.includes('try') && s.body.includes('try'), true);
 
 console.log(failed ? '\n' + failed + ' 个断言没过' : '\n全部通过');
 process.exit(failed ? 1 : 0);
