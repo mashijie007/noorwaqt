@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { ROOT } from './site.mjs';
+import { fill } from './prerender.mjs';
 
 /** 不是 DOM 元素、没法打标记，但首帧必须就位的两个 */
 const EXTRA = ['docTitle', 'docDesc'];
@@ -35,5 +36,25 @@ export function bootKeys(html) {
   }
 
   for (const k of EXTRA) add(k);
+  return out;
+}
+
+/**
+ * 某一种语言的首屏子集。
+ *
+ * dict 与 vars 都由 build-pages 的主循环现成给过来 —— 不在这里自己读 JSON。
+ * 这是为了保证 boot 文案与同一次构建里预渲染出来的文案逐字节一致：
+ * 两边一旦对不上，main.js 起来的那一刻就会看到一次无谓的跳变，
+ * 而那正是这整个改动想消掉的东西。
+ *
+ * dict 已经是 dictFor() 的产物（英文基线 ← 该语言译文），所以缺译文的键
+ * 拿到的自然是英文 —— 与运行时 t() 的回落规则一致，这里不需要再兜一层。
+ */
+export function bootEntry(dict, vars, keys) {
+  const out = {};
+  for (const k of keys) {
+    if (dict[k] == null) continue;
+    out[k] = fill(dict[k], vars);
+  }
   return out;
 }

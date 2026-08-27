@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { ROOT, dictFor, CITIES } from './site.mjs';
-import { bootKeys } from './boot-i18n.mjs';
+import { bootKeys, bootEntry } from './boot-i18n.mjs';
 
 let failed = 0;
 const eq = (name, got, want) => {
@@ -40,6 +40,23 @@ eq('EXTRA 不会重复追加',
   bootKeys('<p data-boot data-i18n="docTitle">x</p>').join(','),
   'docTitle,docDesc');
 
+console.log('bootEntry');
+eq('只取要的键',
+  JSON.stringify(bootEntry({ a: 'A', b: 'B', c: 'C' }, {}, ['a', 'c'])),
+  '{"a":"A","c":"C"}');
+
+eq('占位符按构建期的值填上',
+  bootEntry({ x: '<b>{n}</b> cities' }, { n: 152 }, ['x']).x,
+  '<b>152</b> cities');
+
+eq('HTML 保持原样不转义',
+  bootEntry({ x: 'New <em>hi</em> & bye' }, {}, ['x']).x,
+  'New <em>hi</em> & bye');
+
+eq('缺的键直接不出现',
+  JSON.stringify(bootEntry({ a: 'A' }, {}, ['a', 'zzz'])),
+  '{"a":"A"}');
+
 console.log('真模板');
 const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
 const keys = bootKeys(template);
@@ -50,6 +67,17 @@ for (const k of ['navGlobal', 'navDownload', 'heroTitle', 'heroLive', 'litPill',
 }
 eq('折叠线以下的键不在内', keys.includes('barsTitle'), false);
 eq('页脚的键不在内', keys.includes('privacyTitle'), false);
+
+console.log('真词典');
+const arDict = dictFor('ar');
+const arVars = { n: CITIES.length, total: CITIES.length, lit: '—' };
+const ar = bootEntry(arDict, arVars, keys);
+eq('ar 的 23 个键都在', Object.keys(ar).length, 23);
+eq('ar 里没有残留占位符', /\{(n|lit|total)\}/.test(JSON.stringify(ar)), false);
+eq('ar 的 heroTitle 是阿拉伯语', /[؀-ۿ]/.test(ar.heroTitle), true);
+eq('az 缺 navGuide 时回落英文基线',
+  bootEntry(dictFor('az'), arVars, ['navGuide']).navGuide,
+  dictFor('en').navGuide);
 
 console.log(failed ? '\n' + failed + ' 个断言没过' : '\n全部通过');
 process.exit(failed ? 1 : 0);
