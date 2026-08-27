@@ -95,5 +95,14 @@ eq('B 段认 data-i18n-attr', s.body.includes('data-i18n-attr'), true);
 eq('B 段不用箭头函数', s.body.includes('=>'), false);
 eq('两段都包了 try', s.head.includes('try') && s.body.includes('try'), true);
 
+// 生成脚本的语法检查：确保拼接出来的 JavaScript 能真正被解析
+try {
+  const scriptContent = (s.head + s.body).replace(/<\/?script>/g, '');
+  new Function(scriptContent);
+  eq('生成脚本语法有效', true, true);
+} catch (err) {
+  eq('生成脚本语法有效', false, true);
+}
+
 console.log(failed ? '\n' + failed + ' 个断言没过' : '\n全部通过');
 process.exit(failed ? 1 : 0);
