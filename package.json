@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node tools/build.mjs",
     "verify": "node tools/verify-dist.mjs",
-    "test": "node tools/lib/_test-prerender.mjs",
+    "test": "node tools/lib/_test-prerender.mjs && node tools/lib/_test-lang-pick.mjs",
     "preview": "node tools/dev-server.mjs --root=dist 4190",
     "dev": "node tools/dev-server.mjs",
     "locales": "node tools/build-locales.mjs"

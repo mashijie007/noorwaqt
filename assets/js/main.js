@@ -7,6 +7,7 @@ import { CITIES, nearestCity, searchCities, citySlug } from './cities.js';
 import { Globe, PRAYER_COLOR } from './globe.js';
 import { stateAt, todayFor, localClock, fastingAt, resolveMethod, METHOD_LABEL, PRAYERS, timeline } from './prayer.js';
 import { LOCALES, t, cityName, loadLocale, dirOf, isSupported, bcp47, monthNames } from './i18n.js';
+import { pickLang } from './lang-pick.js';
 import { upcoming, todayEvent, isRamadan, hijri, KIND_ICON } from './hijri.js';
 import { isLit, lightCity, litCount, checkMilestone, LIT_TOTAL } from './lit-cities.js';
 import { createCityPopup } from './city-popup.js';
@@ -31,22 +32,19 @@ function detectLang() {
   // 预渲染页面（/ar/、/id/ 这些）把自己的语言写在 <html data-locale> 上。
   // 那是 URL 和 canonical 共同认定的语言，必须压过浏览器偏好和上次的选择 ——
   // 否则从搜索结果点进 /ar/ 的人，会看着页面自己跳成英文。
+  // 域名根没有预渲染的 data-locale，但 head 里的 boot 脚本会把协商结果写上去，
+  // 值同样出自 pickLang —— 所以这里读到什么，首帧画的就是什么，不会二次跳变。
   const declared = document.documentElement.dataset.locale;
   if (declared && isSupported(declared)) return declared;
 
-  const saved = localStorage.getItem('nw-lang');
-  if (saved && isSupported(saved)) return saved;
+  let saved = null;
+  try { saved = localStorage.getItem('nw-lang'); } catch { /* 隐私模式下会抛 */ }
 
-  const codes = LOCALES.map((l) => l.code);
-  for (const raw of navigator.languages || [navigator.language || 'en']) {
-    const l = raw.toLowerCase();
-    // 中文要先分繁简：zh-TW / zh-HK / zh-MO / zh-Hant 都归繁体
-    if (l.startsWith('zh')) return /hant|tw|hk|mo/.test(l) ? 'zh_Hant' : 'zh';
-    const base = l.split('-')[0];
-    const hit = codes.find((c) => c === base || c.split('_')[0] === base);
-    if (hit) return hit;
-  }
-  return 'en';
+  return pickLang(
+    LOCALES.map((l) => l.code),
+    saved,
+    navigator.languages || [navigator.language || 'en']
+  );
 }
 
 /** 语言选择器：44 个语言的母语名，与 App 的语言列表一一对应 */
