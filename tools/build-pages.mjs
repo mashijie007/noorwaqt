@@ -20,6 +20,7 @@ import {
   injectHead, rootAbsolute, fill, escapeAttr, escapeText,
 } from './lib/prerender.mjs';
 import { hreflangBlock, appJsonLd, siteJsonLd, langHrefScript, cityLangsScript, languageCloud, cityCloud, ogImage } from './lib/blocks.mjs';
+import { bootKeys, bootEntry, bootScripts } from './lib/boot-i18n.mjs';
 import { SITE_CARD } from './build-og.mjs';
 import { hijri } from '../assets/js/hijri.js';
 
@@ -73,9 +74,16 @@ export function buildPages() {
   const hrefFor = (c) => abs(langPath(c));
   let rootHtml = null;
 
+  // 域名根的首屏文案载荷。趁这个循环把每种语言的子集攒下来 ——
+  // 用的是下面同一份 dict 和 vars，boot 文案与预渲染文案因此逐字节一致
+  const BOOT_KEYS = bootKeys(template);
+  const boot = { d: {}, dir: {} };
+
   for (const { code } of LOCALES) {
     const dict = dictFor(code);
     const vars = pageVars(dict);
+    boot.d[code] = bootEntry(dict, vars, BOOT_KEYS);
+    boot.dir[code] = dirOf(code);
     const url = hrefFor(code);
 
     let html = rootAbsolute(template);
@@ -141,7 +149,15 @@ export function buildPages() {
   // 域名根：内容用英文那一份，但去掉 data-locale —— 根地址是语言协商页，
   // 得让 main.js 照旧按浏览器偏好自动切，而不是被钉死在英文。
   // canonical 保持指向 /en/，所以 / 和 /en/ 不会当成两份内容互相抢排名。
-  emit('/index.html', rootHtml.replace(/\sdata-locale="[^"]*"/, ''));
+  //
+  // 光去掉 data-locale 还不够：main.js 是 module、天生 defer，在首帧之后
+  // 执行是常态，所以非英语访客总要先看一屏英文。两段内联脚本把首屏那 23 个键
+  // 提前到首帧之前 —— 只有根页面需要这个，/xx/ 页面的文案本来就是静态的。
+  let root = rootHtml.replace(/\sdata-locale="[^"]*"/, '');
+  const scripts = bootScripts(boot);
+  root = injectHead(root, scripts.head);
+  root = root.replace('</header>', '</header>\n' + scripts.body);
+  emit('/index.html', root);
 
   return LOCALES.length;
 }
