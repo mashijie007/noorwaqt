@@ -14,7 +14,7 @@
 
 - **两段内联脚本必须是 ES5 安全的保守写法**：`var` / `function` / `for` 循环，不用箭头函数、可选链、`const`、模板字符串。它们跑在首帧之前，是页面上唯一没有任何兜底的代码。仓库其余浏览器 JS 是 `type="module"`，不受此限。
 - **`assets/js/lang-pick.js` 必须零依赖、零副作用**：不 import 任何东西，不碰 `document` / `localStorage` / `navigator`。它会被当成纯文本读出来内联，任何 import 语句都会当场炸掉首帧。
-- **载荷序列化必须转义 `<`**：`JSON.stringify(o).replace(/</g, '\\u003c')`。词典里有 `<b>` `<em>`，直接塞进 `<script>` 会被 `</script>` 之类的序列提前截断。现有的 `langHrefScript`（`tools/lib/blocks.mjs:120`）没做这一步，因为它的值只有 URL —— 不要照抄它。
+- **载荷序列化必须转义 `<`**（实现里连 `>` 一起转义：让 `<b>` 整体转义不留半截，顺带让 Task 6 提取载荷的正则没有歧义）：`JSON.stringify(o).replace(/</g, '\\u003c')`。词典里有 `<b>` `<em>`，直接塞进 `<script>` 会被 `</script>` 之类的序列提前截断。现有的 `langHrefScript`（`tools/lib/blocks.mjs:120`）没做这一步，因为它的值只有 URL —— 不要照抄它。
 - **占位符一律走构建期现成的机制**：`fill(dict[key], vars)`，`vars` 就是 `build-pages.mjs` 里 `pageVars(dict)` 的产物。不要自己写替换逻辑 —— boot 文案必须与预渲染文案逐字节一致，否则 `main.js` 一起来就会看到一次无谓的跳变。
 - **只动域名根 `/`**。`/xx/` 语言页与城市页的产物必须零变化（`data-boot` 属性本身会跟着模板进到 `/xx/` 页面里，这是可以的；脚本和载荷不行）。
 - **注释用中文**，与仓库现有风格一致。
