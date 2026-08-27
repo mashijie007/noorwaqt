@@ -20,6 +20,7 @@ import {
   injectHead, rootAbsolute, fill, escapeAttr, escapeText,
 } from './lib/prerender.mjs';
 import { hreflangBlock, appJsonLd, siteJsonLd, langHrefScript, cityLangsScript, languageCloud, cityCloud, ogImage } from './lib/blocks.mjs';
+import { bootKeys, bootEntry, bootScripts } from './lib/boot-i18n.mjs';
 import { SITE_CARD } from './build-og.mjs';
 import { hijri } from '../assets/js/hijri.js';
 
@@ -73,9 +74,16 @@ export function buildPages() {
   const hrefFor = (c) => abs(langPath(c));
   let rootHtml = null;
 
+  // 域名根的首屏文案载荷。趁这个循环把每种语言的子集攒下来 ——
+  // 用的是下面同一份 dict 和 vars，boot 文案与预渲染文案因此逐字节一致
+  const BOOT_KEYS = bootKeys(template);
+  const boot = { d: {}, dir: {} };
+
   for (const { code } of LOCALES) {
     const dict = dictFor(code);
     const vars = pageVars(dict);
+    boot.d[code] = bootEntry(dict, vars, BOOT_KEYS);
+    boot.dir[code] = dirOf(code);
     const url = hrefFor(code);
 
     let html = rootAbsolute(template);
@@ -141,7 +149,22 @@ export function buildPages() {
   // 域名根：内容用英文那一份，但去掉 data-locale —— 根地址是语言协商页，
   // 得让 main.js 照旧按浏览器偏好自动切，而不是被钉死在英文。
   // canonical 保持指向 /en/，所以 / 和 /en/ 不会当成两份内容互相抢排名。
-  emit('/index.html', rootHtml.replace(/\sdata-locale="[^"]*"/, ''));
+  //
+  // 光去掉 data-locale 还不够：main.js 是 module、天生 defer，在首帧之后
+  // 执行是常态，所以非英语访客总要先看一屏英文。两段内联脚本把首屏那 22 个键
+  // 提前到首帧之前 —— 只有根页面需要这个，/xx/ 页面的文案本来就是静态的。
+  let root = rootHtml.replace(/\sdata-locale="[^"]*"/, '');
+  const scripts = bootScripts(boot);
+  // injectHead 内部是对 </head> 的字符串替换，匹配不上时只会原样返回 ——
+  // 这个锚点一旦失效，A 段就悄悄不再注入，页面照常能用，只有闪烁会无声地回来。
+  // 跟下面 </header> 的锚点是同一种风险，同样宁可让构建当场停下。
+  if (!root.includes('</head>')) throw new Error('根页面找不到 </head>，A 段无处注入');
+  root = injectHead(root, scripts.head);
+  // 字符串替换匹配不上时只会原样返回。这个锚点一旦失效，B 段就悄悄不再注入 ——
+  // 页面照常能用，只有闪烁会无声地回来。宁可让构建当场停下。
+  if (!root.includes('</header>')) throw new Error('根页面找不到 </header>，B 段无处注入');
+  root = root.replace('</header>', '</header>\n' + scripts.body);
+  emit('/index.html', root);
 
   return LOCALES.length;
 }
