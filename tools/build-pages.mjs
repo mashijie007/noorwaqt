@@ -155,6 +155,10 @@ export function buildPages() {
   // 提前到首帧之前 —— 只有根页面需要这个，/xx/ 页面的文案本来就是静态的。
   let root = rootHtml.replace(/\sdata-locale="[^"]*"/, '');
   const scripts = bootScripts(boot);
+  // injectHead 内部是对 </head> 的字符串替换，匹配不上时只会原样返回 ——
+  // 这个锚点一旦失效，A 段就悄悄不再注入，页面照常能用，只有闪烁会无声地回来。
+  // 跟下面 </header> 的锚点是同一种风险，同样宁可让构建当场停下。
+  if (!root.includes('</head>')) throw new Error('根页面找不到 </head>，A 段无处注入');
   root = injectHead(root, scripts.head);
   // 字符串替换匹配不上时只会原样返回。这个锚点一旦失效，B 段就悄悄不再注入 ——
   // 页面照常能用，只有闪烁会无声地回来。宁可让构建当场停下。

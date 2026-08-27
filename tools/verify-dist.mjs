@@ -89,7 +89,7 @@ function main() {
     }
   }
 
-  // 7. 域名根的首屏载荷。这一项失效的方式很安静：页面照常出，
+  // 6. 域名根的首屏载荷。这一项失效的方式很安静：页面照常出，
   //    只是首屏那几处又开始先英文后母语 —— 没有任何东西会报错。
   const rootFile = resolve(DIST, 'index.html');
   if (!existsSync(rootFile)) {
@@ -124,17 +124,19 @@ function main() {
         note('根页面缺首屏填充脚本', 'index.html', 'B 段没有注入到 </header> 后');
       }
     }
-    // 两段脚本只该出现在根页面上
-    for (const file of files) {
-      if (rel(file) === '/index.html') continue;
-      if (readFileSync(file, 'utf8').includes('NW_I18N_BOOT')) {
-        note('首屏载荷漏进了非根页面', rel(file), '');
-        break;
-      }
+  }
+
+  // 7. 两段脚本只该出现在根页面上。跟上一项检查是两件独立的事——
+  //    根页面在不在，不影响载荷有没有漏到别的页面上，所以不挂在上面那个 if/else 里。
+  for (const file of files) {
+    if (rel(file) === '/index.html') continue;
+    if (readFileSync(file, 'utf8').includes('NW_I18N_BOOT')) {
+      note('首屏载荷漏进了非根页面', rel(file), '');
+      break;
     }
   }
 
-  // 6. 站点地图里的地址必须都能打开
+  // 8. 站点地图里的地址必须都能打开
   const smDir = resolve(DIST, 'sitemaps');
   let smUrls = 0;
   if (existsSync(smDir)) {
@@ -148,7 +150,7 @@ function main() {
     }
   }
 
-  // 7. 几个必须存在的文件
+  // 9. 几个必须存在的文件
   for (const must of ['/index.html', '/robots.txt', '/sitemap.xml', '/CNAME', '/assets/css/pages.css']) {
     if (!resolveSitePath(must)) note('缺少必需文件', must, '');
   }
