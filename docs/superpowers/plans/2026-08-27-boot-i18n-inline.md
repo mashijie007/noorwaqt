@@ -1078,7 +1078,7 @@ document.documentElement.getAttribute('data-locale')
 
 在页面上把语言选择器切到别的语言。
 
-预期：文案原地切换（根页面没有 `window.NW_LANG_HREF`，不该跳转），`localStorage` 的 `nw-lang` 被写上。刷新后停在新语言 —— 这一条同时验证了 A 段的 `saved` 分支。
+预期：根页面复用的是英文页那份 head 注入，`window.NW_LANG_HREF` 是在的（绝对地址），所以切语言会跳转到对应的 `/xx/` 页，而不是原地切换——这是既有行为，本次改动没有触碰它。跳转前 `localStorage` 的 `nw-lang` 会被写上（`applyLang()` 已经加了 try/catch，隐私模式下这一步会被吞掉但不影响跳转）。刷新 `/xx/` 页后应停在该语言——这一条验证的是跳转本身携带了正确的语言，不是 A 段的 `saved` 分支（`saved` 分支要在根页面本身刷新才会走到）。
 
 - [ ] **Step 6: 隐私模式兜底**
 
