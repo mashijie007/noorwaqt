@@ -61,7 +61,7 @@ async function applyLang(lang) {
   await loadLocale(lang);            // 词典没到位就渲染，会先闪一遍英文
   app.lang = lang;
   app.months = monthNames(lang);
-  localStorage.setItem('nw-lang', lang);
+  try { localStorage.setItem('nw-lang', lang); } catch { /* 隐私模式下会抛 */ }
   document.documentElement.lang = bcp47(lang);
   document.documentElement.dir = dirOf(lang);
   document.title = t(lang, 'docTitle');
