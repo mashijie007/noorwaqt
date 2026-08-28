@@ -1,0 +1,305 @@
+/* live.css — NoorWaqt Live Display
+ *
+ * 两个固定画幅：
+ *   YouTube 16:9  (1920×1080) 横屏
+ *   TikTok  9:16  (1080×1920) 竖屏
+ * 同一套 HTML，通过 .layout-16x9 / .layout-9x16 切换。
+ * OBS Browser Source 直接整页捕获；FFmpeg 用 x11grab / gdigrab 抓窗口。
+ */
+
+:root {
+  --live-bg: #04100e;
+  --live-bg-2: #071a17;
+  --live-card: rgba(255,255,255,0.04);
+  --live-line: rgba(126,231,190,0.14);
+  --live-line-2: rgba(126,231,190,0.26);
+}
+
+/* ── body ── */
+.live-body {
+  margin: 0;
+  background: var(--live-bg);
+  overflow: hidden; /* 直播页不滚动，OBS 抓整页 */
+}
+
+/* ── Stage ── */
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  background: var(--live-bg);
+  color: var(--ink);
+  font-size: 19px; /* 全局放大 ~12%（原 17px）*/
+}
+.layout-9x16.stage { font-size: 20px; /* 竖屏再大一点，手机远看更清晰 */ }
+
+ /* 背景 */
+.live-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.live-bg-gradient {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 90% at 70% 18%, rgba(16,185,129,0.16) 0%, transparent 62%),
+    radial-gradient(90% 70% at 12% 85%, rgba(6,78,59,0.42) 0%, transparent 60%),
+    linear-gradient(180deg, #04100e 0%, #061a17 55%, #04100e 100%);
+}
+.live-bg-glow {
+  position: absolute; width: 42vw; height: 42vw; border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,0.13) 0%, transparent 70%);
+  filter: blur(18px);
+}
+.live-bg-glow--tl { left: -8vw; top: -10vh; }
+.live-bg-glow--br { right: -6vw; bottom: -8vh; background: radial-gradient(circle, rgba(52,211,153,0.10) 0%, transparent 72%); }
+.live-bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(126,231,190,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(126,231,190,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(85% 70% at 50% 35%, black 45%, transparent 88%);
+}
+
+/* ── Header ── */
+.live-header {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--live-line);
+  background: rgba(4,16,14,.62);
+  backdrop-filter: blur(14px);
+}
+.live-brand { display: flex; align-items: center; gap: .6rem; }
+.live-brand img { width: 32px; height: 32px; }
+.live-brand-name { font-weight: 700; font-size: 1.22rem; letter-spacing: -.02em; }
+.live-badge {
+  display: inline-flex; align-items: center; gap: .38rem;
+  padding: .28rem .7rem; border-radius: 999px;
+  background: rgba(239,68,68,.14); border: 1px solid rgba(239,68,68,.28);
+  color: #fca5a5; font-size: .82rem; font-weight: 700; letter-spacing: .08em;
+}
+.live-badge .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 0 0 rgba(239,68,68,.6); animation: livePulse 1.8s ease-out infinite; }
+@keyframes livePulse { 0%{box-shadow:0 0 0 0 rgba(239,68,68,.55)} 70%{box-shadow:0 0 0 10px rgba(239,68,68,0)} 100%{box-shadow:0 0 0 0 rgba(239,68,68,0)} }
+.live-engine-tag { font-size: .82rem; color: var(--ink-3); letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+
+.live-header-center { display: flex; justify-content: center; }
+.live-city-wrap { text-align: center; }
+.live-city { font-size: clamp(1.35rem, 2.15vw, 1.95rem); font-weight: 700; line-height: 1.1; margin: 0; }
+.live-city-sub { font-size: .9rem; color: var(--ink-3); display: block; margin-top: .18rem; }
+
+.live-header-right { text-align: end; }
+.live-hijri { font-size: 1.12rem; font-weight: 600; color: var(--brand-2); }
+.live-greg { font-size: .9rem; color: var(--ink-3); margin-top: .15rem; }
+
+/* ── Main ── */
+.live-main {
+  position: relative; z-index: 1;
+  flex: 1;
+  display: grid;
+  gap: 1.2rem;
+  padding: 1.2rem 1.4rem;
+  min-height: 0;
+}
+
+/* 16:9 = 三栏：clock | prayers | side */
+.layout-16x9 .live-main {
+  grid-template-columns: 1.15fr 1fr 0.52fr;
+  align-items: stretch;
+}
+.layout-9x16 .live-main {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  overflow-y: auto;
+  align-content: start;
+}
+
+/* ── Clock panel ── */
+.live-clock-panel {
+  display: flex; flex-direction: column; gap: .85rem;
+  padding: 1.45rem;
+  border-radius: 20px;
+  border: 1px solid var(--live-line);
+  background: linear-gradient(165deg, rgba(10,35,32,.88), rgba(7,26,23,.55));
+  backdrop-filter: blur(12px);
+}
+.live-label { font-size: .88rem; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.live-clock {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: clamp(3rem, 6.2vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 28px rgba(16,185,129,.35);
+}
+.layout-9x16 .live-clock { font-size: clamp(3.4rem, 12.5vw, 5.6rem); }
+.live-tz { font-size: .95rem; color: var(--ink-3); margin-top: -.15rem; }
+
+.live-next-card {
+  margin-top: .25rem;
+  padding: 1.15rem 1.2rem;
+  border-radius: 16px;
+  background: rgba(16,185,129,.09);
+  border: 1px solid var(--live-line-2);
+}
+.live-next-head { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; }
+.live-next-kicker { font-size: .85rem; color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+.live-next-name { font-size: 1.4rem; font-weight: 700; color: var(--brand-2); }
+.live-countdown {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(2.4rem, 5vw, 3.9rem);
+  font-weight: 700;
+  line-height: 1;
+  margin: .45rem 0 .65rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+.live-progress { height: 7px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
+.live-progress-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--brand-deep), var(--brand-2)); transition: width .9s linear; }
+.live-next-meta { display: flex; justify-content: space-between; gap: .6rem; margin-top: .55rem; font-size: .92rem; color: var(--ink-2); }
+.live-next-meta #nextTime { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.live-status-row { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; font-size: .95rem; }
+.live-chip { font-size: .92rem; }
+.live-msg { color: var(--ink-3); font-size: .92rem; }
+
+/* ── Prayers ── */
+.live-prayers {
+  display: flex; flex-direction: column; gap: .65rem;
+  padding: 1.25rem;
+  border-radius: 20px;
+  border: 1px solid var(--live-line);
+  background: rgba(255,255,255,.025);
+  backdrop-filter: blur(12px);
+}
+.live-prayer-list { display: grid; gap: .38rem; }
+.live-prayer-row {
+  display: grid;
+  grid-template-columns: 16px 1fr auto auto;
+  align-items: center;
+  gap: .85rem;
+  padding: .72rem .85rem;
+  border-radius: 14px;
+  transition: background .2s, border-color .2s;
+  border: 1px solid transparent;
+}
+.live-prayer-row.is-next { background: rgba(16,185,129,.13); border-color: rgba(126,231,190,.28); }
+.live-prayer-row.is-current { background: rgba(255,215,110,.08); border-color: rgba(255,215,110,.22); }
+.live-prayer-row .dot { width: 12px; height: 12px; border-radius: 50%; justify-self: center; }
+.live-prayer-row .p-name { color: var(--ink-2); font-weight: 500; font-size: 1.08rem; }
+.live-prayer-row.is-next .p-name,
+.live-prayer-row.is-current .p-name { color: var(--ink); font-weight: 700; }
+.live-prayer-row .p-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.28rem; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.01em;
+}
+.live-prayer-row .p-badge {
+  font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: .24rem .6rem; border-radius: 999px; border: 1px solid currentColor; opacity: 0; pointer-events: none;
+}
+.live-prayer-row.is-next .p-badge.next { opacity: 1; color: var(--brand-2); }
+.live-prayer-row.is-current .p-badge.now { opacity: 1; color: #ffd76e; }
+.live-prayers-foot { display: flex; justify-content: space-between; gap: .6rem; font-size: .82rem; color: var(--ink-3); border-top: 1px solid var(--live-line); padding-top: .75rem; margin-top: .3rem; }
+
+/* ── Side (16:9 only) ── */
+.live-side { display: flex; flex-direction: column; gap: 1rem; }
+.layout-9x16 .live-side { display: none; }
+.live-side-card {
+  padding: 1.1rem 1.15rem; border-radius: 18px;
+  border: 1px solid var(--live-line); background: rgba(255,255,255,.03);
+}
+.live-side-title { font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.live-side-big { font-size: 1.85rem; font-weight: 700; margin-top: .3rem; font-variant-numeric: tabular-nums; }
+.live-side-sub { font-size: .92rem; color: var(--ink-2); margin-top: .22rem; }
+.live-watermark { margin-top: auto; text-align: center; font-size: .88rem; color: var(--ink-3); letter-spacing: .06em; padding: .6rem 0 .1rem; }
+
+/* ── Footer ── */
+.live-footer {
+  position: relative; z-index: 2;
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  padding: .65rem 1.4rem;
+  border-top: 1px solid var(--live-line);
+  background: rgba(4,16,14,.72);
+  backdrop-filter: blur(10px);
+  font-size: .84rem; color: var(--ink-3);
+}
+.live-vert-watermark { display: none; }
+
+/* ── 9:16 tweaks ── */
+.layout-9x16 .live-header {
+  grid-template-columns: 1fr;
+  text-align: center;
+  gap: .65rem;
+  padding: 1rem 1.15rem .85rem;
+}
+.layout-9x16 .live-brand { justify-content: center; }
+.layout-9x16 .live-header-center { order: 2; }
+.layout-9x16 .live-header-right { text-align: center; }
+.layout-9x16 .live-hijri { font-size: 1.18rem; }
+.layout-9x16 .live-footer { font-size: .78rem; padding: .6rem 1rem; }
+.layout-9x16 .live-vert-watermark {
+  display: block;
+  text-align: center;
+  font-size: .88rem; color: var(--ink-3); letter-spacing: .14em; text-transform: uppercase;
+  padding: .8rem 0 1rem;
+}
+
+/* ── Controls (hidden in clean mode) ── */
+.live-controls {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 30;
+  background: rgba(7,26,23,.96);
+  border-top: 1px solid var(--live-line);
+  backdrop-filter: blur(14px);
+  padding: .7rem 1rem max(.7rem, env(safe-area-inset-bottom));
+}
+.live-controls[hidden] { display: none !important; }
+.live-controls-inner {
+  display: flex; flex-wrap: wrap; gap: .6rem; align-items: end; justify-content: center;
+}
+.lc-field { display: grid; gap: .22rem; font-size: .76rem; color: var(--ink-3); }
+.lc-field span { font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: .68rem; }
+.lc-field input, .lc-field select {
+  padding: .48rem .7rem; border-radius: 10px;
+  border: 1px solid var(--live-line); background: rgba(255,255,255,.06);
+  color: var(--ink); font: inherit; font-size: .88rem; min-width: 10rem;
+}
+.lc-field input:focus, .lc-field select:focus { outline: none; border-color: var(--brand); background: rgba(16,185,129,.1); }
+.lc-field select option { background: var(--bg-2); }
+.live-controls-help {
+  display: flex; flex-wrap: wrap; gap: .7rem 1.2rem; justify-content: center; align-items: center;
+  margin-top: .55rem; font-size: .76rem; color: var(--ink-3);
+}
+.live-controls-help code { background: rgba(255,255,255,.08); padding: .1rem .35rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+.lc-links a { color: var(--brand-2); text-decoration: none; }
+.lc-links a:hover { text-decoration: underline; }
+
+/* toast */
+.live-toast {
+  position: fixed; left: 50%; bottom: 5.2rem; transform: translateX(-50%); z-index: 40;
+  padding: .55rem 1rem; border-radius: 999px;
+  background: rgba(16,185,129,.16); border: 1px solid rgba(126,231,190,.32);
+  color: var(--brand-2); font-size: .95rem; backdrop-filter: blur(10px);
+}
+.live-toast[hidden] { display: none; }
+
+/* ── Auto-fit for OBS viewport extremes ── */
+@media (max-width: 900px) and (orientation: landscape) {
+  .layout-16x9 .live-main { grid-template-columns: 1fr 1fr; }
+  .layout-16x9 .live-side { display: none; }
+}
+@media (max-height: 500px) {
+  .live-header { padding: .6rem 1rem; }
+  .live-main { padding: .7rem .85rem; gap: .7rem; }
+  .live-clock { font-size: 2.4rem; }
+  .live-countdown { font-size: 2rem; }
+}
+
+/* 固定画幅提示：当用 OBS 设为 1920×1080 / 1080×1920 时，stage 正好充满，无滚动 */
+@media (min-width: 1920px) { .layout-16x9 { font-size: 21px; } }
+@media (min-width: 1080px) and (max-width: 1080px) and (min-height: 1920px) { .layout-9x16 { font-size: 22px; } }

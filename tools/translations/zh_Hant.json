@@ -121,5 +121,19 @@
  "shareSend": "分享圖片",
  "shareSave": "儲存圖片",
  "shareLink": "分享連結",
- "shareCopied": "連結已複製"
+ "shareCopied": "連結已複製",
+ "liveCurrentTime": "當地時間",
+ "liveNextPrayer": "下一番",
+ "liveToday": "今日五番",
+ "liveQibla": "朝向",
+ "liveKmToMakkah": "距麥加 {km} 公里",
+ "liveFasting": "齋戒",
+ "liveNow": "當前",
+ "liveNext": "下一番",
+ "liveMethod": "計算方法",
+ "liveToFajr": "距晨禮 {t}",
+ "liveToIftar": "距開齋 {t}",
+ "liveControlsHint": "OBS 瀏覽器來源 → 貼上本連結 + ?clean=1 純淨推流",
+ "liveYouTubeDemo": "YouTube 橫屏 16:9 演示",
+ "liveTikTokDemo": "TikTok 豎屏 9:16 演示"
 }

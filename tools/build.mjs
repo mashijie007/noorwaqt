@@ -24,6 +24,7 @@ import { writeKeyFile } from './indexnow.mjs';
 const STATIC = [
   'assets',
   'release',
+  'live',
   // 手写的教法问答页。它们自带 canonical 与 hreflang，这里只负责原样搬过去。
   // 写成 en/guide 而不是 en —— 后者会盖掉生成器刚写好的 dist/en/index.html
   'en/guide',

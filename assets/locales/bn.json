@@ -139,5 +139,19 @@
  "shareSend": "ছবি শেয়ার করুন",
  "shareSave": "ছবি সংরক্ষণ করুন",
  "shareLink": "লিঙ্ক শেয়ার করুন",
- "shareCopied": "লিঙ্ক কপি হয়েছে"
+ "shareCopied": "লিঙ্ক কপি হয়েছে",
+ "liveCurrentTime": "Current Time",
+ "liveNextPrayer": "Next Prayer",
+ "liveToday": "Today",
+ "liveQibla": "Qibla",
+ "liveKmToMakkah": "{km} km to Makkah",
+ "liveFasting": "Fasting",
+ "liveNow": "NOW",
+ "liveNext": "NEXT",
+ "liveMethod": "Method",
+ "liveToFajr": "{t} to Fajr",
+ "liveToIftar": "{t} to Iftar",
+ "liveControlsHint": "OBS Browser Source → paste this URL + ?clean=1 for clean feed",
+ "liveYouTubeDemo": "YouTube Demo 16:9",
+ "liveTikTokDemo": "TikTok Demo 9:16"
 }

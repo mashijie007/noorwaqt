@@ -135,5 +135,19 @@
  "litShareAria": "Пешрафти худро мубодила кунед",
  "popupClose": "Пӯшидан",
  "litCardTagline": "Шаҳрҳое, ки ман дар харитаи ҷаҳонии намоз равшан кардаам",
- "litMilestone": "Шумо {pct}% харитаи ҷаҳонро равшан кардед!"
+ "litMilestone": "Шумо {pct}% харитаи ҷаҳонро равшан кардед!",
+ "liveCurrentTime": "Current Time",
+ "liveNextPrayer": "Next Prayer",
+ "liveToday": "Today",
+ "liveQibla": "Qibla",
+ "liveKmToMakkah": "{km} km to Makkah",
+ "liveFasting": "Fasting",
+ "liveNow": "NOW",
+ "liveNext": "NEXT",
+ "liveMethod": "Method",
+ "liveToFajr": "{t} to Fajr",
+ "liveToIftar": "{t} to Iftar",
+ "liveControlsHint": "OBS Browser Source → paste this URL + ?clean=1 for clean feed",
+ "liveYouTubeDemo": "YouTube Demo 16:9",
+ "liveTikTokDemo": "TikTok Demo 9:16"
 }

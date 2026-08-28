@@ -135,5 +135,19 @@
  "litShareAria": "پننہٕ ترقی شریک کٔرِو",
  "popupClose": "بند کٔرِو",
  "litCardTagline": "سٲری دُنیاہَس نمازہٕ نقشس پؠٹھ می روشُن کرنہٕ آمٕتؠ شہر",
- "litMilestone": "توٚہہِ چھِو دُنیاہَس نقشَس {pct}٪ روشُن کرِتھ!"
+ "litMilestone": "توٚہہِ چھِو دُنیاہَس نقشَس {pct}٪ روشُن کرِتھ!",
+ "liveCurrentTime": "Current Time",
+ "liveNextPrayer": "Next Prayer",
+ "liveToday": "Today",
+ "liveQibla": "Qibla",
+ "liveKmToMakkah": "{km} km to Makkah",
+ "liveFasting": "Fasting",
+ "liveNow": "NOW",
+ "liveNext": "NEXT",
+ "liveMethod": "Method",
+ "liveToFajr": "{t} to Fajr",
+ "liveToIftar": "{t} to Iftar",
+ "liveControlsHint": "OBS Browser Source → paste this URL + ?clean=1 for clean feed",
+ "liveYouTubeDemo": "YouTube Demo 16:9",
+ "liveTikTokDemo": "TikTok Demo 9:16"
 }

@@ -9,6 +9,8 @@
     "test": "node tools/lib/_test-prerender.mjs && node tools/lib/_test-lang-pick.mjs && node tools/lib/_test-boot-i18n.mjs",
     "preview": "node tools/dev-server.mjs --root=dist 4190",
     "dev": "node tools/dev-server.mjs",
+    "live:check": "node tools/check-live.mjs",
+    "live:check:browser": "node tools/build.mjs && node tools/check-live.mjs --browser",
     "locales": "node tools/build-locales.mjs"
   },
   "devDependencies": {

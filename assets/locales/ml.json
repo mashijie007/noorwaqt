@@ -135,5 +135,19 @@
  "litShareAria": "നിങ്ങളുടെ പുരോഗതി പങ്കിടുക",
  "popupClose": "അടയ്ക്കുക",
  "litCardTagline": "ലോക നമസ്കാര ഭൂപടത്തിൽ ഞാൻ പ്രകാശിപ്പിച്ച നഗരങ്ങൾ",
- "litMilestone": "നിങ്ങൾ ലോക ഭൂപടത്തിന്റെ {pct}% പ്രകാശിപ്പിച്ചു!"
+ "litMilestone": "നിങ്ങൾ ലോക ഭൂപടത്തിന്റെ {pct}% പ്രകാശിപ്പിച്ചു!",
+ "liveCurrentTime": "Current Time",
+ "liveNextPrayer": "Next Prayer",
+ "liveToday": "Today",
+ "liveQibla": "Qibla",
+ "liveKmToMakkah": "{km} km to Makkah",
+ "liveFasting": "Fasting",
+ "liveNow": "NOW",
+ "liveNext": "NEXT",
+ "liveMethod": "Method",
+ "liveToFajr": "{t} to Fajr",
+ "liveToIftar": "{t} to Iftar",
+ "liveControlsHint": "OBS Browser Source → paste this URL + ?clean=1 for clean feed",
+ "liveYouTubeDemo": "YouTube Demo 16:9",
+ "liveTikTokDemo": "TikTok Demo 9:16"
 }

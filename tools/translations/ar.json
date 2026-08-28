@@ -110,5 +110,19 @@
  "shareSend": "مشاركة الصورة",
  "shareSave": "حفظ الصورة",
  "shareLink": "مشاركة الرابط",
- "shareCopied": "تم نسخ الرابط"
+ "shareCopied": "تم نسخ الرابط",
+ "liveCurrentTime": "الوقت الحالي",
+ "liveNextPrayer": "الصلاة القادمة",
+ "liveToday": "اليوم",
+ "liveQibla": "القبلة",
+ "liveKmToMakkah": "{km} كم إلى مكة",
+ "liveFasting": "الصيام",
+ "liveNow": "الآن",
+ "liveNext": "القادمة",
+ "liveMethod": "طريقة الحساب",
+ "liveToFajr": "{t} حتى الفجر",
+ "liveToIftar": "{t} حتى الإفطار",
+ "liveControlsHint": "مصدر متصفح OBS ← الصق هذا الرابط + ‎?clean=1 للبث النظيف",
+ "liveYouTubeDemo": "عرض YouTube ‏16:9",
+ "liveTikTokDemo": "عرض TikTok ‏9:16"
 }

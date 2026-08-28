@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04100e">
+<title>NoorWaqt Live — Prayer Engine Display</title>
+<meta name="description" content="NoorWaqt Live Render Core — 实时礼拜时间大屏。当前时间、下一番礼拜倒计时、五番时刻、伊历与城市。为 OBS / FFmpeg 直播而生，支持 16:9 YouTube 与 9:16 TikTok 双布局。">
+<link rel="canonical" href="https://www.noorwaqt.com/live/">
+<link rel="icon" href="../noorwaqt.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.noorwaqt.com/live/">
+<meta property="og:title" content="NoorWaqt Live — Prayer Engine Display">
+<meta property="og:description" content="实时礼拜时间大屏：当前时间、下一番倒计时、五番时刻、伊历与城市。支持 16:9 YouTube 与 9:16 TikTok 双布局，OBS / FFmpeg 直推。">
+<meta property="og:image" content="https://www.noorwaqt.com/noorwaqt.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/live.css">
+</head>
+<body class="live-body">
+
+<!--
+  Live Render Core
+  ┌──────────────────────────────────────┐
+  │  NoorWaqt Prayer Engine               │
+  │      │                               │
+  │      ▼                               │
+  │  ┌─────────────────────┐             │
+  │  │ Live Render Core    │             │
+  │  │ 当前时间 / 下一番 / 倒计时 / 五番 / Hijri / 城市 │
+  │  └─────────┬───────────┘             │
+  │            │                         │
+  │   ┌────────┴────────┐                │
+  │   ▼                 ▼                │
+  │ YouTube 16:9    TikTok 9:16          │
+  │   │                 │                │
+  │   ▼                 ▼                │
+  │ FFmpeg           FFmpeg              │
+  │   │                 │                │
+  │   ▼                 ▼                │
+  │ YouTube Live    TikTok LIVE          │
+  └──────────────────────────────────────┘
+  URL 参数:
+    ?city=Makkah          城市英文名或 slug (默认 Makkah)
+    &lang=zh|en|ar|...    语言 (默认 zh，支持 44 种)
+    &layout=16x9|9x16|auto 自动则按视口比例切换
+    &clean=1              纯净模式：隐藏控制条，适合 OBS Browser Source
+    &asr=1|2              晡礼学派 1=标准 2=哈乃斐
+-->
+
+<div id="stage" class="stage layout-16x9" data-layout="16x9">
+  <!-- 背景层 -->
+  <div class="live-bg" aria-hidden="true">
+    <div class="live-bg-gradient"></div>
+    <div class="live-bg-glow live-bg-glow--tl"></div>
+    <div class="live-bg-glow live-bg-glow--br"></div>
+    <div class="live-bg-grid"></div>
+  </div>
+
+  <!-- 顶部栏：品牌 + Hijri + 城市 -->
+  <header class="live-header">
+    <div class="live-brand">
+      <img src="../noorwaqt.png" alt="NoorWaqt">
+      <span class="live-brand-name">NoorWaqt</span>
+      <span class="live-badge"><span class="live-dot"></span> LIVE</span>
+      <span class="live-engine-tag">Prayer Engine</span>
+    </div>
+    <div class="live-header-center">
+      <div class="live-city-wrap">
+        <h1 id="cityName" class="live-city">Makkah</h1>
+        <span id="citySub" class="live-city-sub">SA · Asia/Riyadh · Umm al-Qura</span>
+      </div>
+    </div>
+    <div class="live-header-right">
+      <div id="hijriDate" class="live-hijri">—</div>
+      <div id="gregDate" class="live-greg">—</div>
+    </div>
+  </header>
+
+  <!-- 主舞台 -->
+  <main class="live-main">
+
+    <!-- 左区 / 上区：当前时间 + 下一番 + 倒计时 -->
+    <section class="live-clock-panel">
+      <div id="labelCurrentTime" class="live-label">—</div>
+      <div id="clock" class="live-clock">--:--:--</div>
+      <div id="clockTz" class="live-tz">—</div>
+
+      <div class="live-next-card" id="nextCard">
+        <div class="live-next-head">
+          <span id="labelNextPrayer" class="live-next-kicker">—</span>
+          <span id="nextName" class="live-next-name">—</span>
+        </div>
+        <div id="countdown" class="live-countdown">--:--:--</div>
+        <div class="live-progress">
+          <div id="progressBar" class="live-progress-bar" style="width:0%"></div>
+        </div>
+        <div class="live-next-meta">
+          <span id="nextTime">—</span>
+          <span id="nextIn">—</span>
+        </div>
+      </div>
+
+      <div class="live-status-row">
+        <span id="currentPrayerChip" class="chip live-chip">—</span>
+        <span id="liveMsg" class="live-msg">—</span>
+      </div>
+    </section>
+
+    <!-- 右区 / 中区：五番礼拜时刻 -->
+    <section class="live-prayers" aria-label="Prayer times">
+      <div id="labelToday" class="live-label">—</div>
+      <div id="prayerList" class="live-prayer-list">
+        <!-- 由 live.js 注入 -->
+      </div>
+      <div class="live-prayers-foot">
+        <span id="methodLabel" class="live-method">—</span>
+        <span id="asrLabel" class="live-method">—</span>
+      </div>
+    </section>
+
+    <!-- 侧装饰：仅 16:9 可见 -->
+    <aside class="live-side">
+      <div class="live-side-card">
+        <div id="labelQibla" class="live-side-title">—</div>
+        <div id="qiblaVal" class="live-side-big">—°</div>
+        <div id="qiblaDist" class="live-side-sub">—</div>
+      </div>
+      <div class="live-side-card">
+        <div id="labelFasting" class="live-side-title">—</div>
+        <div id="fastingState" class="live-side-sub">—</div>
+        <div id="fastingCd" class="live-side-big" style="font-size:1.4rem">—</div>
+        <div class="live-progress" style="margin-block-start:.5rem"><div id="fastProgress" class="live-progress-bar" style="width:0%"></div></div>
+      </div>
+      <div class="live-watermark">noorwaqt.com</div>
+    </aside>
+
+  </main>
+
+  <!-- 底部条 -->
+  <footer class="live-footer">
+    <span class="live-footer-left">Your prayer. Your time. Your world. · noorwaqt.com</span>
+    <span class="live-footer-right" id="footerTime">— UTC</span>
+  </footer>
+
+  <!-- 9:16 专属底部水印 -->
+  <div class="live-vert-watermark" aria-hidden="true">NoorWaqt · noorwaqt.com</div>
+</div>
+
+<!-- 控制面板：?clean=1 时隐藏，适合 OBS Browser Source -->
+<div id="controlBar" class="live-controls">
+  <div class="live-controls-inner">
+    <label class="lc-field">
+      <span>City</span>
+      <input id="ctrlCity" list="cityDatalist" placeholder="Makkah / 北京 / Dubai..." autocomplete="off">
+      <datalist id="cityDatalist"></datalist>
+    </label>
+    <label class="lc-field">
+      <span>Lang</span>
+      <select id="ctrlLang"></select>
+    </label>
+    <label class="lc-field">
+      <span>Layout</span>
+      <select id="ctrlLayout">
+        <option value="16x9">16:9 YouTube</option>
+        <option value="9x16">9:16 TikTok</option>
+        <option value="auto">Auto</option>
+      </select>
+    </label>
+    <label class="lc-field">
+      <span>Asr</span>
+      <select id="ctrlAsr">
+        <option value="1">Standard</option>
+        <option value="2">Hanafi</option>
+      </select>
+    </label>
+    <button id="ctrlSwap" class="btn btn-ghost btn-sm" title="Swap 16:9 / 9:16">⇆ Swap</button>
+    <button id="ctrlCopy" class="btn btn-ghost btn-sm">Copy Link</button>
+    <button id="ctrlClean" class="btn btn-primary btn-sm">Clean Mode</button>
+  </div>
+  <div class="live-controls-help">
+    <span id="controlsHint">—</span>
+    <span class="lc-links">
+      <a id="demoYoutube" href="?city=Makkah&lang=ar&layout=16x9&clean=1" target="_blank">—</a> ·
+      <a id="demoTiktok" href="?city=Jakarta&lang=id&layout=9x16&clean=1" target="_blank">—</a> ·
+      <a href="https://github.com/mashijie007/noorwaqt/blob/main/tools/live-ffmpeg.md" target="_blank">FFmpeg Guide</a>
+    </span>
+  </div>
+</div>
+
+<!-- 复制提示 -->
+<div id="toast" class="live-toast" hidden></div>
+
+<script type="module" src="../assets/js/live.js"></script>
+</body>
+</html>

@@ -104,5 +104,19 @@
  "litShareAria": "તમારી પ્રગતિ શેર કરો",
  "popupClose": "બંધ કરો",
  "litCardTagline": "વૈશ્વિક નમાઝ નકશા પર મેં પ્રકાશિત કરેલાં શહેરો",
- "litMilestone": "તમે વિશ્વ નકશાના {pct}% પ્રકાશિત કર્યા!"
+ "litMilestone": "તમે વિશ્વ નકશાના {pct}% પ્રકાશિત કર્યા!",
+ "liveCurrentTime": "Current Time",
+ "liveNextPrayer": "Next Prayer",
+ "liveToday": "Today",
+ "liveQibla": "Qibla",
+ "liveKmToMakkah": "{km} km to Makkah",
+ "liveFasting": "Fasting",
+ "liveNow": "NOW",
+ "liveNext": "NEXT",
+ "liveMethod": "Method",
+ "liveToFajr": "{t} to Fajr",
+ "liveToIftar": "{t} to Iftar",
+ "liveControlsHint": "OBS Browser Source → paste this URL + ?clean=1 for clean feed",
+ "liveYouTubeDemo": "YouTube Demo 16:9",
+ "liveTikTokDemo": "TikTok Demo 9:16"
 }

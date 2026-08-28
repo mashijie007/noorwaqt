@@ -104,5 +104,19 @@
  "litShareAria": "तुमची प्रगती शेअर करा",
  "popupClose": "बंद करा",
  "litCardTagline": "जागतिक नमाज नकाशावर मी उजळलेली शहरे",
- "litMilestone": "तुम्ही जागतिक नकाशाच्या {pct}% उजळले आहे!"
+ "litMilestone": "तुम्ही जागतिक नकाशाच्या {pct}% उजळले आहे!",
+ "liveCurrentTime": "Current Time",
+ "liveNextPrayer": "Next Prayer",
+ "liveToday": "Today",
+ "liveQibla": "Qibla",
+ "liveKmToMakkah": "{km} km to Makkah",
+ "liveFasting": "Fasting",
+ "liveNow": "NOW",
+ "liveNext": "NEXT",
+ "liveMethod": "Method",
+ "liveToFajr": "{t} to Fajr",
+ "liveToIftar": "{t} to Iftar",
+ "liveControlsHint": "OBS Browser Source → paste this URL + ?clean=1 for clean feed",
+ "liveYouTubeDemo": "YouTube Demo 16:9",
+ "liveTikTokDemo": "TikTok Demo 9:16"
 }
