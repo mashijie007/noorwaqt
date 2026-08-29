@@ -34,9 +34,9 @@
   isolation: isolate;
   background: var(--live-bg);
   color: var(--ink);
-  font-size: 19px; /* 全局放大 ~12%（原 17px）*/
+  font-size: 21px; /* 再放大一档，YouTube/TikTok 远看清晰 */
 }
-.layout-9x16.stage { font-size: 20px; /* 竖屏再大一点，手机远看更清晰 */ }
+.layout-9x16.stage { font-size: 22px; /* 竖屏再大一点 */ }
 
  /* 背景 */
 .live-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
@@ -90,12 +90,12 @@
 
 .live-header-center { display: flex; justify-content: center; }
 .live-city-wrap { text-align: center; }
-.live-city { font-size: clamp(1.35rem, 2.15vw, 1.95rem); font-weight: 700; line-height: 1.1; margin: 0; }
-.live-city-sub { font-size: .9rem; color: var(--ink-3); display: block; margin-top: .18rem; }
+.live-city { font-size: clamp(1.55rem, 2.6vw, 2.35rem); font-weight: 800; line-height: 1; margin: 0; letter-spacing: -.015em; }
+.live-city-sub { font-size: .92rem; color: var(--ink-3); display: block; margin-top: .2rem; }
 
-.live-header-right { text-align: end; }
-.live-hijri { font-size: 1.12rem; font-weight: 600; color: var(--brand-2); }
-.live-greg { font-size: .9rem; color: var(--ink-3); margin-top: .15rem; }
+.live-header-right { text-align: end; display:flex; flex-direction:column; justify-content:center; gap:.15rem; }
+.live-hijri { font-size: 1.28rem; font-weight: 700; color: var(--brand-2); line-height:1.1; }
+.live-greg { font-size: 1rem; color: var(--ink-2); margin-top: 0; }
 
 /* ── Main ── */
 .live-main {
@@ -231,17 +231,29 @@
 }
 .live-vert-watermark { display: none; }
 
-/* ── 9:16 tweaks ── */
+/* ── 9:16 tweaks — 城市与双日期同排靠边，减少上下占比 ── */
 .layout-9x16 .live-header {
-  grid-template-columns: 1fr;
-  text-align: center;
-  gap: .65rem;
-  padding: 1rem 1.15rem .85rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "brand brand" "city dates";
+  align-items: center;
+  gap: .35rem .9rem;
+  padding: .75rem 1.05rem .65rem;
+  text-align: start;
 }
-.layout-9x16 .live-brand { justify-content: center; }
-.layout-9x16 .live-header-center { order: 2; }
-.layout-9x16 .live-header-right { text-align: center; }
-.layout-9x16 .live-hijri { font-size: 1.18rem; }
+.layout-9x16 .live-brand { grid-area: brand; justify-content: center; }
+.layout-9x16 .live-header-center { grid-area: city; justify-content: flex-start; }
+.layout-9x16 .live-header-center .live-city-wrap { text-align: start; }
+.layout-9x16 .live-header-right { grid-area: dates; text-align: end; align-items: flex-end; }
+/* 城市字号 ≈ 两行日期字号之和，同排时视觉等高 */
+.layout-9x16 .live-city { font-size: clamp(1.85rem, 7vw, 2.85rem); line-height: 1; }
+.layout-9x16 .live-city-sub { font-size: .78rem; margin-top: .12rem; }
+.layout-9x16 .live-hijri { font-size: 1.12rem; line-height:1.1; }
+.layout-9x16 .live-greg { font-size: .88rem; }
+/* RTL 下网格列会自动镜像，城市始终在 inline-start 侧（右），日期在 inline-end 侧（左） */
+html[dir='rtl'] .layout-9x16 .live-header { grid-template-areas: "brand brand" "city dates"; }
+html[dir='rtl'] .layout-9x16 .live-header-center .live-city-wrap { text-align: start; }
+html[dir='rtl'] .layout-9x16 .live-header-right { text-align: end; align-items: flex-start; }
 .layout-9x16 .live-footer { font-size: .78rem; padding: .6rem 1rem; }
 .layout-9x16 .live-vert-watermark {
   display: block;
