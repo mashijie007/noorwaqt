@@ -155,5 +155,6 @@
  "liveToIftar": "{t} حتى الإفطار",
  "liveControlsHint": "مصدر متصفح OBS ← الصق هذا الرابط + ‎?clean=1 للبث النظيف",
  "liveYouTubeDemo": "عرض YouTube ‏16:9",
- "liveTikTokDemo": "عرض TikTok ‏9:16"
+ "liveTikTokDemo": "عرض TikTok ‏9:16",
+ "navLive": "مباشر"
 }
