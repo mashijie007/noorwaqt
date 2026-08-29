@@ -11,6 +11,7 @@ import { pickLang } from './lang-pick.js';
 import { upcoming, todayEvent, isRamadan, hijri, KIND_ICON } from './hijri.js';
 import { isLit, lightCity, litCount, checkMilestone, LIT_TOTAL } from './lit-cities.js';
 import { createCityPopup } from './city-popup.js';
+import { attachLitSim, isSimEnabled, setSimEnabled } from './lit-sim.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -148,6 +149,17 @@ const globe = new Globe($('#globe'), {
   isLit,
 });
 globe.start();
+const _sim = attachLitSim(globe);
+window._sim = _sim; // 调试用：window._sim.burst()
+// 让地球活起来开关
+const breathEl = document.getElementById('breath');
+if(breathEl){
+  breathEl.checked = isSimEnabled();
+  breathEl.addEventListener('change', ()=>{
+    setSimEnabled(breathEl.checked);
+    window.track?.('breath_toggle', {on: breathEl.checked});
+  });
+}
 
 cityPopup = createCityPopup({ el: $('#city-popup'), globe, cities: CITIES });
 cityPopup.setRenderer(renderPopupHTML);

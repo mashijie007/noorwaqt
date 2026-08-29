@@ -168,5 +168,6 @@
  "liveControlsHint": "OBS 浏览器源 → 粘贴本链接 + ?clean=1 纯净推流",
  "liveYouTubeDemo": "YouTube 横屏 16:9 演示",
  "liveTikTokDemo": "TikTok 竖屏 9:16 演示",
- "navLive": "直播"
+ "navLive": "直播",
+ "breathLabel": "让地球活起来"
 }

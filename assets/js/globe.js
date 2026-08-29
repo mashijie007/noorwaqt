@@ -459,6 +459,57 @@ export class Globe {
     g.globalCompositeOperation = 'source-over';
     g.globalAlpha = 1;
 
+    // 3.5 模拟完成点亮（A+B）：pulse + 单环 ripple，lighter 层，节律由 lit-sim 控制
+    if(this._simQueue && this._simQueue.length){
+      g.globalCompositeOperation = 'lighter';
+      const nowEff = performance.now();
+      for(const it of this._simQueue){
+        const idx = CITIES.indexOf(it.city);
+        if(idx<0) continue;
+        if(this._proj[idx*3+2]<=0) continue;
+        const sx=this._proj[idx*3], sy=this._proj[idx*3+1];
+        const v=it.city.vec;
+        const x1=v[0]*ca - v[2]*sa, z1=v[0]*sa+v[2]*ca;
+        const z2=v[1]*sb + z1*cb;
+        const edge=Math.min(1, z2*4);
+        if(edge<=0.05) continue;
+        const s=fasting? this._fast[idx] : this._states[idx];
+        const cur = s && (fasting? 'fasting' : s.current);
+        const rgb = cur ? (fasting? FAST_COLOR : PRAYER_COLOR[cur] || FAST_COLOR) : FAST_COLOR;
+        const p=Math.min(1, Math.max(0, (nowEff - it.t0)/it.dur));
+        if(p>=1) continue;
+        // 缓动：outQuart
+        const ease = 1 - Math.pow(1-p, 4);
+        const easeIn = p*p;
+        // A 脉动：核心与光晕同步胀亮后回落
+        const pulse = 1 - p;
+        const size = R * (T.city.size[0] + T.city.size[1] * (0.45 + 0.55*pulse)) * (1 + 0.18*ease*0.6);
+        g.globalAlpha = (0.35 + 0.55*pulse) * edge * (1 - easeIn*0.3);
+        const spr = this.glow[cur] || this.glow.fasting || this.glow.isha;
+        if(spr) g.drawImage(spr, sx - size/2, sy - size/2, size, size);
+        g.globalAlpha = edge * (0.9 * (1 - easeIn));
+        g.fillStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+        const r = (T.city.core[0] + T.city.core[1] * (0.55 + 0.35*pulse)) * (1 + 0.22*ease);
+        g.beginPath(); g.arc(sx, sy, r, 0, 7); g.fill();
+        // B 单环
+        if(it.hasRing){
+          const rp = Math.min(1, (nowEff - it.t0)/it.dur);
+          const rr = 4 + 22 * rp;
+          const ra = 0.85 * Math.pow(1 - rp, 1.2) * edge;
+          if(ra>0.02){
+            g.globalCompositeOperation='source-over';
+            g.globalAlpha = ra;
+            g.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},1)`;
+            g.lineWidth = 1.25 * (1 - rp*0.3);
+            g.beginPath(); g.arc(sx, sy, rr, 0, 7); g.stroke();
+            g.globalCompositeOperation='lighter';
+          }
+        }
+      }
+      g.globalCompositeOperation='source-over';
+      g.globalAlpha=1;
+    }
+
     // 4. 选中城市的标记环
     if (this.selected) {
       const i = CITIES.indexOf(this.selected);

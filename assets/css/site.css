@@ -280,6 +280,9 @@ html[dir='rtl'] .bar-fill { background-position: right center; }
   font-weight: 600; letter-spacing: 0.02em;
 }
 .time-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; }
+.breath-toggle{ display:inline-flex; align-items:center; gap:.45rem; padding:.32rem .7rem; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); font-size:.82rem; color:var(--ink-2); cursor:pointer; user-select:none; }
+.breath-toggle input{ accent-color: var(--brand); width:14px; height:14px; }
+.breath-toggle:has(input:checked){ border-color: rgba(16,185,129,.35); background: rgba(16,185,129,.12); color:var(--brand-2); }
 
 input[type='range'] {
   -webkit-appearance: none; appearance: none; width: 100%; height: 30px;
