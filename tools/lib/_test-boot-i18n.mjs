@@ -75,9 +75,12 @@ eq('缺的键直接不出现',
 console.log('真模板');
 const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
 const keys = bootKeys(template);
-eq('模板里共 22 个首屏键', keys.length, 22);
-for (const k of ['navGlobal', 'navDownload', 'heroTitle', 'heroLive', 'litPill',
-  'litShareAria', 'heroCta2', 'heroHintTime', 'timeNow', 'docTitle']) {
+// 这个数字是道闸：模板上多一个、少一个 data-boot 都会在这里停下来。
+// 它必须写死 —— 从 bootKeys 自己的结果里推期望值，等于拿被测函数给自己作证。
+// 首屏范围本来就该是有意扩的，改了就顺手把这里也改了。
+eq('模板里共 24 个首屏键', keys.length, 24);
+for (const k of ['navGlobal', 'navLive', 'navDownload', 'heroTitle', 'heroLive', 'litPill',
+  'litShareAria', 'heroCta2', 'heroHintTime', 'timeNow', 'breathLabel', 'docTitle']) {
   eq('含 ' + k, keys.includes(k), true);
 }
 eq('docDesc 不再进首屏载荷', keys.includes('docDesc'), false);
@@ -88,7 +91,9 @@ console.log('真词典');
 const arDict = dictFor('ar');
 const arVars = { n: CITIES.length, total: CITIES.length, lit: '—' };
 const ar = bootEntry(arDict, arVars, keys);
-eq('ar 的 22 个键都在', Object.keys(ar).length, 22);
+// 这里问的是「ar 词典一个首屏键都没缺」，拿 keys.length 比才是原意：
+// keys 来自模板、ar 来自词典，两个独立来源，首屏范围再变也不用改这行。
+eq('ar 的 ' + keys.length + ' 个键都在', Object.keys(ar).length, keys.length);
 eq('ar 里没有残留占位符', /\{(n|lit|total)\}/.test(JSON.stringify(ar)), false);
 eq('ar 的 heroTitle 是阿拉伯语', /[؀-ۿ]/.test(ar.heroTitle), true);
 eq('az 缺 navGuide 时回落英文基线',
