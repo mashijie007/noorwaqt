@@ -71,8 +71,15 @@ export const THEME = {
   },
   /** 球体边缘的一圈细光 */
   limb: { color: 'rgba(110,220,180,0.20)', width: 1 },
-  /** 经纬网。null 表示不画 —— 现在的地球没有这一层 */
-  graticule: null,
+  /** 经纬网：仅赤道与南北回归线（23.44°），随黄道倾角一起倾斜 */
+  graticule: {
+    lines: [0, 23.44, -23.44],
+    color: 'rgba(110,220,180,0.22)',
+    width: 0.9,
+    dash: [4,6],
+    equatorColor: 'rgba(110,220,180,0.32)',
+    equatorWidth: 1.1,
+  },
 };
 
 const mergeTheme = (over) => {
@@ -342,8 +349,7 @@ export class Globe {
     // 经线却是被转过一个角度的椭圆，两者要分别推导，还得单独处理正视时
     // 短轴退化成 0 的情形。采样几十个点连起来，背面直接剔除，一套代码管两种线。
     if (T.graticule) {
-      const { step, color, width } = T.graticule;
-      g.strokeStyle = color; g.lineWidth = width;
+      const { step, color, width, lines, dash, equatorColor, equatorWidth } = T.graticule;
 
       // 球面 (纬,经) → 屏幕坐标；z <= 0 是背面（Y→tilt→X 顺序，轴固定）
       const project = (lat, lon) => {
@@ -363,12 +369,28 @@ export class Globe {
         g.stroke();
       };
 
-      const S = step * D, N = 96;
-      for (let lat = -60 * D; lat <= 60 * D + 1e-9; lat += S) {
-        stroke(Array.from({ length: N + 1 }, (_, i) => project(lat, (i / N) * 360 * D)));
-      }
-      for (let lon = 0; lon < 360 * D - 1e-9; lon += S) {
-        stroke(Array.from({ length: N + 1 }, (_, i) => project((-90 + (i / N) * 180) * D, lon)));
+      const N = 96;
+      if (Array.isArray(lines) && lines.length){
+        // 仅赤道与回归线：赤道稍亮实线，回归线细虚线
+        for(const latDeg of lines){
+          const lat = latDeg * D;
+          const isEquator = Math.abs(latDeg) < 0.01;
+          g.strokeStyle = isEquator ? (equatorColor || color) : color;
+          g.lineWidth = isEquator ? (equatorWidth || width) : width;
+          if(dash && !isEquator) g.setLineDash(dash); else g.setLineDash([]);
+          stroke(Array.from({ length: N + 1 }, (_, i) => project(lat, (i / N) * 360 * D)));
+        }
+        g.setLineDash([]);
+      } else if(step){
+        const S = step * D;
+        for (let lat = -60 * D; lat <= 60 * D + 1e-9; lat += S) {
+          g.strokeStyle = color; g.lineWidth = width; g.setLineDash([]);
+          stroke(Array.from({ length: N + 1 }, (_, i) => project(lat, (i / N) * 360 * D)));
+        }
+        for (let lon = 0; lon < 360 * D - 1e-9; lon += S) {
+          g.strokeStyle = color; g.lineWidth = width; g.setLineDash([]);
+          stroke(Array.from({ length: N + 1 }, (_, i) => project((-90 + (i / N) * 180) * D, lon)));
+        }
       }
     }
 
