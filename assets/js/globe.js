@@ -71,14 +71,14 @@ export const THEME = {
   },
   /** 球体边缘的一圈细光 */
   limb: { color: 'rgba(110,220,180,0.20)', width: 1 },
-  /** 经纬网：仅赤道（0°），随黄道倾角一起倾斜；回归线已按需移除 */
+  /** 经纬网：赤道与南北回归线（±23.44°），随黄道倾角一起倾斜 */
   graticule: {
-    lines: [0],
-    color: 'rgba(110,220,180,0.22)',
-    width: 0.9,
+    lines: [0, 23.44, -23.44],
+    color: 'rgba(110,220,180,0.18)',
+    width: 0.85,
     dash: [4,6],
-    equatorColor: 'rgba(110,220,180,0.32)',
-    equatorWidth: 1.1,
+    equatorColor: 'rgba(110,220,180,0.30)',
+    equatorWidth: 1.05,
   },
 };
 
