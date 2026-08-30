@@ -315,7 +315,9 @@ export class Globe {
 
     const a = this.lon0 * D, b = this.lat0 * D;
     const ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(b), sb = Math.sin(b);
-    // 黄道倾角：使自转轴相对于黄道面倾斜 23.44°，北极向右倾（东侧）
+    // 黄道倾角：23.44° 固定倾斜，轴在惯性系中不动，地球绕该倾斜轴自转
+    // 正确顺序：先绕 Y（lon0，自转）→ 再绕 Z（tilt，固定黄道倾角）→ 再绕 X（lat0，视仰角）
+    // 之前 tilt→Y 会使轴随 lon0 一起转，看着晕
     const tilt = this.tilt || 0;
     const ct = Math.cos(tilt), st = Math.sin(tilt);
 
@@ -343,13 +345,13 @@ export class Globe {
       const { step, color, width } = T.graticule;
       g.strokeStyle = color; g.lineWidth = width;
 
-      // 球面 (纬,经) → 屏幕坐标；z <= 0 是背面（已含黄道倾角）
+      // 球面 (纬,经) → 屏幕坐标；z <= 0 是背面（Y→tilt→X 顺序，轴固定）
       const project = (lat, lon) => {
         const cl = Math.cos(lat), x = cl * Math.sin(lon), y = Math.sin(lat), z = cl * Math.cos(lon);
-        const xt = x * ct + y * st, yt = -x * st + y * ct, zt = z;
-        const x1 = xt * ca - zt * sa, z1 = xt * sa + zt * ca;
-        const z2 = yt * sb + z1 * cb;
-        return { x: cx + x1 * R, y: cy - (yt * cb - z1 * sb) * R, vis: z2 > 0 };
+        const x1 = x * ca - z * sa, z1 = x * sa + z * ca;
+        const xt = x1 * ct + y * st, yt = -x1 * st + y * ct, zt = z1;
+        const z2 = yt * sb + zt * cb;
+        return { x: cx + xt * R, y: cy - (yt * cb - zt * sb) * R, vis: z2 > 0 };
       };
       const stroke = (pts) => {
         let pen = false;
@@ -370,7 +372,7 @@ export class Globe {
       }
     }
 
-    // 1.5 黄道面（让倾角有参照）
+    // 1.5 黄道面（让倾角有参照）— Y→tilt→X 顺序，轴固定
     if(tilt !== 0){
       g.save();
       g.strokeStyle = 'rgba(126,231,190,0.18)';
@@ -380,12 +382,12 @@ export class Globe {
       for(let k=0;k<=64;k++){
         const lon = (k/64)*360*D;
         const x = Math.cos(lon), y = 0, z = Math.sin(lon);
-        const xt = x*ct + y*st, yt = -x*st + y*ct, zt = z;
-        const x1 = xt*ca - zt*sa, z1 = xt*sa + zt*ca;
-        const z2 = yt*sb + z1*cb;
+        const x1 = x*ca - z*sa, z1 = x*sa + z*ca;
+        const xt = x1*ct + y*st, yt = -x1*st + y*ct, zt = z1;
+        const z2 = yt*sb + zt*cb;
         if(z2<=0) continue;
-        const y2 = yt*cb - z1*sb;
-        const sx = cx + x1*R, sy = cy - y2*R;
+        const y2 = yt*cb - zt*sb;
+        const sx = cx + xt*R, sy = cy - y2*R;
         if(k===0) g.moveTo(sx,sy); else g.lineTo(sx,sy);
       }
       g.stroke();
@@ -399,20 +401,17 @@ export class Globe {
     const buckets = [[], [], [], []];
     for (let i = 0; i < LAND_COUNT; i++) {
       const x = LAND[i * 3], y = LAND[i * 3 + 1], z = LAND[i * 3 + 2];
-      // 黄道倾角：先绕 Z 轴倾斜，使北极向右倾 23.44°
-      const xt = x * ct + y * st, yt = -x * st + y * ct, zt = z;
-      const x1 = xt * ca - zt * sa, z1 = xt * sa + zt * ca;
-      const z2 = yt * sb + z1 * cb;
+      // Y→tilt→X
+      const x1 = x * ca - z * sa, z1 = x * sa + z * ca;
+      const xt = x1 * ct + y * st, yt = -x1 * st + y * ct, zt = z1;
+      const z2 = yt * sb + zt * cb;
       if (z2 <= 0.02) continue;                       // 背面剔除
-      // 高纬度的点在等面积网格上仍会挤成一道道同心弧，投影后尤其明显。
-      // 那一带本来也几乎没有人烟，压暗即可，顺带把视线让给有人的纬度带。
       if (yt > 0.9 || yt < -0.87) continue;
-      const y2 = yt * cb - z1 * sb;
-      // 太阳高度角的余弦：>0 是白昼，<0 是黑夜，晨昏线自然浮现（用倾斜后的坐标）
+      const y2 = yt * cb - zt * sb;
       const lit = xt * sun[0] + yt * sun[1] + zt * sun[2];
       const k = lit > 0.25 ? 3 : lit > 0 ? 2 : lit > -0.18 ? 1 : 0;
       const arr = buckets[k];
-      arr.push(cx + x1 * R, cy - y2 * R);
+      arr.push(cx + xt * R, cy - y2 * R);
     }
     // 昼夜对比拉开一些，晨昏线才看得出来
     const shades = T.land.shades;
@@ -448,13 +447,13 @@ export class Globe {
       const c = CITIES[i], v = c.vec;
       const s = fasting ? this._fast[i] : this._states[i];
       if (!s) continue;
-      const xt = v[0] * ct + v[1] * st, yt = -v[0] * st + v[1] * ct, zt = v[2];
-      const x1 = xt * ca - zt * sa, z1 = xt * sa + zt * ca;
-      const z2 = yt * sb + z1 * cb;
+      const x1 = v[0] * ca - v[2] * sa, z1 = v[0] * sa + v[2] * ca;
+      const xt = x1 * ct + v[1] * st, yt = -x1 * st + v[1] * ct, zt = z1;
+      const z2 = yt * sb + zt * cb;
       const p = i * 3;
       if (z2 <= 0) { this._proj[p + 2] = 0; continue; }
-      const y2 = yt * cb - z1 * sb;
-      const sx = cx + x1 * R, sy = cy - y2 * R;
+      const y2 = yt * cb - zt * sb;
+      const sx = cx + xt * R, sy = cy - y2 * R;
       this._proj[p] = sx; this._proj[p + 1] = sy; this._proj[p + 2] = 1;
 
       const active = fasting ? s.fasting : !!s.current;
@@ -502,9 +501,9 @@ export class Globe {
         if(this._proj[idx*3+2]<=0) continue;
         const sx=this._proj[idx*3], sy=this._proj[idx*3+1];
         const v=it.city.vec;
-        const xt=v[0]*ct + v[1]*st, yt=-v[0]*st + v[1]*ct, zt=v[2];
-        const x1=xt*ca - zt*sa, z1=xt*sa+zt*ca;
-        const z2=yt*sb + z1*cb;
+        const x1=v[0]*ca - v[2]*sa, z1=v[0]*sa + v[2]*ca;
+        const xt=x1*ct + v[1]*st, yt=-x1*st + v[1]*ct, zt=z1;
+        const z2=yt*sb + zt*cb;
         const edge=Math.min(1, z2*4);
         if(edge<=0.05) continue;
         const s=fasting? this._fast[idx] : this._states[idx];
