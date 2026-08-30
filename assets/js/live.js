@@ -50,12 +50,11 @@ const els = {
   labelCurrentTime: $('#labelCurrentTime'), labelNextPrayer: $('#labelNextPrayer'),
   labelToday: $('#labelToday'), labelQibla: $('#labelQibla'), labelFasting: $('#labelFasting'),
   controlsHint: $('#controlsHint'), demoYoutube: $('#demoYoutube'), demoTiktok: $('#demoTiktok'),
-  // earth mode
+  // earth mode — 黑框已替换为时钟卡片（第二张图）
   earthLayer: $('#liveEarthLayer'), earthHero: $('#liveEarthHero'),
-  earthEyebrow: $('#earthEyebrow'), earthTitle: $('#earthTitle'), earthLead: $('#earthLead'),
-  earthLiveCount: $('#earthLiveCount'), earthLitCount: $('#earthLitCount'),
-  earthFindCity: $('#earthFindCity'), earthListBtn: $('#earthListBtn'),
-  earthHintDrag: $('#earthHintDrag'), earthHintTap: $('#earthHintTap'), earthHintTime: $('#earthHintTime'), earthTimeLead: $('#earthTimeLead'),
+  earthLabelCurrent: $('#earthLabelCurrent'), earthClock: $('#earthClock'), earthClockTz: $('#earthClockTz'),
+  earthLabelNext: $('#earthLabelNext'), earthNextName: $('#earthNextName'), earthCountdown: $('#earthCountdown'), earthProgress: $('#earthProgress'), earthNextTime: $('#earthNextTime'), earthNextIn: $('#earthNextIn'),
+  earthCurrentChip: $('#earthCurrentChip'), earthLiveMsg: $('#earthLiveMsg'),
   earthToggle: $('#earthToggle'),
   // controls
   ctrlCity: $('#ctrlCity'), ctrlLang: $('#ctrlLang'), ctrlLayout: $('#ctrlLayout'), ctrlAsr: $('#ctrlAsr'), ctrlMode: $('#ctrlMode'),
@@ -184,13 +183,9 @@ async function ensureLang(lang) {
   if (els.controlsHint) els.controlsHint.innerHTML = `${t(lang,'liveControlsHint')} <code>?clean=1</code>`;
   if (els.demoYoutube) els.demoYoutube.textContent = t(lang, 'liveYouTubeDemo');
   if (els.demoTiktok) els.demoTiktok.textContent = t(lang, 'liveTikTokDemo');
-  // 地球模式黑框 hint
-  if (els.earthHintDrag) els.earthHintDrag.textContent = t(lang,'heroHintDrag');
-  if (els.earthHintTap) els.earthHintTap.textContent = t(lang,'heroHintTap');
-  if (els.earthHintTime) els.earthHintTime.textContent = t(lang,'heroHintTime');
-  if (els.earthTimeLead) els.earthTimeLead.textContent = t(lang,'timeLead');
-  if (els.earthFindCity) els.earthFindCity.textContent = t(lang,'heroCta');
-  if (els.earthListBtn) els.earthListBtn.textContent = state.mode==='earth' ? t(lang,'liveToday') : t(lang,'navLive');
+  // 地球模式黑框 — 第二张图时钟卡片
+  if (els.earthLabelCurrent) els.earthLabelCurrent.textContent = t(lang,'liveCurrentTime');
+  if (els.earthLabelNext) els.earthLabelNext.textContent = t(lang,'liveNextPrayer');
 }
 
 function fmtHijri(ts, lang) {
@@ -324,31 +319,28 @@ function render(now) {
   try { els.footerTime.textContent = new Intl.DateTimeFormat('en-GB', { timeZone:'UTC', hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23', timeZoneName:'short' }).format(new Date(now)) + ' UTC'; }
   catch { els.footerTime.textContent = new Date(now).toISOString().slice(11,19) + ' UTC'; }
 
-  // ── 地球模式黑框直播信息 ──
-  if(els.earthEyebrow){
-    // 眉题：LIVE + Hijri
-    els.earthEyebrow.innerHTML = `<span class="live-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand-2);margin-inline-end:.4rem;vertical-align:middle"></span>${t(lang,'liveCurrentTime')} · ${fmtHijri(now, lang)}`;
-  }
-  if(els.earthTitle){
-    // 标题：此刻世界各地的穆斯林正在礼拜 → 直播版
-    const liveWord = t(lang,'navLive');
-    els.earthTitle.innerHTML = `${t(lang,'heroEyebrow')} · <em>${liveWord}</em><br>${cityName(city, lang)}`;
-  }
-  if(els.earthLead){
-    const clockLocal = (()=>{ try{ return new Intl.DateTimeFormat('en-GB', {timeZone:tz, hour:'2-digit', minute:'2-digit', hourCycle:'h23'}).format(new Date(now)); }catch{ return '--:--'; }})();
-    const nextLabel = st.next ? t(lang,'prayer_'+st.next.name) : '—';
-    const cd = st.next ? humanDurationHHMMSS(st.untilNext) : '--:--:--';
-    els.earthLead.textContent = `${clockLocal} ${tz} · ${t(lang,'liveNextPrayer')} ${nextLabel} ${cd} · ${fmtGreg(now, tz, lang)}`;
-  }
-  if(els.earthLiveCount){
-    // 复用首页统计：此刻有 n 城在礼拜窗口内
+  // ── 地球模式黑框：同步第二张图时钟卡片 ──
+  if(els.earthClock){
     try{
-      const active = (()=>{ let n=0; for(let i=0;i<CITIES.length;i++){ const s=stateAt(CITIES[i], now, state.asr); if(s.current) n++; } return n; })();
-      els.earthLiveCount.innerHTML = t(lang,'heroLive', { n: new Intl.NumberFormat(bcp47(lang)).format(active) });
-      els.earthLiveCount.hidden = false;
-    }catch{ els.earthLiveCount.hidden = true; }
+      const cStr = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23' }).format(new Date(now));
+      els.earthClock.textContent = cStr;
+    }catch{ els.earthClock.textContent = els.clock.textContent; }
   }
-  if(els.earthLitCount) els.earthLitCount.hidden = true; // 直播页暂隐藏点亮进度
+  if(els.earthClockTz){
+    try{
+      const tzShort = new Intl.DateTimeFormat(bcp47(lang), { timeZone: tz, timeZoneName:'short' }).formatToParts(new Date(now)).find(p=>p.type==='timeZoneName')?.value || '';
+      // 第二张图为 Africa/Cairo · GMT+3
+      els.earthClockTz.textContent = tzShort ? `${tz} · ${tzShort}` : tz;
+    }catch{ els.earthClockTz.textContent = tz; }
+  }
+  if(els.earthNextName) els.earthNextName.textContent = st.next ? t(lang,'prayer_'+st.next.name) : '—';
+  if(els.earthCountdown) els.earthCountdown.textContent = st.next ? humanDurationHHMMSS(st.untilNext) : '--:--:--';
+  if(els.earthNextTime) els.earthNextTime.textContent = st.next ? localClock(st.next.at, tz, 'en-GB') : '—';
+  if(els.earthNextIn) els.earthNextIn.textContent = els.nextIn.textContent;
+  if(els.earthProgress) els.earthProgress.style.width = els.progress.style.width;
+  if(els.earthCurrentChip) els.earthCurrentChip.innerHTML = els.currentChip.innerHTML;
+  if(els.earthCurrentChip) els.earthCurrentChip.style.color = els.currentChip.style.color;
+  if(els.earthLiveMsg) els.earthLiveMsg.textContent = els.liveMsg.textContent;
 
   // 地球时间同步
   if(liveGlobe){ liveGlobe.time = now; liveGlobe.shadow = state.asr; }

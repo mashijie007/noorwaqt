@@ -89,24 +89,27 @@
     </div>
   </header>
 
-  <!-- 地球模式·黑框直播信息（复刻首页 hero 文案位，仅 earth 模式显示） -->
+  <!-- 地球模式·黑框：替换为第二张图时钟卡片（仅 earth 模式显示） -->
   <section class="live-earth-hero" id="liveEarthHero" hidden aria-hidden="true">
     <div class="live-earth-copy">
-      <p class="eyebrow" id="earthEyebrow">—</p>
-      <h1 id="earthTitle">—</h1>
-      <p class="lead" id="earthLead">—</p>
-      <p class="live-pill" id="earthLiveCount">—</p>
-      <p class="live-pill lit-pill" id="earthLitCount" hidden>—</p>
-      <div class="hero-cta" id="earthCta">
-        <a class="btn btn-primary" href="#" id="earthFindCity">—</a>
-        <a class="btn btn-ghost" href="/live/" id="earthListBtn">—</a>
+      <div class="live-clock-panel" id="earthClockPanel">
+        <div id="earthLabelCurrent" class="live-label">—</div>
+        <div id="earthClock" class="live-clock">--:--:--</div>
+        <div id="earthClockTz" class="live-tz">—</div>
+        <div class="live-next-card">
+          <div class="live-next-head">
+            <span id="earthLabelNext" class="live-next-kicker">—</span>
+            <span id="earthNextName" class="live-next-name">—</span>
+          </div>
+          <div id="earthCountdown" class="live-countdown">--:--:--</div>
+          <div class="live-progress"><div id="earthProgress" class="live-progress-bar" style="width:0%"></div></div>
+          <div class="live-next-meta"><span id="earthNextTime">—</span><span id="earthNextIn">—</span></div>
+        </div>
+        <div class="live-status-row">
+          <span id="earthCurrentChip" class="chip live-chip">—</span>
+          <span id="earthLiveMsg" class="live-msg">—</span>
+        </div>
       </div>
-      <div class="hero-hints" id="earthHints">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M8 12l3-3M8 12l3 3M16 12l-3-3M16 12l-3 3"/></svg><span id="earthHintDrag">—</span></span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span id="earthHintTap">—</span></span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><circle cx="9" cy="12" r="3" fill="currentColor" stroke="none"/></svg><span id="earthHintTime">—</span></span>
-      </div>
-      <p class="note" id="earthTimeLead">—</p>
     </div>
   </section>
 
