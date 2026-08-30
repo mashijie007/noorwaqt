@@ -60,6 +60,13 @@
     <div class="live-bg-glow live-bg-glow--br"></div>
     <div class="live-bg-grid"></div>
   </div>
+  <!-- 地球模式层（默认隐藏） -->
+  <div class="live-earth-layer" id="liveEarthLayer" hidden aria-hidden="true">
+    <div class="live-earth-globe-frame">
+      <div class="live-earth-stage"><canvas id="liveGlobe" aria-label="地球直播"></canvas></div>
+    </div>
+    <div class="live-earth-scrim" aria-hidden="true"></div>
+  </div>
 
   <!-- 顶部栏：品牌 + Hijri + 城市 -->
   <header class="live-header">
@@ -80,6 +87,27 @@
       <div id="gregDate" class="live-greg">—</div>
     </div>
   </header>
+
+  <!-- 地球模式·黑框直播信息（复刻首页 hero 文案位，仅 earth 模式显示） -->
+  <section class="live-earth-hero" id="liveEarthHero" hidden aria-hidden="true">
+    <div class="live-earth-copy">
+      <p class="eyebrow" id="earthEyebrow">—</p>
+      <h1 id="earthTitle">—</h1>
+      <p class="lead" id="earthLead">—</p>
+      <p class="live-pill" id="earthLiveCount">—</p>
+      <p class="live-pill lit-pill" id="earthLitCount" hidden>—</p>
+      <div class="hero-cta" id="earthCta">
+        <a class="btn btn-primary" href="#" id="earthFindCity">—</a>
+        <a class="btn btn-ghost" href="/live/" id="earthListBtn">—</a>
+      </div>
+      <div class="hero-hints" id="earthHints">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M8 12l3-3M8 12l3 3M16 12l-3-3M16 12l-3 3"/></svg><span id="earthHintDrag">—</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span id="earthHintTap">—</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><circle cx="9" cy="12" r="3" fill="currentColor" stroke="none"/></svg><span id="earthHintTime">—</span></span>
+      </div>
+      <p class="note" id="earthTimeLead">—</p>
+    </div>
+  </section>
 
   <!-- 主舞台 -->
   <main class="live-main">
@@ -176,6 +204,13 @@
       <select id="ctrlAsr">
         <option value="1">Standard</option>
         <option value="2">Hanafi</option>
+      </select>
+    </label>
+    <label class="lc-field">
+      <span>模式</span>
+      <select id="ctrlMode">
+        <option value="list">列表</option>
+        <option value="earth">地球</option>
       </select>
     </label>
     <button id="ctrlSwap" class="btn btn-ghost btn-sm" title="Swap 16:9 / 9:16">⇆ Swap</button>

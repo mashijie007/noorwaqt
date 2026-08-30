@@ -28,6 +28,8 @@ import { prayerTimes, todayFor, stateAt, timeline, localClock, fastingAt, resolv
 import { hijri } from './hijri.js';
 import { LOCALES, loadLocale, t, cityName, dirOf, bcp47, monthNames } from './i18n.js';
 import { qiblaBearing, distanceToMakkah } from './cities.js';
+import { Globe } from './globe.js';
+import { attachLitSim } from './lit-sim.js';
 
 // ── DOM ──
 const $ = (s) => document.querySelector(s);
@@ -48,8 +50,14 @@ const els = {
   labelCurrentTime: $('#labelCurrentTime'), labelNextPrayer: $('#labelNextPrayer'),
   labelToday: $('#labelToday'), labelQibla: $('#labelQibla'), labelFasting: $('#labelFasting'),
   controlsHint: $('#controlsHint'), demoYoutube: $('#demoYoutube'), demoTiktok: $('#demoTiktok'),
+  // earth mode
+  earthLayer: $('#liveEarthLayer'), earthHero: $('#liveEarthHero'),
+  earthEyebrow: $('#earthEyebrow'), earthTitle: $('#earthTitle'), earthLead: $('#earthLead'),
+  earthLiveCount: $('#earthLiveCount'), earthLitCount: $('#earthLitCount'),
+  earthFindCity: $('#earthFindCity'), earthListBtn: $('#earthListBtn'),
+  earthHintDrag: $('#earthHintDrag'), earthHintTap: $('#earthHintTap'), earthHintTime: $('#earthHintTime'), earthTimeLead: $('#earthTimeLead'),
   // controls
-  ctrlCity: $('#ctrlCity'), ctrlLang: $('#ctrlLang'), ctrlLayout: $('#ctrlLayout'), ctrlAsr: $('#ctrlAsr'),
+  ctrlCity: $('#ctrlCity'), ctrlLang: $('#ctrlLang'), ctrlLayout: $('#ctrlLayout'), ctrlAsr: $('#ctrlAsr'), ctrlMode: $('#ctrlMode'),
   cityDatalist: $('#cityDatalist'), controlBar: $('#controlBar'),
   toast: $('#toast'),
 };
@@ -62,6 +70,7 @@ let state = {
   lang: getParam('lang', 'zh'),
   city: null,
   layout: getParam('layout', '16x9'), // 16x9 | 9x16 | auto
+  mode: getParam('mode', getParam('earth','list')) === 'earth' ? 'earth' : 'list',
   asr: parseInt(getParam('asr', '1'), 10) === 2 ? 2 : 1,
   clean: params.get('clean') === '1',
 };
@@ -97,14 +106,32 @@ function applyLayout(layout) {
     const ratio = window.innerWidth / window.innerHeight;
     chosen = ratio >= 1 ? '16x9' : '9x16';
   }
-  stage.className = 'stage layout-' + chosen;
+  stage.classList.remove('layout-16x9','layout-9x16');
+  stage.classList.add('layout-'+chosen);
+  if(!stage.classList.contains('stage')) stage.classList.add('stage');
   stage.dataset.layout = chosen;
   // HTML dir
   document.documentElement.lang = bcp47(state.lang);
   document.documentElement.dir = dirOf(state.lang);
 }
-applyLayout(state.layout);
-window.addEventListener('resize', () => { if (state.layout === 'auto') applyLayout('auto'); });
+
+// ── Earth 模式 ──
+let liveGlobe = null, liveGlobeSim = null;
+function applyEarthMode(mode){
+  state.mode = mode === 'earth' ? 'earth' : 'list';
+  stage.classList.toggle('mode-earth', state.mode==='earth');
+  if(els.earthLayer) els.earthLayer.hidden = state.mode!=='earth';
+  if(els.earthHero) els.earthHero.hidden = state.mode!=='earth';
+  // 初始化地球（懒加载）
+  if(state.mode==='earth' && !liveGlobe && document.getElementById('liveGlobe')){
+    liveGlobe = new Globe(document.getElementById('liveGlobe'), { interactive:true, zoom:0.86 });
+    liveGlobe.start();
+    try{ liveGlobeSim = attachLitSim(liveGlobe); }catch{}
+  }
+  if(els.ctrlMode) els.ctrlMode.value = state.mode;
+  if(liveGlobe) liveGlobe.time = Date.now();
+}
+applyEarthMode(state.mode);
 
 // ── Dirty helpers ──
 function humanDurationHHMMSS(ms) {
@@ -151,6 +178,13 @@ async function ensureLang(lang) {
   if (els.controlsHint) els.controlsHint.innerHTML = `${t(lang,'liveControlsHint')} <code>?clean=1</code>`;
   if (els.demoYoutube) els.demoYoutube.textContent = t(lang, 'liveYouTubeDemo');
   if (els.demoTiktok) els.demoTiktok.textContent = t(lang, 'liveTikTokDemo');
+  // 地球模式黑框 hint
+  if (els.earthHintDrag) els.earthHintDrag.textContent = t(lang,'heroHintDrag');
+  if (els.earthHintTap) els.earthHintTap.textContent = t(lang,'heroHintTap');
+  if (els.earthHintTime) els.earthHintTime.textContent = t(lang,'heroHintTime');
+  if (els.earthTimeLead) els.earthTimeLead.textContent = t(lang,'timeLead');
+  if (els.earthFindCity) els.earthFindCity.textContent = t(lang,'heroCta');
+  if (els.earthListBtn) els.earthListBtn.textContent = state.mode==='earth' ? t(lang,'liveToday') : t(lang,'navLive');
 }
 
 function fmtHijri(ts, lang) {
@@ -284,6 +318,35 @@ function render(now) {
   try { els.footerTime.textContent = new Intl.DateTimeFormat('en-GB', { timeZone:'UTC', hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23', timeZoneName:'short' }).format(new Date(now)) + ' UTC'; }
   catch { els.footerTime.textContent = new Date(now).toISOString().slice(11,19) + ' UTC'; }
 
+  // ── 地球模式黑框直播信息 ──
+  if(els.earthEyebrow){
+    // 眉题：LIVE + Hijri
+    els.earthEyebrow.innerHTML = `<span class="live-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand-2);margin-inline-end:.4rem;vertical-align:middle"></span>${t(lang,'liveCurrentTime')} · ${fmtHijri(now, lang)}`;
+  }
+  if(els.earthTitle){
+    // 标题：此刻世界各地的穆斯林正在礼拜 → 直播版
+    const liveWord = t(lang,'navLive');
+    els.earthTitle.innerHTML = `${t(lang,'heroEyebrow')} · <em>${liveWord}</em><br>${cityName(city, lang)}`;
+  }
+  if(els.earthLead){
+    const clockLocal = (()=>{ try{ return new Intl.DateTimeFormat('en-GB', {timeZone:tz, hour:'2-digit', minute:'2-digit', hourCycle:'h23'}).format(new Date(now)); }catch{ return '--:--'; }})();
+    const nextLabel = st.next ? t(lang,'prayer_'+st.next.name) : '—';
+    const cd = st.next ? humanDurationHHMMSS(st.untilNext) : '--:--:--';
+    els.earthLead.textContent = `${clockLocal} ${tz} · ${t(lang,'liveNextPrayer')} ${nextLabel} ${cd} · ${fmtGreg(now, tz, lang)}`;
+  }
+  if(els.earthLiveCount){
+    // 复用首页统计：此刻有 n 城在礼拜窗口内
+    try{
+      const active = (()=>{ let n=0; for(let i=0;i<CITIES.length;i++){ const s=stateAt(CITIES[i], now, state.asr); if(s.current) n++; } return n; })();
+      els.earthLiveCount.innerHTML = t(lang,'heroLive', { n: new Intl.NumberFormat(bcp47(lang)).format(active) });
+      els.earthLiveCount.hidden = false;
+    }catch{ els.earthLiveCount.hidden = true; }
+  }
+  if(els.earthLitCount) els.earthLitCount.hidden = true; // 直播页暂隐藏点亮进度
+
+  // 地球时间同步
+  if(liveGlobe){ liveGlobe.time = now; liveGlobe.shadow = state.asr; }
+
   // document dir already set
 }
 
@@ -298,6 +361,7 @@ function fillControls() {
   els.ctrlLayout.value = ['16x9','9x16'].includes(state.layout) ? state.layout : '16x9';
   if (state.layout==='auto') els.ctrlLayout.value = '16x9';
   els.ctrlAsr.value = String(state.asr);
+  if(els.ctrlMode) els.ctrlMode.value = state.mode;
   els.ctrlCity.value = state.city.en;
   if (state.clean) els.controlBar.hidden = true;
 }
@@ -307,6 +371,7 @@ function updateUrl() {
   p.set('city', citySlug(state.city.en));
   p.set('lang', state.lang);
   p.set('layout', state.layout);
+  if (state.mode==='earth') p.set('mode','earth');
   if (state.asr===2) p.set('asr','2');
   if (state.clean) p.set('clean','1');
   const url = location.pathname + '?' + p.toString();
@@ -341,6 +406,13 @@ function bindControls() {
     updateUrl();
     render(Date.now());
   });
+  if(els.ctrlMode) els.ctrlMode.addEventListener('change', ()=>{
+    applyEarthMode(els.ctrlMode.value);
+    updateUrl();
+    render(Date.now());
+  });
+  if(els.earthFindCity) els.earthFindCity.addEventListener('click', (e)=>{ e.preventDefault(); document.getElementById('ctrlCity')?.focus(); window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'}); });
+  if(els.earthListBtn) els.earthListBtn.addEventListener('click', (e)=>{ e.preventDefault(); applyEarthMode('list'); if(els.ctrlMode) els.ctrlMode.value='list'; updateUrl(); });
   $('#ctrlSwap').addEventListener('click', () => {
     state.layout = state.layout === '16x9' ? '9x16' : '16x9';
     els.ctrlLayout.value = state.layout;
