@@ -370,6 +370,29 @@ export class Globe {
       }
     }
 
+    // 1.5 黄道面（让倾角有参照）
+    if(tilt !== 0){
+      g.save();
+      g.strokeStyle = 'rgba(126,231,190,0.18)';
+      g.lineWidth = 1;
+      g.setLineDash([4,6]);
+      g.beginPath();
+      for(let k=0;k<=64;k++){
+        const lon = (k/64)*360*D;
+        const x = Math.cos(lon), y = 0, z = Math.sin(lon);
+        const xt = x*ct + y*st, yt = -x*st + y*ct, zt = z;
+        const x1 = xt*ca - zt*sa, z1 = xt*sa + zt*ca;
+        const z2 = yt*sb + z1*cb;
+        if(z2<=0) continue;
+        const y2 = yt*cb - z1*sb;
+        const sx = cx + x1*R, sy = cy - y2*R;
+        if(k===0) g.moveTo(sx,sy); else g.lineTo(sx,sy);
+      }
+      g.stroke();
+      g.setLineDash([]);
+      g.restore();
+    }
+
     // 2. 陆地点阵。按昼夜明暗分档批量绘制，减少 fillStyle 切换
     const sun = this._sun;
     const dot = Math.max(0.7, R * T.land.dot);
@@ -519,6 +542,30 @@ export class Globe {
       }
       g.globalCompositeOperation='source-over';
       g.globalAlpha=1;
+    }
+
+    // 3.6 自转轴可视化（让 23.44° 肉眼可见）
+    if(tilt !== 0){
+      g.save();
+      const north = {x: st, y: ct, z: 0};
+      const south = {x: -st, y: -ct, z: 0};
+      const projA = (x,y,z)=>{
+        const x1 = x*ca - z*sa, z1 = x*sa + z*ca;
+        const z2 = y*sb + z1*cb;
+        const y2 = y*cb - z1*sb;
+        return {x: cx + x1*R, y: cy - y2*R, vis: z2> -0.2};
+      };
+      const n = projA(north.x, north.y, north.z);
+      const s = projA(south.x, south.y, south.z);
+      g.strokeStyle = 'rgba(255,255,255,0.55)';
+      g.lineWidth = 1.2;
+      g.setLineDash([3,4]);
+      g.beginPath(); g.moveTo(n.x,n.y); g.lineTo(s.x,s.y); g.stroke();
+      g.setLineDash([]);
+      // 北极点高亮
+      const nVis = (()=>{ const x1=north.x*ca - north.z*sa, z1=north.x*sa+north.z*ca; const z2=north.y*sb+z1*cb; return z2>0; })();
+      if(nVis){ g.fillStyle='rgba(255,255,255,0.92)'; g.beginPath(); g.arc(n.x,n.y,2.4,0,7); g.fill(); g.fillStyle='rgba(255,255,255,0.45)'; g.beginPath(); g.arc(n.x,n.y,5,0,7); g.stroke(); }
+      g.restore();
     }
 
     // 4. 选中城市的标记环
