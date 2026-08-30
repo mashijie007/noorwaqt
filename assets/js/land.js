@@ -1,7 +1,14 @@
 /* land.js — 烘焙好的陆地点阵掩码
  * 来源: Natural Earth 110m land (world-atlas)，离线预计算，运行时零请求。
  * 网格: lat -84..84 步进 1.25°，每行经度点数 = round(288·cos(lat))（等面积近似）
- * 26273 个格点，其中 7701 个为陆地（29.3%，与地球实际陆地占比一致）
+ * 26273 个格点，其中 7490 个为陆地（28.5%，与地球实际陆地占比一致）
+ *
+ * lat=-16.5° 那一行曾经坏过：276 个格点里 275 个被标成陆地（99.6%，邻行都是 ~23%）。
+ * 渲染出来就是横穿印度洋与南太平洋的一整圈点 —— 看着像第四条纬线，夹在赤道与南回归线之间，
+ * 还比 globe.js 画的回归线虚线更亮。查它花了很久，因为绘制代码是对的，坏的是喂进去的数据。
+ * 现已按上下邻行（-17.75° / -15.25°）最近邻重采样补回，占比回到 23.2%。
+ * 这份掩码没有生成脚本可以重跑，改动是直接落在 MASK_B64 上的 —— 动它之前先按行统计一遍占比，
+ * 任何一行远离邻行的水平就是坏了。
  */
 export const GRID = { latMin: -84, latMax: 84, latStep: 1.25, lonDensity: 288 };
 
@@ -26,7 +33,7 @@ const MASK_B64 =
   "AAAAAP/+BwAAAAAAAP////AAAAAAAAAAAAAAAAA///4AAAAAAP//A4AAAAAAAD////gAAAAAAAAA"+
   "AAAAAAAP///AAAAAAB//4HAAAAAAAAP///8AAAAAAAAAAAAAAAAAf//+AAAAAAH//wHAAAAAAAAB"+
   "///4AAAAAAAAAAAAAAAAAf///gAAAAAD//8DwAAAAAAAAP//4AAAAAAAAAAAAAAAAAH///8AAAAA"+
-  "A///weAAAAAAAAAf//gAAAn/////////////////////////////////////////////wAAAAAAA"+
+  "A///weAAAAAAAAAf//gAAAgAAAAAAAAAAAAD////wAAAAAA///8GAAAAAAAAAP8HAACAAAAAAAAA"+
   "AAAAAB////4AAAAAAf//+DAAAAAAAAAD/BwAAgAAAAAAAAAAAAAAf////AAAAAAD///gYAAAAAAA"+
   "AAL4IAAAAAAAAAAAAAAAAAD////8AAAAAAP///AgAAAAAAAAAD4QAAAAAAAAAAAAAAAAAH////8A"+
   "AAAAAP//+AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAH/////AAAAAAP///AAAAAAAAAAAAAAQAAAAA"+
