@@ -128,6 +128,9 @@ export class Globe {
     this.lat0 = opts.lat0 ?? 18;      // 视线中心纬度（略微俯视）
     this.zoom = opts.zoom ?? 0.86;    // 球半径占画布短边的比例
     this.spin = opts.spin ?? 1.1;     // 自转角速度（度/秒）
+    // 黄道倾角：地球自转轴相对于黄道面的倾斜，23.44° 为真实值
+    // 设为 0 可回退到旧版垂直自转
+    this.tilt = opts.tilt ?? (23.44 * D);
     this.mode = 'prayer';             // 'prayer' | 'fasting'
     this.shadow = 1;                  // 晡礼影长倍数
     this.time = Date.now();
@@ -312,6 +315,9 @@ export class Globe {
 
     const a = this.lon0 * D, b = this.lat0 * D;
     const ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(b), sb = Math.sin(b);
+    // 黄道倾角：使自转轴相对于黄道面倾斜 23.44°，北极向右倾（东侧）
+    const tilt = this.tilt || 0;
+    const ct = Math.cos(tilt), st = Math.sin(tilt);
 
     // 1. 球体本身 + 大气辉光
     // 光晕必须紧贴球体边缘并迅速衰减。起点若离球面太远、透明度若给太高，
@@ -337,12 +343,13 @@ export class Globe {
       const { step, color, width } = T.graticule;
       g.strokeStyle = color; g.lineWidth = width;
 
-      // 球面 (纬,经) → 屏幕坐标；z <= 0 是背面
+      // 球面 (纬,经) → 屏幕坐标；z <= 0 是背面（已含黄道倾角）
       const project = (lat, lon) => {
         const cl = Math.cos(lat), x = cl * Math.sin(lon), y = Math.sin(lat), z = cl * Math.cos(lon);
-        const x1 = x * ca - z * sa, z1 = x * sa + z * ca;
-        const z2 = y * sb + z1 * cb;
-        return { x: cx + x1 * R, y: cy - (y * cb - z1 * sb) * R, vis: z2 > 0 };
+        const xt = x * ct + y * st, yt = -x * st + y * ct, zt = z;
+        const x1 = xt * ca - zt * sa, z1 = xt * sa + zt * ca;
+        const z2 = yt * sb + z1 * cb;
+        return { x: cx + x1 * R, y: cy - (yt * cb - z1 * sb) * R, vis: z2 > 0 };
       };
       const stroke = (pts) => {
         let pen = false;
@@ -369,15 +376,17 @@ export class Globe {
     const buckets = [[], [], [], []];
     for (let i = 0; i < LAND_COUNT; i++) {
       const x = LAND[i * 3], y = LAND[i * 3 + 1], z = LAND[i * 3 + 2];
-      const x1 = x * ca - z * sa, z1 = x * sa + z * ca;
-      const z2 = y * sb + z1 * cb;
+      // 黄道倾角：先绕 Z 轴倾斜，使北极向右倾 23.44°
+      const xt = x * ct + y * st, yt = -x * st + y * ct, zt = z;
+      const x1 = xt * ca - zt * sa, z1 = xt * sa + zt * ca;
+      const z2 = yt * sb + z1 * cb;
       if (z2 <= 0.02) continue;                       // 背面剔除
       // 高纬度的点在等面积网格上仍会挤成一道道同心弧，投影后尤其明显。
       // 那一带本来也几乎没有人烟，压暗即可，顺带把视线让给有人的纬度带。
-      if (y > 0.9 || y < -0.87) continue;
-      const y2 = y * cb - z1 * sb;
-      // 太阳高度角的余弦：>0 是白昼，<0 是黑夜，晨昏线自然浮现
-      const lit = x * sun[0] + y * sun[1] + z * sun[2];
+      if (yt > 0.9 || yt < -0.87) continue;
+      const y2 = yt * cb - z1 * sb;
+      // 太阳高度角的余弦：>0 是白昼，<0 是黑夜，晨昏线自然浮现（用倾斜后的坐标）
+      const lit = xt * sun[0] + yt * sun[1] + zt * sun[2];
       const k = lit > 0.25 ? 3 : lit > 0 ? 2 : lit > -0.18 ? 1 : 0;
       const arr = buckets[k];
       arr.push(cx + x1 * R, cy - y2 * R);
@@ -416,11 +425,12 @@ export class Globe {
       const c = CITIES[i], v = c.vec;
       const s = fasting ? this._fast[i] : this._states[i];
       if (!s) continue;
-      const x1 = v[0] * ca - v[2] * sa, z1 = v[0] * sa + v[2] * ca;
-      const z2 = v[1] * sb + z1 * cb;
+      const xt = v[0] * ct + v[1] * st, yt = -v[0] * st + v[1] * ct, zt = v[2];
+      const x1 = xt * ca - zt * sa, z1 = xt * sa + zt * ca;
+      const z2 = yt * sb + z1 * cb;
       const p = i * 3;
       if (z2 <= 0) { this._proj[p + 2] = 0; continue; }
-      const y2 = v[1] * cb - z1 * sb;
+      const y2 = yt * cb - z1 * sb;
       const sx = cx + x1 * R, sy = cy - y2 * R;
       this._proj[p] = sx; this._proj[p + 1] = sy; this._proj[p + 2] = 1;
 
@@ -469,8 +479,9 @@ export class Globe {
         if(this._proj[idx*3+2]<=0) continue;
         const sx=this._proj[idx*3], sy=this._proj[idx*3+1];
         const v=it.city.vec;
-        const x1=v[0]*ca - v[2]*sa, z1=v[0]*sa+v[2]*ca;
-        const z2=v[1]*sb + z1*cb;
+        const xt=v[0]*ct + v[1]*st, yt=-v[0]*st + v[1]*ct, zt=v[2];
+        const x1=xt*ca - zt*sa, z1=xt*sa+zt*ca;
+        const z2=yt*sb + z1*cb;
         const edge=Math.min(1, z2*4);
         if(edge<=0.05) continue;
         const s=fasting? this._fast[idx] : this._states[idx];
