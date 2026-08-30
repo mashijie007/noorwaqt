@@ -56,6 +56,7 @@ const els = {
   earthLiveCount: $('#earthLiveCount'), earthLitCount: $('#earthLitCount'),
   earthFindCity: $('#earthFindCity'), earthListBtn: $('#earthListBtn'),
   earthHintDrag: $('#earthHintDrag'), earthHintTap: $('#earthHintTap'), earthHintTime: $('#earthHintTime'), earthTimeLead: $('#earthTimeLead'),
+  earthToggle: $('#earthToggle'),
   // controls
   ctrlCity: $('#ctrlCity'), ctrlLang: $('#ctrlLang'), ctrlLayout: $('#ctrlLayout'), ctrlAsr: $('#ctrlAsr'), ctrlMode: $('#ctrlMode'),
   cityDatalist: $('#cityDatalist'), controlBar: $('#controlBar'),
@@ -129,7 +130,12 @@ function applyEarthMode(mode){
     try{ liveGlobeSim = attachLitSim(liveGlobe); }catch{}
   }
   if(els.ctrlMode) els.ctrlMode.value = state.mode;
-  if(liveGlobe) liveGlobe.time = Date.now();
+  if(els.earthToggle) els.earthToggle.textContent = state.mode==='earth' ? '📋 列表模式' : '🌍 地球模式';
+  if(liveGlobe){
+    liveGlobe.time = Date.now();
+    // 确保从 hidden→visible 后重算尺寸
+    setTimeout(()=> liveGlobe._resize && liveGlobe._resize(), 50);
+  }
 }
 applyEarthMode(state.mode);
 
@@ -413,6 +419,12 @@ function bindControls() {
   });
   if(els.earthFindCity) els.earthFindCity.addEventListener('click', (e)=>{ e.preventDefault(); document.getElementById('ctrlCity')?.focus(); window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'}); });
   if(els.earthListBtn) els.earthListBtn.addEventListener('click', (e)=>{ e.preventDefault(); applyEarthMode('list'); if(els.ctrlMode) els.ctrlMode.value='list'; updateUrl(); });
+  if(els.earthToggle) els.earthToggle.addEventListener('click', ()=>{
+    const next = state.mode==='earth' ? 'list' : 'earth';
+    applyEarthMode(next);
+    updateUrl();
+    render(Date.now());
+  });
   $('#ctrlSwap').addEventListener('click', () => {
     state.layout = state.layout === '16x9' ? '9x16' : '16x9';
     els.ctrlLayout.value = state.layout;
