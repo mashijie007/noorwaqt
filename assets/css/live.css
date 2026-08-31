@@ -63,7 +63,7 @@
   mask-image: radial-gradient(85% 70% at 50% 35%, black 45%, transparent 88%);
 }
 
-/* ── Earth 模式层（直播内地球）— 16:9 时 LTR 左球右文、RTL 右球左文 ── */
+/* ── Earth 模式层 — LTR 左球右文、RTL 右球左文，轴固定 23.44° ── */
 .live-earth-layer{ position:absolute; inset:0; z-index:1; display:none; }
 .mode-earth .live-earth-layer{ display:block; }
 .live-earth-globe-frame{ position:absolute; inset-block-start:50%; inset-inline-start:36%; transform:translate(-50%,-50%); width:min(118svh,82vw); }
@@ -71,10 +71,10 @@ html[dir='rtl'] .live-earth-globe-frame{ inset-inline-start:auto; inset-inline-e
 .live-earth-stage{ position:relative; width:100%; aspect-ratio:1/1; }
 .live-earth-stage canvas{ position:absolute; inset:0; touch-action:pan-y; cursor:grab; }
 .live-earth-stage canvas:active{ cursor:grabbing; }
-.live-earth-scrim{ position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to right, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
-html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to left, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); transform:none; }
+.live-earth-scrim{ position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to left, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
+html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to right, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
 .live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; justify-content:flex-end; padding:1.2rem 1.4rem; pointer-events:none; }
-html[dir='rtl'] .live-earth-hero{ justify-content:flex-start; }
+html[dir='rtl'] .live-earth-hero{ justify-content:flex-end; }
 .mode-earth .live-earth-hero{ display:flex; }
 .mode-earth .live-main{ display:none !important; }
 .live-earth-copy{ width:min(100%, 520px); display:grid; gap:1rem; pointer-events:auto; }
