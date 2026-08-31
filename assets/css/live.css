@@ -77,13 +77,13 @@ html[dir='rtl'] .live-earth-scrim{ transform:scaleX(-1); }
 .mode-earth .live-earth-hero{ display:flex; }
 .mode-earth .live-main{ display:none !important; }
 .live-earth-copy{ width:min(100%, 460px); display:grid; gap:.9rem; pointer-events:auto; }
-/* 黑框横排五番（图一横置于图二黑框） */
-.live-earth-prayers{ display:grid; grid-template-columns:repeat(6,1fr); gap:.45rem; padding:.8rem; border-radius:16px; border:1px solid var(--live-line); background:rgba(255,255,255,.03); backdrop-filter:blur(10px); }
-.live-earth-prayers .live-prayer-row{ grid-template-columns:1fr; justify-items:center; text-align:center; gap:.22rem; padding:.6rem .35rem; border-radius:12px; }
-.live-earth-prayers .live-prayer-row .dot{ width:8px; height:8px; }
-.live-earth-prayers .live-prayer-row .p-name{ font-size:.82rem; }
-.live-earth-prayers .live-prayer-row .p-time{ font-size:.92rem; }
-.live-earth-prayers .live-prayer-row .p-badge{ font-size:.62rem; padding:.16rem .4rem; }
+/* 黑框横排五番（图一横置于图二黑框）— 用 ID 提权覆盖 .live-prayers 的 flex */
+#earthPrayers{ display:grid !important; grid-template-columns:repeat(6,1fr); gap:.45rem; padding:.8rem; border-radius:16px; border:1px solid var(--live-line); background:rgba(255,255,255,.03); backdrop-filter:blur(10px); }
+#earthPrayers .live-prayer-row{ grid-template-columns:1fr !important; justify-items:center; text-align:center; gap:.22rem; padding:.6rem .35rem; border-radius:12px; }
+#earthPrayers .live-prayer-row .dot{ width:8px; height:8px; }
+#earthPrayers .live-prayer-row .p-name{ font-size:.82rem; }
+#earthPrayers .live-prayer-row .p-time{ font-size:.92rem; }
+#earthPrayers .live-prayer-row .p-badge{ font-size:.62rem; padding:.16rem .4rem; }
 @media (max-width:980px){
   .live-earth-layer{ position:static; inset:auto; }
   .live-earth-globe-frame{ position:static; transform:none; width:min(100%,460px); margin:0 auto; }
@@ -91,11 +91,11 @@ html[dir='rtl'] .live-earth-scrim{ transform:scaleX(-1); }
   .live-earth-scrim{ display:none; }
   .live-earth-hero{ padding:1rem 1.1rem; justify-content:center; }
   .live-earth-copy{ width:100%; max-width:none; }
-  .live-earth-prayers{ grid-template-columns:repeat(3,1fr); }
+  #earthPrayers{ grid-template-columns:repeat(3,1fr) !important; }
   .mode-earth .stage{ overflow:auto; }
 }
-.layout-9x16 .live-earth-prayers{ grid-template-columns:1fr; }
-.layout-9x16 .live-earth-prayers .live-prayer-row{ grid-template-columns:16px 1fr auto auto; justify-items:stretch; text-align:start; }
+.layout-9x16 #earthPrayers{ grid-template-columns:1fr !important; }
+.layout-9x16 #earthPrayers .live-prayer-row{ grid-template-columns:16px 1fr auto auto !important; justify-items:stretch; text-align:start; }
 
 /* ── Header ── */
 .live-header {
