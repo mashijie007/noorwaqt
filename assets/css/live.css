@@ -63,27 +63,28 @@
   mask-image: radial-gradient(85% 70% at 50% 35%, black 45%, transparent 88%);
 }
 
-/* ── Earth 模式层（直播内地球） ── */
+/* ── Earth 模式层（直播内地球）— 16:9 时 LTR 左球右文、RTL 右球左文 ── */
 .live-earth-layer{ position:absolute; inset:0; z-index:1; display:none; }
 .mode-earth .live-earth-layer{ display:block; }
-.live-earth-globe-frame{ position:absolute; inset-block-start:50%; inset-inline-start:64%; transform:translate(-50%,-50%); width:min(118svh,82vw); }
-html[dir='rtl'] .live-earth-globe-frame{ transform:translate(50%,-50%); }
+.live-earth-globe-frame{ position:absolute; inset-block-start:50%; inset-inline-start:36%; transform:translate(-50%,-50%); width:min(118svh,82vw); }
+html[dir='rtl'] .live-earth-globe-frame{ inset-inline-start:auto; inset-inline-end:36%; transform:translate(50%,-50%); }
 .live-earth-stage{ position:relative; width:100%; aspect-ratio:1/1; }
 .live-earth-stage canvas{ position:absolute; inset:0; touch-action:pan-y; cursor:grab; }
 .live-earth-stage canvas:active{ cursor:grabbing; }
 .live-earth-scrim{ position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to right, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
-html[dir='rtl'] .live-earth-scrim{ transform:scaleX(-1); }
+html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to left, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); transform:none; }
 .live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; justify-content:flex-end; padding:1.2rem 1.4rem; pointer-events:none; }
+html[dir='rtl'] .live-earth-hero{ justify-content:flex-start; }
 .mode-earth .live-earth-hero{ display:flex; }
 .mode-earth .live-main{ display:none !important; }
-.live-earth-copy{ width:min(100%, 460px); display:grid; gap:.9rem; pointer-events:auto; }
-/* 黑框横排五番（图一横置于图二黑框）— 用 ID 提权覆盖 .live-prayers 的 flex */
-#earthPrayers{ display:grid !important; grid-template-columns:repeat(6,1fr); gap:.45rem; padding:.8rem; border-radius:16px; border:1px solid var(--live-line); background:rgba(255,255,255,.03); backdrop-filter:blur(10px); }
-#earthPrayers .live-prayer-row{ grid-template-columns:1fr !important; justify-items:center; text-align:center; gap:.22rem; padding:.6rem .35rem; border-radius:12px; }
-#earthPrayers .live-prayer-row .dot{ width:8px; height:8px; }
-#earthPrayers .live-prayer-row .p-name{ font-size:.82rem; }
-#earthPrayers .live-prayer-row .p-time{ font-size:.92rem; }
-#earthPrayers .live-prayer-row .p-badge{ font-size:.62rem; padding:.16rem .4rem; }
+.live-earth-copy{ width:min(100%, 520px); display:grid; gap:1rem; pointer-events:auto; }
+/* 黑框横排五番（图一横置于图二黑框）— 加大字号与间距，提升直播可读性 */
+#earthPrayers{ display:grid !important; grid-template-columns:repeat(6,1fr); gap:.55rem; padding:1rem .9rem; border-radius:18px; border:1px solid rgba(126,231,190,.18); background:linear-gradient(165deg, rgba(10,35,32,.88), rgba(7,26,23,.55)); backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,.35); }
+#earthPrayers .live-prayer-row{ grid-template-columns:1fr !important; justify-items:center; text-align:center; gap:.32rem; padding:.75rem .4rem; border-radius:14px; }
+#earthPrayers .live-prayer-row .dot{ width:9px; height:9px; }
+#earthPrayers .live-prayer-row .p-name{ font-size:.92rem; font-weight:600; }
+#earthPrayers .live-prayer-row .p-time{ font-size:1.05rem; font-weight:700; }
+#earthPrayers .live-prayer-row .p-badge{ font-size:.68rem; padding:.2rem .45rem; }
 @media (max-width:980px){
   .live-earth-layer{ position:static; inset:auto; }
   .live-earth-globe-frame{ position:static; transform:none; width:min(100%,460px); margin:0 auto; }
@@ -102,6 +103,7 @@ html[dir='rtl'] .live-earth-scrim{ transform:scaleX(-1); }
   position: relative; z-index: 2;
   display: grid;
   grid-template-columns: auto 1fr auto;
+  grid-template-areas: "brand center hijri";
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
@@ -109,7 +111,8 @@ html[dir='rtl'] .live-earth-scrim{ transform:scaleX(-1); }
   background: rgba(4,16,14,.62);
   backdrop-filter: blur(14px);
 }
-.live-brand { display: flex; align-items: center; gap: .6rem; }
+.live-brand { grid-area: brand; display: flex; align-items: center; gap: .6rem; }
+html[dir='rtl'] .live-header{ grid-template-areas:"hijri center brand"; }
 .live-brand img { width: 32px; height: 32px; }
 .live-brand-name { font-weight: 700; font-size: 1.22rem; letter-spacing: -.02em; }
 .live-badge {
@@ -122,12 +125,12 @@ html[dir='rtl'] .live-earth-scrim{ transform:scaleX(-1); }
 @keyframes livePulse { 0%{box-shadow:0 0 0 0 rgba(239,68,68,.55)} 70%{box-shadow:0 0 0 10px rgba(239,68,68,0)} 100%{box-shadow:0 0 0 0 rgba(239,68,68,0)} }
 .live-engine-tag { font-size: .82rem; color: var(--ink-3); letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
 
-.live-header-center { display: flex; justify-content: center; }
+.live-header-center { grid-area: center; display: flex; justify-content: center; }
 .live-city-wrap { text-align: center; }
 .live-city { font-size: clamp(1.55rem, 2.6vw, 2.35rem); font-weight: 800; line-height: 1; margin: 0; letter-spacing: -.015em; }
 .live-city-sub { font-size: .92rem; color: var(--ink-3); display: block; margin-top: .2rem; }
 
-.live-header-right { text-align: end; display:flex; flex-direction:column; justify-content:center; gap:.15rem; }
+.live-header-right { grid-area: hijri; text-align: end; display:flex; flex-direction:column; justify-content:center; gap:.15rem; }
 .live-hijri { font-size: 1.28rem; font-weight: 700; color: var(--brand-2); line-height:1.1; }
 .live-greg { font-size: 1rem; color: var(--ink-2); margin-top: 0; }
 
