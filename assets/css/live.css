@@ -66,15 +66,18 @@
 /* ── Earth 模式层 — LTR 左球右文、RTL 右球左文，轴固定 23.44° ── */
 .live-earth-layer{ position:absolute; inset:0; z-index:1; display:none; }
 .mode-earth .live-earth-layer{ display:block; }
+/* inset-inline-start 自己就会镜像：LTR 解析成 left:36%，RTL 解析成 right:36%。
+   RTL 只需要把 transform 反过来 —— 锚的是右边缘，得往右推半个身位才回到中心。
+   别再补 inset-inline-end：那等于镜像两次，球会被推到 64%+50% 处、整个飞出画面。 */
 .live-earth-globe-frame{ position:absolute; inset-block-start:50%; inset-inline-start:36%; transform:translate(-50%,-50%); width:min(118svh,82vw); }
-html[dir='rtl'] .live-earth-globe-frame{ inset-inline-start:auto; inset-inline-end:36%; transform:translate(50%,-50%); }
+html[dir='rtl'] .live-earth-globe-frame{ transform:translate(50%,-50%); }
 .live-earth-stage{ position:relative; width:100%; aspect-ratio:1/1; }
 .live-earth-stage canvas{ position:absolute; inset:0; touch-action:pan-y; cursor:grab; }
 .live-earth-stage canvas:active{ cursor:grabbing; }
 .live-earth-scrim{ position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to left, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
 html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to right, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
+/* flex-end 在 RTL 下自己就是左边，不需要再写一条 RTL 覆盖 */
 .live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; justify-content:flex-end; padding:1.2rem 1.4rem; pointer-events:none; }
-html[dir='rtl'] .live-earth-hero{ justify-content:flex-end; }
 .mode-earth .live-earth-hero{ display:flex; }
 .mode-earth .live-main{ display:none !important; }
 .live-earth-copy{ width:min(100%, 520px); display:grid; gap:1rem; pointer-events:auto; }
@@ -112,7 +115,8 @@ html[dir='rtl'] .live-earth-hero{ justify-content:flex-end; }
   backdrop-filter: blur(14px);
 }
 .live-brand { grid-area: brand; display: flex; align-items: center; gap: .6rem; }
-html[dir='rtl'] .live-header{ grid-template-areas:"hijri center brand"; }
+/* grid 的列在 RTL 下本来就从右往左排，"brand center hijri" 已经把品牌放到了右边。
+   再写一条 "hijri center brand" 是镜像两次 —— 品牌又回到左边，跟阿拉伯语读序反着。 */
 .live-brand img { width: 32px; height: 32px; }
 .live-brand-name { font-weight: 700; font-size: 1.22rem; letter-spacing: -.02em; }
 .live-badge {
