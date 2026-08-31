@@ -50,11 +50,12 @@ const els = {
   labelCurrentTime: $('#labelCurrentTime'), labelNextPrayer: $('#labelNextPrayer'),
   labelToday: $('#labelToday'), labelQibla: $('#labelQibla'), labelFasting: $('#labelFasting'),
   controlsHint: $('#controlsHint'), demoYoutube: $('#demoYoutube'), demoTiktok: $('#demoTiktok'),
-  // earth mode — 黑框已替换为时钟卡片（第二张图）
+  // earth mode — 黑框已替换为时钟卡片 + 横排五番
   earthLayer: $('#liveEarthLayer'), earthHero: $('#liveEarthHero'),
   earthLabelCurrent: $('#earthLabelCurrent'), earthClock: $('#earthClock'), earthClockTz: $('#earthClockTz'),
   earthLabelNext: $('#earthLabelNext'), earthNextName: $('#earthNextName'), earthCountdown: $('#earthCountdown'), earthProgress: $('#earthProgress'), earthNextTime: $('#earthNextTime'), earthNextIn: $('#earthNextIn'),
   earthCurrentChip: $('#earthCurrentChip'), earthLiveMsg: $('#earthLiveMsg'),
+  earthPrayers: $('#earthPrayers'),
   earthToggle: $('#earthToggle'),
   // controls
   ctrlCity: $('#ctrlCity'), ctrlLang: $('#ctrlLang'), ctrlLayout: $('#ctrlLayout'), ctrlAsr: $('#ctrlAsr'), ctrlMode: $('#ctrlMode'),
@@ -225,6 +226,7 @@ function renderPrayerList(city, now) {
     </div>`;
   }).join('');
   els.prayerList.innerHTML = rows;
+  if(els.earthPrayers) els.earthPrayers.innerHTML = rows;
 }
 
 function render(now) {

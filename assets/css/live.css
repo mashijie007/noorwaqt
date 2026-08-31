@@ -73,26 +73,29 @@ html[dir='rtl'] .live-earth-globe-frame{ transform:translate(50%,-50%); }
 .live-earth-stage canvas:active{ cursor:grabbing; }
 .live-earth-scrim{ position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to right, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
 html[dir='rtl'] .live-earth-scrim{ transform:scaleX(-1); }
-.live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; padding:1.2rem 1.4rem; pointer-events:none; }
+.live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; justify-content:flex-end; padding:1.2rem 1.4rem; pointer-events:none; }
 .mode-earth .live-earth-hero{ display:flex; }
 .mode-earth .live-main{ display:none !important; }
-.live-earth-copy{ max-width:32rem; display:grid; gap:1rem; pointer-events:auto; }
-.live-earth-copy h1{ font-size:clamp(2rem,5vw,3.4rem); line-height:1.15; text-wrap:balance; }
-.live-earth-copy h1 em{ color:var(--brand-2); font-style:normal; }
-.live-earth-copy .lead{ color:var(--ink-2); font-size:clamp(1rem,1.6vw,1.15rem); max-width:62ch; }
-.live-earth-copy .hero-cta{ display:flex; flex-wrap:wrap; gap:.8rem; }
-.live-earth-copy .hero-hints{ display:flex; flex-wrap:wrap; gap:1rem; font-size:.82rem; color:var(--ink-3); }
-.live-earth-copy .hero-hints span{ display:inline-flex; align-items:center; gap:.35rem; }
-.live-earth-copy .hero-hints svg{ width:14px; height:14px; opacity:.7; }
+.live-earth-copy{ width:min(100%, 460px); display:grid; gap:.9rem; pointer-events:auto; }
+/* 黑框横排五番（图一横置于图二黑框） */
+.live-earth-prayers{ display:grid; grid-template-columns:repeat(6,1fr); gap:.45rem; padding:.8rem; border-radius:16px; border:1px solid var(--live-line); background:rgba(255,255,255,.03); backdrop-filter:blur(10px); }
+.live-earth-prayers .live-prayer-row{ grid-template-columns:1fr; justify-items:center; text-align:center; gap:.22rem; padding:.6rem .35rem; border-radius:12px; }
+.live-earth-prayers .live-prayer-row .dot{ width:8px; height:8px; }
+.live-earth-prayers .live-prayer-row .p-name{ font-size:.82rem; }
+.live-earth-prayers .live-prayer-row .p-time{ font-size:.92rem; }
+.live-earth-prayers .live-prayer-row .p-badge{ font-size:.62rem; padding:.16rem .4rem; }
 @media (max-width:980px){
   .live-earth-layer{ position:static; inset:auto; }
   .live-earth-globe-frame{ position:static; transform:none; width:min(100%,460px); margin:0 auto; }
   html[dir='rtl'] .live-earth-globe-frame{ transform:none; }
   .live-earth-scrim{ display:none; }
-  .live-earth-hero{ padding:1rem 1.1rem; }
-  .live-earth-copy{ max-width:none; }
+  .live-earth-hero{ padding:1rem 1.1rem; justify-content:center; }
+  .live-earth-copy{ width:100%; max-width:none; }
+  .live-earth-prayers{ grid-template-columns:repeat(3,1fr); }
   .mode-earth .stage{ overflow:auto; }
 }
+.layout-9x16 .live-earth-prayers{ grid-template-columns:1fr; }
+.layout-9x16 .live-earth-prayers .live-prayer-row{ grid-template-columns:16px 1fr auto auto; justify-items:stretch; text-align:start; }
 
 /* ── Header ── */
 .live-header {
