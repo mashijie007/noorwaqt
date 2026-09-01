@@ -136,6 +136,8 @@
  "liveControlsHint": "OBS 瀏覽器來源 → 貼上本連結 + ?clean=1 純淨推流",
  "liveYouTubeDemo": "YouTube 橫屏 16:9 演示",
  "liveTikTokDemo": "TikTok 豎屏 9:16 演示",
+ "liveModeEarth": "地球模式",
+ "liveModeList": "列表模式",
  "navLive": "直播",
  "breathLabel": "讓地球活起來"
 }

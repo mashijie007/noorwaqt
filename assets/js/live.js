@@ -118,6 +118,17 @@ function applyLayout(layout) {
 
 // ── Earth 模式 ──
 let liveGlobe = null, liveGlobeSim = null;
+/** 按钮上写的是「切过去之后是什么」，不是当前状态。
+ *  这个按钮在 ?clean=1 下也露在画面里，会跟着直播播出去 ——
+ *  所以它必须跟页面上其它文案一样走词典，不能写死。
+ *  首次调用发生在 ensureLang() 之前，那时 t() 回落英文；
+ *  词典加载完 ensureLang() 会再刷一次。 */
+function syncEarthToggle(){
+  if(!els.earthToggle) return;
+  els.earthToggle.textContent = state.mode==='earth'
+    ? '📋 ' + t(state.lang, 'liveModeList')
+    : '🌍 ' + t(state.lang, 'liveModeEarth');
+}
 function applyEarthMode(mode){
   state.mode = mode === 'earth' ? 'earth' : 'list';
   stage.classList.toggle('mode-earth', state.mode==='earth');
@@ -130,7 +141,7 @@ function applyEarthMode(mode){
     try{ liveGlobeSim = attachLitSim(liveGlobe); }catch{}
   }
   if(els.ctrlMode) els.ctrlMode.value = state.mode;
-  if(els.earthToggle) els.earthToggle.textContent = state.mode==='earth' ? '📋 列表模式' : '🌍 地球模式';
+  syncEarthToggle();
   if(liveGlobe){
     liveGlobe.time = Date.now();
     // 确保从 hidden→visible 后重算尺寸
@@ -187,6 +198,7 @@ async function ensureLang(lang) {
   // 地球模式黑框 — 第二张图时钟卡片
   if (els.earthLabelCurrent) els.earthLabelCurrent.textContent = t(lang,'liveCurrentTime');
   if (els.earthLabelNext) els.earthLabelNext.textContent = t(lang,'liveNextPrayer');
+  syncEarthToggle();   // 首帧那次跑在词典之前，这里补一次
 }
 
 function fmtHijri(ts, lang) {

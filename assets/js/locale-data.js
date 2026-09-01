@@ -396,6 +396,8 @@ export const EN = {
  "liveControlsHint": "OBS Browser Source → paste this URL + ?clean=1 for clean feed",
  "liveYouTubeDemo": "YouTube Demo 16:9",
  "liveTikTokDemo": "TikTok Demo 9:16",
+ "liveModeEarth": "Globe Mode",
+ "liveModeList": "List Mode",
  "navLive": "Live",
  "breathLabel": "Let the earth breathe"
 };
