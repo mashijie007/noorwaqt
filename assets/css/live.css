@@ -77,7 +77,7 @@ html[dir='rtl'] .live-earth-globe-frame{ transform:translate(50%,-50%); }
 .live-earth-scrim{ position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to left, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
 html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to right, rgba(4,16,14,.94) 0%, rgba(4,16,14,.78) 24%, rgba(4,16,14,.28) 44%, rgba(4,16,14,0) 58%); }
 /* flex-end 在 RTL 下自己就是左边，不需要再写一条 RTL 覆盖 */
-.live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; justify-content:flex-end; padding:1.2rem 1.4rem; pointer-events:none; }
+.live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; justify-content:flex-end; padding:1.2rem 1.4rem 5.5rem; pointer-events:none; }
 .mode-earth .live-earth-hero{ display:flex; }
 .mode-earth .live-main{ display:none !important; }
 /* 收窄以减少时钟卡里的留白（不动字号）。80px 等宽数字排 08:00:49 是 371px，
@@ -87,7 +87,7 @@ html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to right, rgba(4,1
    日出的长名字（jv「Srengenge munggah」、sq「Lindja e diellit」、fr「Lever du soleil」）
    会多折一行，整栏高度顶穿 16:9 的可用高度。实测 480 起 sq 变差、460 起 zh 也崩。
    想再窄，得先解决那条五番栏放不下长名字的老问题（见下方 .p-name 的注记）。 */
-.live-earth-copy{ width:min(100%, 500px); display:grid; gap:1rem; pointer-events:auto; }
+.live-earth-copy{ width:min(100%, 500px); display:grid; gap:1rem; pointer-events:auto; align-content:start; }
 /* 黑框横排五番（图一横置于图二黑框）— 加大字号与间距，提升直播可读性 */
 #earthPrayers{ display:grid !important; grid-template-columns:repeat(6,1fr); gap:.55rem; padding:1rem .9rem; border-radius:18px; border:1px solid rgba(126,231,190,.18); background:linear-gradient(165deg, rgba(10,35,32,.88), rgba(7,26,23,.55)); backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,.35); }
 #earthPrayers .live-prayer-row{ grid-template-columns:1fr !important; justify-items:center; text-align:center; gap:.32rem; padding:.75rem .4rem; border-radius:14px; }
