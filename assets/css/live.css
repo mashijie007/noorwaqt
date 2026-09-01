@@ -80,11 +80,24 @@ html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to right, rgba(4,1
 .live-earth-hero{ position:relative; z-index:3; display:none; flex:1; min-height:0; align-items:center; justify-content:flex-end; padding:1.2rem 1.4rem; pointer-events:none; }
 .mode-earth .live-earth-hero{ display:flex; }
 .mode-earth .live-main{ display:none !important; }
-.live-earth-copy{ width:min(100%, 520px); display:grid; gap:1rem; pointer-events:auto; }
+/* 收窄以减少时钟卡里的留白（不动字号）。80px 等宽数字排 08:00:49 是 371px，
+   原来卡片 520、内宽 472，多出的 100 来像素全堆在起始侧（RTL 下堆在左边），
+   看着像卡片空了一块。
+   500 是能收的极限，再窄就要还债：下面那条六列五番栏的列宽跟着缩，
+   日出的长名字（jv「Srengenge munggah」、sq「Lindja e diellit」、fr「Lever du soleil」）
+   会多折一行，整栏高度顶穿 16:9 的可用高度。实测 480 起 sq 变差、460 起 zh 也崩。
+   想再窄，得先解决那条五番栏放不下长名字的老问题（见下方 .p-name 的注记）。 */
+.live-earth-copy{ width:min(100%, 500px); display:grid; gap:1rem; pointer-events:auto; }
 /* 黑框横排五番（图一横置于图二黑框）— 加大字号与间距，提升直播可读性 */
 #earthPrayers{ display:grid !important; grid-template-columns:repeat(6,1fr); gap:.55rem; padding:1rem .9rem; border-radius:18px; border:1px solid rgba(126,231,190,.18); background:linear-gradient(165deg, rgba(10,35,32,.88), rgba(7,26,23,.55)); backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,.35); }
 #earthPrayers .live-prayer-row{ grid-template-columns:1fr !important; justify-items:center; text-align:center; gap:.32rem; padding:.75rem .4rem; border-radius:14px; }
 #earthPrayers .live-prayer-row .dot{ width:9px; height:9px; }
+/* ⚠️ 已知问题（早于本次改动）：六列的列宽放不下多词的日出名。
+   jv「Srengenge munggah」、sq「Lindja e diellit」、fr「Lever du soleil」、
+   id/ms「Matahari terbit」、uz「Quyosh chiqishi」、tr 都会折成两行，
+   整栏高度 651→676~701，超过 16:9 地球模式的可用高度 663，底部被切。
+   ar / en / zh / ru 名字短，看不出来 —— 所以一直没人发现。
+   要修得让名字单行放下（缩字号或改列数），两条都会动到直播观感，没有顺手改。 */
 #earthPrayers .live-prayer-row .p-name{ font-size:.92rem; font-weight:600; }
 #earthPrayers .live-prayer-row .p-time{ font-size:1.05rem; font-weight:700; }
 #earthPrayers .live-prayer-row .p-badge{ font-size:.68rem; padding:.2rem .45rem; }
@@ -96,10 +109,59 @@ html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to right, rgba(4,1
   .live-earth-hero{ padding:1rem 1.1rem; justify-content:center; }
   .live-earth-copy{ width:100%; max-width:none; }
   #earthPrayers{ grid-template-columns:repeat(3,1fr) !important; }
-  .mode-earth .stage{ overflow:auto; }
+  /* 这里原本写着 .mode-earth .stage{overflow:auto}，但 mode-earth 就挂在 .stage 自己身上，
+     后代选择器永远选不中，从来没生效过。也不该生效：stage 是 OBS 抓的那块画布，
+     滚动条外面的东西推不出去。竖屏要做的是让内容装得下，不是给它一条逃生通道。 */
 }
+
+/* ── 9:16 竖屏的地球模式 ──
+   16:9 是「球在一侧、文字在另一侧」，竖屏没有横向余量，改成「球在上、文字压在下」。
+   球必须留在绝对定位的背景层：上面那段手机分支会把它放回文档流，
+   于是球把表头顶到 460px 处，文字再从底部溢出去 —— TikTok 抓不到，也没法滚。
+   这几条的特异度（0,2,0）高于手机分支里的（0,1,0），媒体查询不加特异度，所以稳赢。 */
+.layout-9x16 .live-earth-layer{ position:absolute; inset:0; }
+/* 这里用物理属性 left，不用 inset-inline-start：竖屏是水平居中，居中没有「行内方向」。
+   写 inset-inline-start:50% 的话 RTL 下会解析成 right:50%，再 translate(-50%)
+   就把球整个推到画面左外侧去了（x=-475）—— 跟 16:9 那个镜像两次的坑是同一个。 */
+.layout-9x16 .live-earth-globe-frame{
+  position:absolute; inset-block-start:34%; inset-inline-start:auto; inset-inline-end:auto;
+  left:50%; transform:translate(-50%,-50%); width:min(92vw, 52svh); margin:0;
+}
+html[dir='rtl'] .layout-9x16 .live-earth-globe-frame{ left:50%; transform:translate(-50%,-50%); }
+/* 遮罩从下往上压，把底部的文字从球面上托出来 */
+.layout-9x16 .live-earth-scrim{
+  display:block;
+  background:linear-gradient(to top, rgba(4,16,14,.94) 0%, rgba(4,16,14,.82) 26%, rgba(4,16,14,.34) 48%, rgba(4,16,14,0) 66%);
+}
+.layout-9x16 .live-earth-hero{ align-items:flex-end; justify-content:center; padding:1rem 1.1rem; }
+/* 竖屏的时钟更大（1080 宽时 89.6px，排出来约 415px），所以比横屏留宽一档 */
+.layout-9x16 .live-earth-copy{ width:min(100%, 520px); max-width:none; }
+/* 竖屏这一栏的高度必须跟着视口高度走，不能只按 rem / vw。
+   rem 认的是 <html> 的字号，跟 .stage 上那个 22px 无关；vw 认的是宽度 ——
+   1080×1920 的画布上正好，换到矮一截的预览窗口或真机竖屏就整栏顶穿表头。
+   所以这里把吃高度的几项换成 svh，上限保持 1080×1920 时的原值不变。 */
+.layout-9x16 .live-earth-copy{ gap: clamp(.45rem, 1.1svh, 1rem); }
+.layout-9x16 .live-earth-copy .live-clock-panel{ padding: clamp(.7rem, 1.6svh, 1.45rem); gap: clamp(.35rem, .95svh, .85rem); }
+.layout-9x16 .live-earth-copy .live-clock{ font-size: clamp(2.1rem, 4.7svh, 5.6rem); }
+.layout-9x16 .live-earth-copy .live-next-card{ padding: clamp(.6rem, 1.3svh, 1.15rem) 1.2rem; }
+.layout-9x16 .live-earth-copy .live-countdown{ font-size: clamp(1.7rem, 3.4svh, 3.9rem); margin: clamp(.25rem,.5svh,.45rem) 0 clamp(.3rem,.7svh,.65rem); }
+.layout-9x16 #earthPrayers{ padding: clamp(.45rem, 1.1svh, 1rem) .9rem; gap: clamp(.25rem, .6svh, .55rem); }
+/* 行本身继承 .stage 的 22px，行内每个字段都另设了字号，剩下这 22px 只用来撑行盒 ——
+   每行白白高出十来像素。锁死 line-height 把它收回来。 */
+.layout-9x16 #earthPrayers .live-prayer-row{ padding: clamp(.3rem, .8svh, .75rem) .5rem; line-height:1.2; }
+.layout-9x16 .live-earth-copy .live-status-row{ gap:.5rem; font-size:.9rem; }
+.layout-9x16 .live-earth-copy .live-next-meta{ margin-top: clamp(.25rem,.55svh,.55rem); }
 .layout-9x16 #earthPrayers{ grid-template-columns:1fr !important; }
 .layout-9x16 #earthPrayers .live-prayer-row{ grid-template-columns:16px 1fr auto auto !important; justify-items:stretch; text-align:start; }
+/* 矮视口的竖屏 —— 真机浏览器、预览窗口，不是 1080×1920 那块推流画布。
+   六番竖着排要 310px，加上表头和时钟卡片就装不下，只能往上顶穿表头。
+   改成两列三行，高度砍一半，竖屏上照样一眼读得清。
+   1920 高的推流画布进不来这个分支，播出去的画面一个像素都不变。
+   必须排在上面那条 1fr !important 之后 —— 两边都带 !important、特异度也相同，
+   媒体查询不加权，谁写在后面谁赢。 */
+@media (max-height: 1200px){
+  .layout-9x16 #earthPrayers{ grid-template-columns:repeat(2,1fr) !important; }
+}
 
 /* ── Header ── */
 .live-header {
@@ -286,8 +348,13 @@ html[dir='rtl'] .live-earth-scrim{ background:linear-gradient(to right, rgba(4,1
 .layout-9x16 .live-header-center { grid-area: city; justify-content: flex-start; }
 .layout-9x16 .live-header-center .live-city-wrap { text-align: start; }
 .layout-9x16 .live-header-right { grid-area: dates; text-align: end; align-items: flex-end; }
-/* 城市字号 ≈ 两行日期字号之和，同排时视觉等高 */
-.layout-9x16 .live-city { font-size: clamp(1.85rem, 7vw, 2.85rem); line-height: 1; }
+/* 城市字号 ≈ 两行日期字号之和，同排时视觉等高。
+   下限也跟视口高度挂钩：1080×1920 上 3.2svh 早已超过 2.85rem 的上限、取值不变，
+   矮视口上则跟着收，否则表头一家就吃掉 148px，地球模式那一栏再也放不下。 */
+.layout-9x16 .live-city { font-size: clamp(1.5rem, 3.2svh, 2.85rem); line-height: 1; }
+.layout-9x16 .live-header { padding: clamp(.4rem,.9svh,.75rem) 1.05rem clamp(.35rem,.8svh,.65rem); }
+.layout-9x16 .live-brand { gap: clamp(.3rem,.7svh,.6rem); }
+.layout-9x16 .live-brand img { width: clamp(22px,2.6svh,32px); height: clamp(22px,2.6svh,32px); }
 .layout-9x16 .live-city-sub { font-size: .78rem; margin-top: .12rem; }
 .layout-9x16 .live-hijri { font-size: 1.12rem; line-height:1.1; }
 .layout-9x16 .live-greg { font-size: .88rem; }
