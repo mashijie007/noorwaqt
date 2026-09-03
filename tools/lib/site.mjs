@@ -19,8 +19,9 @@ export const SITE = {
   name: 'NoorWaqt',
   /** 每种语言都在自己的 /<code>/ 下，英文也不例外 —— 和站点其余部分
    *  （/en/guide/、/zh/guide/）保持同一套结构。
-   *  域名根 / 是语言协商页：预渲染的是这个语言，canonical 指向 /en/，
-   *  hreflang 的 x-default 指向 / 本身。 */
+   *  域名根 / 是语言协商页：预渲染的是这个语言，canonical 指向 /en/。
+   *  x-default 也指 /en/ 而不是 / —— hreflang 只有指向 canonical 才作数，
+   *  指一个自己就被 canonical 掉的地址，Google 会直接丢掉这条标注。 */
   rootLang: 'en',
   repo: 'https://github.com/mashijie007/noorwaqt',
 };
@@ -82,6 +83,62 @@ export const seoLanguages = () =>
     .filter((c) => localeMeta(c))
     .sort();
 
+/**
+ * 城市页的语言 × 国家矩阵。
+ *
+ * 从前是笛卡尔积：每种有 SEO 文案的语言都出全部 152 城，1520 张页面。
+ * 但抓取预算是固定的，「俄语版雅加达」这种没人搜的组合，是在跟真正有
+ * 需求的页面抢同一份预算 —— Google 的反应就是把大半页面挂在
+ * 「已发现-尚未编入索引」上不动。
+ *
+ * 所以按「母语国 + 该语言人群真实聚居/务工/侨居国」收缩。值是国家码清单，
+ * '*' 表示不裁（英文是全球回退语，任何地区的搜索都可能落到英文页）。
+ *
+ * 要调整某个语言的覆盖面，改这张表就够了 —— 页面、hreflang、站点地图、
+ * 页脚互链、语言切换表全部由它推出，不必再逐处同步。
+ */
+export const CITY_MATRIX = {
+  en: '*',
+  ar: ['AE','BH','DJ','DZ','EG','IQ','JO','KW','LB','LY','MA','MR','OM','PS','QA','SA','SD','SO','SY','TD','TN','YE',
+       'FR','DE','GB','US','CA','SE','NL','BE','ES','IT','TR','AU'],
+  fr: ['FR','BE','CA','DZ','MA','TN','ML','SN','NE','BF','TD','DJ','MR','LB'],
+  tr: ['TR','DE','NL','BE','AT','FR','GB','XK','MK','BA','AZ'],
+  id: ['ID','MY','SG','BN','SA','NL','AU','HK'],
+  ms: ['MY','SG','BN','ID','TH','PH','SA'],
+  bn: ['BD','IN','GB','SA','AE','QA','KW','OM','BH','US','IT','MY','MV'],
+  ur: ['PK','IN','GB','SA','AE','QA','KW','OM','BH','US','CA','NO','DK','ES','IT','AU'],
+  ru: ['RU','KZ','KG','UZ','TJ','TM','AZ','DE','TR','AE','EG'],
+  zh: ['CN','HK','SG','MY','ID','TH','AU','US','CA','JP','KR'],
+};
+
+/** 朝觐目的地与古都斯：不管什么语言都保留，这三座是全体穆斯林都会搜的 */
+export const CORE_CITIES = new Set(['Makkah', 'Madinah', 'Jerusalem']);
+
+/** 这座城市在这种语言下出不出页面 */
+const inMatrix = (lang, city) => {
+  if (CORE_CITIES.has(city.en)) return true;
+  const rule = CITY_MATRIX[lang];
+  return rule === '*' || (Array.isArray(rule) && rule.includes(city.cc));
+};
+
+/** 某语言下要生成的城市。语言本身没有 SEO 文案时一座都不出 */
+export function citiesFor(lang) {
+  if (!seoLanguages().includes(lang)) return [];
+  return CITIES.filter((c) => inMatrix(lang, c));
+}
+
+/** 某座城市存在于哪几种语言 —— hreflang 互指和站点地图都按它来，
+ *  指向没生成的页面会让整组标注作废 */
+export function cityLangs(city) {
+  return seoLanguages().filter((l) => inMatrix(l, city));
+}
+
+/** 交给浏览器的同一份矩阵：分享链接要知道这座城市在当前语言下有没有页面 */
+export const cityMatrixForClient = () => ({
+  core: [...CORE_CITIES],
+  cc: Object.fromEntries(seoLanguages().map((l) => [l, CITY_MATRIX[l] === '*' ? '*' : (CITY_MATRIX[l] || [])])),
+});
+
 /** 某语言的完整词典：英文基线 ← 该语言译文 ← 城市页专用文案 */
 export function dictFor(code) {
   const site = existsSync(resolve(LOC_DIR, code + '.json')) ? readJson(resolve(LOC_DIR, code + '.json')) : {};
@@ -123,9 +180,11 @@ const R = Math.PI / 180, EARTH_KM = 6371;
  *  用的必须是同一套数字：这两个数是会被人拿去礼拜的，不能有两份实现 */
 export { qiblaBearing, distanceToMakkah } from '../../assets/js/cities.js';
 
-/** 最近的 n 座城市，用于页面之间互相打通（光靠 sitemap 的页面等于孤岛） */
-export function nearbyCities(city, n = 8) {
-  return CITIES
+/** 最近的 n 座城市，用于页面之间互相打通（光靠 sitemap 的页面等于孤岛）。
+ *  pool 限定在"这种语言下确实存在的城市"里挑 —— 越过它就会链到 404，
+ *  而死链会把整页的抓取价值一起拖下去 */
+export function nearbyCities(city, n = 8, pool = CITIES) {
+  return pool
     .filter((c) => c !== city)
     .map((c) => ({ city: c, km: haversine(city, c) }))
     .sort((a, b) => a.km - b.km)

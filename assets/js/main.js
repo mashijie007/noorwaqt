@@ -662,13 +662,24 @@ async function sendLink(shareText, url) {
  * 分享出去的那条地址。
  *
  * 落点选这座城市自己的页面而不是首页：卡片上是它的礼拜时刻，链接就该是同一件事，
- * 点进去看到的和图上一致。城市页只在有 SEO 文案的语言下存在，是哪几种由构建期
- * 通过 NW_SITE 告知；其余语言、以及本地开发时拿不到这份注入，都退回该语言首页。
+ * 点进去看到的和图上一致。
+ *
+ * 但不是每种语言都出全部城市（见 tools/lib/site.mjs 的 CITY_MATRIX）：
+ * 判断要按"语言 + 城市"两个维度，只看语言会分享出一条 404。矩阵由构建期
+ * 通过 NW_SITE 注入；拿不到时（本地开发）一律退回该语言首页。
  */
+function hasCityPage(city) {
+  const m = window.NW_SITE?.cityMatrix;
+  if (!city || !m) return false;
+  if (m.core?.includes(city.en)) return true;   // 麦加、麦地那、古都斯：所有语言都有
+  const rule = m.cc?.[app.lang];
+  return rule === '*' || (Array.isArray(rule) && rule.includes(city.cc));
+}
+
 function shareUrlFor(city) {
   const site = window.NW_SITE;
   const origin = site?.origin || location.origin;
-  return city && site?.cityLangs?.includes(app.lang)
+  return hasCityPage(city)
     ? `${origin}/${app.lang}/prayer-times/${citySlug(city.en)}/`
     : `${origin}/${app.lang}/`;
 }
