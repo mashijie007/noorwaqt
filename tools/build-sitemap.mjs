@@ -10,8 +10,8 @@
 import { pathToFileURL } from 'node:url';
 
 import {
-  SITE, CITIES, LOCALES, emit, seoLanguages, discoverGuidePages,
-  langPath, cityPath, cityIndexPath, abs, hreflang, slug,
+  SITE, LOCALES, emit, seoLanguages, discoverGuidePages,
+  langPath, cityPath, cityIndexPath, abs, hreflang, slug, citiesFor, cityLangs,
 } from './lib/site.mjs';
 import { escapeAttr as escA } from './lib/prerender.mjs';
 
@@ -40,7 +40,7 @@ export function buildSitemap() {
 
   // ── 落地页：44 种语言 + 域名根 ──
   const langAlts = codes.map((c) => ({ lang: hreflang(c), href: abs(langPath(c)) }));
-  langAlts.push({ lang: 'x-default', href: abs('/') });
+  langAlts.push({ lang: 'x-default', href: abs(langPath(SITE.rootLang)) });
 
   let body = urlTag(abs('/'), { lastmod: day, changefreq: 'daily', priority: '1.0', alternates: langAlts });
   for (const c of codes) {
@@ -82,9 +82,12 @@ export function buildSitemap() {
       lastmod: day, changefreq: 'weekly', priority: '0.7', alternates: idxAlts,
     });
 
-    for (const city of CITIES) {
+    for (const city of citiesFor(code)) {
       const s = slug(city.en);
-      const alts = cityCodes.map((c) => ({ lang: hreflang(c), href: abs(cityPath(c, s)) }));
+      // 这座城市的语言集合是现算的：语言 × 城市不是笛卡尔积，
+      // 把没生成的语言写进 hreflang 会让整组标注作废
+      const langs = cityLangs(city);
+      const alts = langs.map((c) => ({ lang: hreflang(c), href: abs(cityPath(c, s)) }));
       alts.push({ lang: 'x-default', href: abs(cityPath(SITE.rootLang, s)) });
       rows += urlTag(abs(cityPath(code, s)), {
         lastmod: day, changefreq: 'daily', priority: '0.6', alternates: alts,
@@ -123,7 +126,8 @@ export function buildSitemap() {
 
   return {
     sitemaps: files.length + 1,
-    urls: 1 + codes.length + guide.length + cityCodes.length * (CITIES.length + 1),
+    urls: 1 + codes.length + guide.length
+      + cityCodes.reduce((n, c) => n + citiesFor(c).length + 1, 0),
   };
 }
 

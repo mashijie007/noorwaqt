@@ -10,6 +10,11 @@
  *
  * 语言只出 tools/translations/seo/ 里有文案的那几种。没写文案就不生成，
  * 否则只会得到一批挂着乌尔都语路径、内容却是英文的页面。
+ *
+ * 有文案也不等于出全部 152 城：出哪些由 site.mjs 的 CITY_MATRIX 决定。
+ * 语言 × 城市不是笛卡尔积，每座城市的语言集合都要现算（cityLangs），
+ * hreflang、页脚互链、最近城市三处都得跟着收 —— 链到没生成的页面
+ * 会让整组 hreflang 作废，verify-dist 会当场拦住。
  */
 import { pathToFileURL } from 'node:url';
 
@@ -17,6 +22,7 @@ import {
   SITE, CITIES, LOCALES, dictFor, release, emit, seoLanguages,
   langPath, cityPath, cityIndexPath, abs, bcp47, dirOf, hreflang,
   cityName, countryName, intlLocale, slug, qiblaBearing, distanceToMakkah, nearbyCities,
+  citiesFor, cityLangs,
 } from './lib/site.mjs';
 import { escapeText as esc, escapeAttr as escA, fill } from './lib/prerender.mjs';
 import { hreflangBlock, cityJsonLd, langHrefScript, cityCloud, ogImageTags } from './lib/blocks.mjs';
@@ -110,8 +116,10 @@ ${cityCloud(dict, code, cities)}
 
 // ── 单个城市页 ──────────────────────────────────────────
 
-function cityPageHtml(code, city, codes) {
+function cityPageHtml(code, city, pool) {
   const dict = dictFor(code);
+  // 这座城市在哪几种语言下存在 —— 不是"哪几种语言有城市页"，两者已经不同了
+  const codes = cityLangs(city);
   const loc = intlLocale(code);
   const s = slug(city.en);
   const label = cityName(city, code);
@@ -181,7 +189,7 @@ function cityPageHtml(code, city, codes) {
   }
   const headCells = SLOTS.map((slot) => `<th scope="col">${esc(dict[SLOT_KEY[slot]])}</th>`).join('');
 
-  const near = nearbyCities(city, 8).map(({ city: c }) =>
+  const near = nearbyCities(city, 8, pool).map(({ city: c }) =>
     `<a href="${escA(cityPath(code, slug(c.en)))}">${esc(cityName(c, code))}</a>`).join('');
 
   const apk = release().apk['arm64-v8a'];
@@ -239,21 +247,21 @@ function cityPageHtml(code, city, codes) {
     // 静态内容停在构建那天。city-page.js 拿这个日期跟当地今天比，
     // 对不上就用同一个 prayer.js 就地重算 —— 跨月时整张表都会重画。
     builtFor: `${y}-${pad2(m)}-${pad2(d)}`,
-  })}</script>` + foot(dict, code, CITIES.slice(0, 24));
+  })}</script>` + foot(dict, code, pool.slice(0, 24));
 }
 
 // ── 城市索引页 ──────────────────────────────────────────
 
-function cityIndexHtml(code, codes) {
+function cityIndexHtml(code, codes, pool) {
   const dict = dictFor(code);
   const url = abs(cityIndexPath(code));
   const hrefFor = (c) => (codes.includes(c) ? abs(cityIndexPath(c)) : abs(langPath(c)));
   const title = dict.ptCrumb + ' · ' + SITE.name;
-  const desc = fill(dict.ptOtherCities, {}) + ' — ' + CITIES.length + ' / ' + dict.docTitle;
+  const desc = fill(dict.ptOtherCities, {}) + ' — ' + pool.length + ' / ' + dict.docTitle;
 
   // 按国家分组，纯字母长列表没人看得下去
   const byCountry = new Map();
-  for (const c of CITIES) {
+  for (const c of pool) {
     const k = countryName(c.cc, code);
     if (!byCountry.has(k)) byCountry.set(k, []);
     byCountry.get(k).push(c);
@@ -277,7 +285,7 @@ function cityIndexHtml(code, codes) {
     <p class="lead">${esc(dict.cityLead)}</p>
   </header>
   ${groups}
-</main>` + foot(dict, code, CITIES.slice(0, 24));
+</main>` + foot(dict, code, pool.slice(0, 24));
 }
 
 // ── 入口 ────────────────────────────────────────────────
@@ -286,10 +294,12 @@ export function buildCities() {
   const codes = seoLanguages();
   let n = 0;
   for (const code of codes) {
-    emit(cityIndexPath(code) + 'index.html', cityIndexHtml(code, codes));
+    // 索引页每种语言都有，所以它的 hreflang 用的还是全部出城市页的语言
+    const pool = citiesFor(code);
+    emit(cityIndexPath(code) + 'index.html', cityIndexHtml(code, codes, pool));
     n++;
-    for (const city of CITIES) {
-      emit(cityPath(code, slug(city.en)) + 'index.html', cityPageHtml(code, city, codes));
+    for (const city of pool) {
+      emit(cityPath(code, slug(city.en)) + 'index.html', cityPageHtml(code, city, pool));
       n++;
     }
   }

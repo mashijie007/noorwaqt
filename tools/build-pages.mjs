@@ -14,6 +14,7 @@ import { pathToFileURL } from 'node:url';
 import {
   ROOT, SITE, LOCALES, CITIES, dictFor, release, emit,
   langPath, cityIndexPath, abs, bcp47, dirOf, seoLanguages,
+  citiesFor, cityMatrixForClient,
 } from './lib/site.mjs';
 import {
   renderI18n, setTitle, setMeta, setCanonical, setHtmlAttrs,
@@ -65,8 +66,10 @@ function rewriteGuideLinks(html, code) {
 /** 城市页只在有 SEO 文案的语言里存在，别的语言页脚就不挂城市链接 */
 const CITY_LANGS = new Set(seoLanguages());
 
-/** 页脚挂 24 座城市：够爬虫顺着爬进城市页，又不至于把页脚堆成链接墙 */
-const FEATURED = CITIES.slice(0, 24);
+/** 页脚挂 24 座城市：够爬虫顺着爬进城市页，又不至于把页脚堆成链接墙。
+ *  取本语言真有页面的那些 —— CITY_MATRIX 收缩之后每种语言的城市集合
+ *  都不一样了，照旧取全局前 24 座会链出一片死链 */
+const featuredFor = (code) => citiesFor(code).slice(0, 24);
 
 export function buildPages() {
   const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
@@ -118,11 +121,11 @@ export function buildPages() {
 
     html = injectHead(html, [
       '<link rel="stylesheet" href="/assets/css/pages.css">',
-      hreflangBlock(codes, hrefFor, abs('/')),
+      hreflangBlock(codes, hrefFor, abs(langPath(SITE.rootLang))),
       appJsonLd(dict),
       siteJsonLd(dict, code),
       langHrefScript(codes, hrefFor),
-      cityLangsScript([...CITY_LANGS]),
+      cityLangsScript(cityMatrixForClient()),
       // 告诉抓取端这是 1.91:1 的横图，它才会展开成大卡，而不是缩成角落里的小方块。
       // 只在真有图时写：退回方形 logo 时标个 1200×630 是在骗抓取端
       og.sized
@@ -135,10 +138,10 @@ export function buildPages() {
     // 页脚互链：hreflang 只是提示，能点的链接才是爬虫真正走的路
     const clouds = [languageCloud(code, hrefFor)];
     if (CITY_LANGS.has(code)) {
-      clouds.push(cityCloud(dict, code, FEATURED));
+      clouds.push(cityCloud(dict, code, featuredFor(code)));
       clouds.push('<div class="wrap seo-links"><nav class="link-cloud"><a href="'
         + escapeAttr(cityIndexPath(code)) + '">'
-        + escapeText(dict.ptCrumb + ' · ' + CITIES.length) + '</a></nav></div>');
+        + escapeText(dict.ptCrumb + ' · ' + citiesFor(code).length) + '</a></nav></div>');
     }
     html = html.replace('</footer>', clouds.join('\n') + '\n</footer>');
 
