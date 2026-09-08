@@ -25,6 +25,9 @@ export function pickLang(codes, saved, prefs) {
     // 中文要先分繁简：zh-TW / zh-HK / zh-MO / zh-Hant 都归繁体
     if (l.indexOf('zh') === 0) return /hant|tw|hk|mo/.test(l) ? 'zh_Hant' : 'zh';
     var base = l.split('-')[0];
+    // 黑山语网站不单独出页面（见 build-locales.mjs 的 SITE_SKIP）。不接这一手，
+    // 报 cnr 的浏览器会一路掉到英文 —— 而 bs 和它的差别只有几个同义词。
+    if (base === 'cnr' && codes.indexOf('bs') >= 0) return 'bs';
     for (var j = 0; j < codes.length; j++) {
       if (codes[j] === base || codes[j].split('_')[0] === base) return codes[j];
     }

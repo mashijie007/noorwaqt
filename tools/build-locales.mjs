@@ -53,11 +53,28 @@ const ENDONYM = {
   snk: 'Sooninkanxanne',
   zh: '中文',
   zh_Hant: '繁體中文',
-  cnr: 'crnogorski',
 };
 
+/* App 有、但网站不出页面的语言。
+ *
+ * 网站和 App 的取舍不一样：App 里多一种语言只是多一份 UI 文案，谁也不碍着谁；
+ * 网站里多一种语言就是多一张要被索引的页面，它得和别的页面抢抓取预算，
+ * 还得让 Google 相信它不是重复内容。达不到这条线的就不该出页面。
+ *
+ *   cnr（黑山语）—— 和 bs 的落地页 151 行可见正文里 142 行逐字相同，
+ *     差别只有 računa/naloga、preglednika/pregledača 这类单词级同义替换。
+ *     Google 会把两张自指 canonical 的近似页折叠成一张，在 Search Console
+ *     报「Google 选择的规范网页与用户指定的不同」。
+ *     本来能声明「这是刻意的地区变体」的 hreflang 也救不了：cnr 是
+ *     ISO 639-3，而 hreflang 只认 639-1，这条标注 Google 直接丢弃。
+ *     所以让黑山用户落到 bs —— 见 lang-pick.js 的 cnr → bs。
+ *
+ * App 那边不受影响：这里只是不生成网站文件，ARB 原样留着。
+ */
+const SITE_SKIP = new Set(['cnr']);
+
 const locales = readdirSync(L10N).filter((f) => f.endsWith('.arb'))
-  .map((f) => f.replace(/^app_|\.arb$/g, '')).sort();
+  .map((f) => f.replace(/^app_|\.arb$/g, '')).filter((l) => !SITE_SKIP.has(l)).sort();
 
 mkdirSync(OUT, { recursive: true });
 
