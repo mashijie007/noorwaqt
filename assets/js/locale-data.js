@@ -34,11 +34,6 @@ export const LOCALES = [
   "name": "bosanski"
  },
  {
-  "code": "cnr",
-  "dir": "ltr",
-  "name": "crnogorski"
- },
- {
   "code": "en",
   "dir": "ltr",
   "name": "English"

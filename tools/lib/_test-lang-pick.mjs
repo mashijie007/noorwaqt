@@ -26,6 +26,11 @@ eq('zh-Hant 归繁体', pickLang(CODES, null, ['zh-Hant']), 'zh_Hant');
 eq('zh-CN 归简体', pickLang(CODES, null, ['zh-CN']), 'zh');
 eq('光一个 zh 归简体', pickLang(CODES, null, ['zh']), 'zh');
 
+// 黑山语不出页面，得接到 bs，不能一路掉到英文
+eq('cnr 归 bs', pickLang(CODES, null, ['cnr']), 'bs');
+eq('cnr-ME 归 bs', pickLang(CODES, null, ['cnr-ME']), 'bs');
+eq('cnr 不再是可选语言', CODES.indexOf('cnr'), -1);
+
 eq('区域码落到基础语言', pickLang(CODES, null, ['fr-CA']), 'fr');
 eq('大小写不敏感', pickLang(CODES, null, ['AR-SA']), 'ar');
 eq('不支持的语言继续往后找', pickLang(CODES, null, ['pt-BR', 'ru-RU']), 'ru');
