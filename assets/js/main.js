@@ -672,6 +672,9 @@ function hasCityPage(city) {
   const m = window.NW_SITE?.cityMatrix;
   if (!city || !m) return false;
   if (m.core?.includes(city.en)) return true;   // 麦加、麦地那、古都斯：所有语言都有
+  // 按搜索数据补回的例外（site.mjs 的 CITY_EXTRA）。漏了这一条，
+  // 印尼语用户在开罗点分享会拿到首页链接，而开罗恰恰有页面
+  if (m.extra?.[app.lang]?.includes(citySlug(city.en))) return true;
   const rule = m.cc?.[app.lang];
   return rule === '*' || (Array.isArray(rule) && rule.includes(city.cc));
 }

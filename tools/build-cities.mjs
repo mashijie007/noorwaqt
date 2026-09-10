@@ -137,7 +137,11 @@ function cityPageHtml(code, city, pool) {
     city: label,
     country,
     method: methodLabel(city.method, code),
+    // year 是伊历年，给「Ramadan {year}」这类伊历语境用的。
+    // 和公历的 {d} {month} 拼日期必须用 gy —— 混用过一次，印尼/马来页的描述
+    // 于是写着「10 September 1448」，对搜「hari ini」的人像一张过期页。
     year: hijri(Date.UTC(y, m - 1, d)).y,
+    gy: String(y),   // 不走 Intl.NumberFormat：id 的千分位是点号，会写成 2.026
     month: new Intl.DateTimeFormat(loc, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(y, m - 1, 1)),
     d: new Intl.NumberFormat(loc).format(d),
     deg: qiblaBearing(city.lat, city.lon).toFixed(1),

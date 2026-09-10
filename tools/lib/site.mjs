@@ -9,7 +9,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { LOCALES, EN } from '../../assets/js/locale-data.js';
-import { CITIES } from '../../assets/js/cities.js';
+import { CITIES, citySlug } from '../../assets/js/cities.js';
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 export const DIST = resolve(ROOT, 'dist');
@@ -111,12 +111,55 @@ export const CITY_MATRIX = {
   zh: ['CN','HK','SG','MY','ID','TH','AU','US','CA','JP','KR'],
 };
 
+/**
+ * 按真实搜索数据补回的「语言 × 城市」组合 —— 矩阵规则之外的例外。
+ *
+ * 9 月 3 日收缩后一天，全站展示从 650 掉到 12，随后归零。拿 Search Console
+ * 过去三个月的「网页」导出一对照：被删的城市页里有 164 页原本有展示，
+ * 合计 4792 次，占全站 38%。排第一的是印尼语开罗 —— 2930 次，一页就占
+ * 全站 23%。在埃及的印尼留学生（爱资哈尔）是真实需求，国家码规则看不见它。
+ *
+ * 教训是：矩阵是对需求的猜测，搜索数据是需求本身。两者冲突时以数据为准。
+ * 这里只收「确有展示」的组合，没有展示的 915 页不补 —— 补它们只会回到
+ * 抓取预算被摊薄的老问题。
+ *
+ * 值是城市 slug（citySlug(city.en)），按展示次数从高到低排。
+ * 数据来源：noorwaqt.com-Performance-on-Search-2026-09-10（过去 3 个月，网页）。
+ */
+export const CITY_EXTRA = {
+  ar: ['isfahan', 'bangkok', 'vienna', 'moscow', 'guangzhou', 'mashhad', 'lahore', 'almaty', 'male',
+       'dakar', 'johor-bahru'],
+  bn: ['erbil', 'paris', 'sydney', 'vancouver', 'stockholm', 'seoul', 'cape-town', 'alexandria',
+       'oran', 'barcelona', 'baghdad', 'tokyo', 'sarajevo', 'melbourne', 'cairo', 'baku', 'nairobi'],
+  fr: ['dhaka', 'abu-dhabi', 'doha', 'dammam', 'amman', 'madrid', 'banda-aceh', 'baghdad', 'barcelona',
+       'johor-bahru', 'nairobi', 'vienna', 'osaka', 'xian', 'kuwait-city', 'mashhad', 'tashkent',
+       'stockholm', 'kuala-lumpur', 'oslo', 'dearborn'],
+  id: ['cairo', 'istanbul', 'doha', 'tokyo', 'osaka', 'stockholm', 'abu-dhabi', 'chicago', 'tunis',
+       'abuja', 'london', 'madrid', 'skopje', 'tirana', 'rome', 'berlin', 'nouakchott', 'amman',
+       'mumbai', 'konya', 'toronto', 'ho-chi-minh-city', 'moscow', 'brussels', 'astana', 'kazan',
+       'montreal', 'paris', 'chittagong', 'bishkek', 'fes', 'marseille', 'barcelona', 'sanaa',
+       'samarkand', 'urumqi', 'kashgar', 'lucknow'],
+  ms: ['gaza', 'vienna', 'tashkent', 'tokyo', 'kashgar', 'hong-kong', 'delhi', 'ankara', 'paris',
+       'madrid', 'melbourne', 'istanbul', 'seoul', 'perth', 'casablanca', 'karachi', 'toronto',
+       'barcelona', 'ho-chi-minh-city', 'male', 'tirana', 'copenhagen', 'montreal', 'sao-paulo',
+       'cologne', 'djibouti', 'baku', 'urumqi', 'doha', 'stockholm', 'lucknow'],
+  ru: ['nouakchott', 'lahore', 'marseille', 'houston'],
+  tr: ['jeddah', 'dammam', 'tehran', 'doha', 'sanaa', 'abu-dhabi', 'amman', 'copenhagen', 'niamey',
+       'stockholm', 'baghdad', 'banda-aceh', 'madrid', 'chittagong', 'aden', 'mashhad', 'muscat',
+       'tokyo', 'new-york', 'melbourne', 'tripoli'],
+  ur: ['baghdad', 'herat', 'fes', 'tokyo', 'kuala-lumpur', 'paris', 'casablanca', 'mashhad', 'bangkok',
+       'bukhara', 'sanaa'],
+  zh: ['cairo', 'dammam', 'dubai', 'damascus', 'erbil', 'islamabad', 'casablanca', 'doha', 'baghdad',
+       'isfahan'],
+};
+
 /** 朝觐目的地与古都斯：不管什么语言都保留，这三座是全体穆斯林都会搜的 */
 export const CORE_CITIES = new Set(['Makkah', 'Madinah', 'Jerusalem']);
 
 /** 这座城市在这种语言下出不出页面 */
 const inMatrix = (lang, city) => {
   if (CORE_CITIES.has(city.en)) return true;
+  if (CITY_EXTRA[lang]?.includes(citySlug(city.en))) return true;
   const rule = CITY_MATRIX[lang];
   return rule === '*' || (Array.isArray(rule) && rule.includes(city.cc));
 };
@@ -136,6 +179,7 @@ export function cityLangs(city) {
 /** 交给浏览器的同一份矩阵：分享链接要知道这座城市在当前语言下有没有页面 */
 export const cityMatrixForClient = () => ({
   core: [...CORE_CITIES],
+  extra: CITY_EXTRA,
   cc: Object.fromEntries(seoLanguages().map((l) => [l, CITY_MATRIX[l] === '*' ? '*' : (CITY_MATRIX[l] || [])])),
 });
 
