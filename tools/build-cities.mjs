@@ -135,6 +135,8 @@ function cityPageHtml(code, city, pool) {
 
   const vars = {
     city: label,
+    // 要变格的语言在「в {cityIn}」里用前置格（Москве），没备变格形式的退回原形
+    cityIn: city[code + 'In'] || label,
     country,
     method: methodLabel(city.method, code),
     // year 是伊历年，给「Ramadan {year}」这类伊历语境用的。

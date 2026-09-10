@@ -1,9 +1,9 @@
 {
   "ptCrumb": "Время намаза",
-  "ptDocTitle": "Время намаза в {city} сегодня — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
-  "ptDocDesc": "Время намаза в {city}, {country} сегодня: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. Рассчитано по методу {method}, обновляется ежедневно.",
-  "ptH1": "Время намаза в {city}",
-  "ptIntro": "Пять ежедневных намазов для {city}, {country}. Каждое время на этой странице рассчитывается по положению солнца в координатах города — без сервера, без отслеживания.",
+  "ptDocTitle": "Время намаза в {cityIn} сегодня — {pFajr}, {pDhuhr}, {pAsr}, {pMaghrib}, {pIsha}",
+  "ptDocDesc": "Время намаза в {cityIn} ({country}) сегодня: {pFajr} {fajr}, {pDhuhr} {dhuhr}, {pAsr} {asr}, {pMaghrib} {maghrib}, {pIsha} {isha}. Рассчитано по методу {method}, обновляется ежедневно.",
+  "ptH1": "Время намаза в {cityIn}",
+  "ptIntro": "Пять ежедневных намазов в {cityIn} ({country}). Каждое время на этой странице рассчитывается по положению солнца в координатах города — без сервера, без отслеживания.",
   "ptToday": "Сегодня",
   "ptMonthTable": "Расписание на {month}",
   "ptColDate": "Дата",
@@ -14,9 +14,9 @@
   "ptTimezone": "Часовой пояс",
   "ptNearby": "Ближайшие города",
   "ptOtherCities": "Время намаза в других городах",
-  "ptCta": "Время намаза в {city} всегда под рукой",
+  "ptCta": "Время намаза в {cityIn} всегда под рукой",
   "ptCtaLead": "NoorWaqt показывает эти времена офлайн, с напоминаниями о намазе. Бесплатно, без рекламы, без регистрации.",
-  "ptRamadan": "Рамадан {year} в {city}",
+  "ptRamadan": "Рамадан {year} в {cityIn}",
   "ptSuhoorEnds": "Окончание сухура",
   "ptFastLength": "Продолжительность поста"
 }
