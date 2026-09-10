@@ -58,6 +58,8 @@ h1, h2, h3 { line-height: 1.25; margin: 0; text-wrap: balance; font-weight: 700;
 h1 { font-size: clamp(2rem, 5.2vw, 3.6rem); letter-spacing: -0.02em; }
 h2 { font-size: clamp(1.6rem, 3.6vw, 2.5rem); letter-spacing: -0.015em; }
 h3 { font-size: 1.15rem; }
+/* 泰米尔语、马拉雅拉姆语是黏着语，一个词在 h2 字号下能有 400px 宽 */
+h1, h2, h3 { overflow-wrap: break-word; }
 p { margin: 0; text-wrap: pretty; }
 
 em { font-style: normal; color: var(--brand-2); }
@@ -70,7 +72,7 @@ em { font-style: normal; color: var(--brand-2); }
 html[dir='rtl'] .eyebrow { letter-spacing: 0; text-transform: none; }
 
 .section { padding-block: clamp(4rem, 9vw, 7.5rem); position: relative; }
-.section-head { display: grid; gap: 1rem; margin-block-end: 3rem; }
+.section-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; margin-block-end: 3rem; }
 
 /* ── 导航 ───────────────────────────────────────────── */
 .nav {
@@ -99,6 +101,21 @@ html[dir='rtl'] .eyebrow { letter-spacing: 0; text-transform: none; }
 .lang option { background: var(--bg-2); }
 
 @media (max-width: 860px) { .nav-links { display: none; } }
+/* 手机上品牌字 + 语言框 + 下载键三样摆不下：375px 里只剩 335px，
+   而语言框按最长的选项撑到 150px，泰米尔语的下载键就有 138px。
+   挤不下时 LTR 把下载键悄悄推出屏幕右边，RTL 更糟 —— 整页被撑出横向滚动。
+   窄屏只留 logo，语言框限宽（选中的那项照样显示得全） */
+@media (max-width: 480px) {
+  .nav { gap: 0.75rem; }
+  .brand { font-size: 0; gap: 0; }
+  .lang { max-width: 8.5rem; }
+}
+@media (max-width: 360px) {
+  .nav-right { gap: 0.5rem; }
+  .lang { max-width: 7rem; min-width: 0; padding-inline: 0.6rem; }
+  .nav-right { min-width: 0; }
+  .nav-right .btn-sm { padding-inline: 0.8rem; font-size: 0.8rem; }
+}
 
 /* ── 按钮 ───────────────────────────────────────────── */
 .btn {
@@ -109,6 +126,8 @@ html[dir='rtl'] .eyebrow { letter-spacing: 0; text-transform: none; }
   white-space: nowrap;
 }
 .btn:hover { transform: translateY(-1px); }
+/* 「下载 Android APK」在马拉雅拉姆语、孟加拉语里比窄屏还宽，放不下就折行 */
+@media (max-width: 480px) { .btn:not(.btn-sm) { white-space: normal; text-align: center; max-width: 100%; } }
 .btn-primary {
   background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%);
   color: #fff; box-shadow: 0 8px 30px -8px rgba(16, 185, 129, 0.7);
@@ -318,11 +337,15 @@ input[type='range']:focus-visible { outline: 2px solid var(--brand-2); outline-o
   padding: clamp(1.4rem, 3vw, 2.2rem);
 }
 
-.city-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
-@media (max-width: 880px) { .city-grid { grid-template-columns: 1fr; } }
+/* minmax(0, …) 而不是 1fr：1fr 不肯缩到内容最小宽度以下，而搜索框的固有宽度
+   跟字号走 —— RTL 正文 18px 时它有 352px，把单栏撑出 375px 的屏幕 */
+.city-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; align-items: start; }
+@media (max-width: 880px) { .city-grid { grid-template-columns: minmax(0, 1fr); } }
 
 .search-wrap { position: relative; }
 .search-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+/* 「使用我的位置」在泰米尔语里有 30 个字符，.btn 的 nowrap 会让它横着冲出去 */
+.search-row .btn { white-space: normal; }
 .search-input {
   flex: 1 1 14rem; min-width: 0; padding: 0.75rem 1.05rem; border-radius: 999px;
   border: 1px solid var(--line); background: rgba(255, 255, 255, 0.05);
@@ -488,7 +511,7 @@ html[dir='rtl'] .ev-title { letter-spacing: 0; text-transform: none; }
    两处刻意长得一样，但不共用规则 —— 首页没必要为几张卡片多加载一份样式表。 */
 .guide-links {
   list-style: none; padding: 0; margin: 0;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 0.9rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr)); gap: 0.9rem;
 }
 .guide-links a {
   display: grid; gap: 0.4rem; height: 100%;

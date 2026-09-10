@@ -179,7 +179,7 @@ html[dir='rtl'] .faq details p { padding: 0 2.6rem 1.1rem 1.2rem; }
 
 /* ── 栏目页与相关链接 ───────────────────────────────── */
 .hub-list, .related-list { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 0.8rem; }
-.hub-list { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.hub-list { grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr)); }
 .related { max-width: 68ch; margin-block-start: 3.5rem; }
 .related h2 {
   font-size: 1.1rem;

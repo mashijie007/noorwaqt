@@ -8,9 +8,11 @@
  * 对同一个坐标必然选中同一种算法。第 7 个参数保留但已不再使用。
  */
 import { resolveMethod } from './prayer.js';
+import { CITY_NAMES } from './city-names.js';
 
+// 俄 / 孟 / 乌尔都写法另放在 city-names.js，合进来后 cityName(c, 'ru') 就能直接取到
 const C = (en, zh, ar, lat, lon, tz, _legacyMethod, cc) => ({
-  en, zh, ar, lat, lon, tz, cc, method: resolveMethod(lat, lon),
+  en, zh, ar, ...CITY_NAMES[en], lat, lon, tz, cc, method: resolveMethod(lat, lon),
 });
 
 export const CITIES = [
@@ -255,8 +257,8 @@ export function searchCities(q, limit = 8) {
     const en = c.en.toLowerCase();
     let rank = -1;
     if (en.startsWith(s)) rank = 0;
-    else if (c.zh.startsWith(s) || c.ar.startsWith(s)) rank = 1;
-    else if (en.includes(s) || c.zh.includes(s) || c.ar.includes(s)) rank = 2;
+    else if ([c.zh, c.ar, c.ru, c.bn, c.ur].some((n) => n?.toLowerCase().startsWith(s))) rank = 1;
+    else if ([en, c.zh, c.ar, c.ru, c.bn, c.ur].some((n) => n?.toLowerCase().includes(s))) rank = 2;
     if (rank >= 0) hit.push({ c, rank });
   }
   return hit.sort((a, b) => a.rank - b.rank).slice(0, limit).map((h) => h.c);

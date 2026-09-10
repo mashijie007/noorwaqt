@@ -52,6 +52,15 @@ function localYMD(tz, at = Date.now()) {
 
 const pad2 = (n) => String(n).padStart(2, '0');
 
+/**
+ * 以哈乃斐晡礼为通行做法的国家。页面主时刻仍按标准（影长 1 倍）算，跟 App 的默认一致；
+ * 哈乃斐时刻（影长 2 倍）每页都写在晡礼卡片底下，这几国再给整月表加一列、
+ * 并写进搜索摘要 —— 卡拉奇的人在结果页看到「Asr 15:57」只会以为这页算错了，
+ * 当地清真寺贴的是 16:57。
+ * 土耳其不在内：宗教事务局（Diyanet）官方历用的是标准晡礼。
+ */
+const HANAFI_CC = new Set(['PK', 'IN', 'BD', 'AF', 'UZ', 'KZ', 'KG', 'TJ', 'TM', 'CN']);
+
 // ── 页面骨架 ────────────────────────────────────────────
 
 /**
@@ -131,10 +140,15 @@ function cityPageHtml(code, city, pool) {
 
   const { y, m, d } = localYMD(city.tz);
   const today = prayerTimes(y, m, d, city.lat, city.lon, city.method, 1);
+  const asrHanafi = prayerTimes(y, m, d, city.lat, city.lon, city.method, 2).asr;
+  const hanafiCol = HANAFI_CC.has(city.cc);
+  const paren = (t) => (code.startsWith('zh') ? `（${t}）` : ` (${t})`);
   const clock = (ts) => localClock(ts, city.tz, loc);
 
   const vars = {
     city: label,
+    // 要变格的语言在「в {cityIn}」里用前置格（Москве），没备变格形式的退回原形
+    cityIn: city[code + 'In'] || label,
     country,
     method: methodLabel(city.method, code),
     // year 是伊历年，给「Ramadan {year}」这类伊历语境用的。
@@ -153,7 +167,9 @@ function cityPageHtml(code, city, pool) {
   }
 
   const title = fill(dict.ptDocTitle, vars);
-  const desc = fill(dict.ptDocDesc, vars);
+  const desc = fill(dict.ptDocDesc, hanafiCol
+    ? { ...vars, asr: `${vars.asr} / ${clock(asrHanafi)}${paren(dict.cityAsrHanafi)}` }
+    : vars);
 
   // 日期抬头：公历 + 伊历，两套都写上
   const h = hijri(Date.UTC(y, m - 1, d));
@@ -165,7 +181,8 @@ function cityPageHtml(code, city, pool) {
   const times = SLOTS.map((slot) => `
     <div class="pt-time" data-slot="${slot}">
       <span class="name">${esc(dict[SLOT_KEY[slot]])}</span>
-      <span class="clock" data-time="${slot}">${esc(clock(today[slot]))}</span>
+      <span class="clock" data-time="${slot}">${esc(clock(today[slot]))}</span>${slot === 'asr' ? `
+      <span class="alt">${esc(dict.cityAsrHanafi)} <span data-time="asr2">${esc(clock(asrHanafi))}</span></span>` : ''}
     </div>`).join('');
 
   const fastMin = Math.round((today.maghrib - today.fajr) / 60000);
@@ -174,6 +191,7 @@ function cityPageHtml(code, city, pool) {
     // 麦加自己那一页没有"朝向"可言，硬写会得到 0.0° / 0 公里
     ...(km < 5 ? [] : [[dict.ptQibla, fill(dict.ptQiblaVal, vars) + ' · ' + fill(dict.ptDistance, vars)]]),
     [dict.cityMethod, vars.method],
+    [dict.cityAsr, `${dict.cityAsrStd} ${vars.asr} · ${dict.cityAsrHanafi} ${clock(asrHanafi)}`],
     [dict.ptCoords, city.lat.toFixed(4) + ', ' + city.lon.toFixed(4)],
     [dict.ptTimezone, city.tz],
     [dict.ptSuhoorEnds, vars.fajr],
@@ -187,11 +205,14 @@ function cityPageHtml(code, city, pool) {
   let rows = '';
   for (let i = 1; i <= days; i++) {
     const t = prayerTimes(y, m, i, city.lat, city.lon, city.method, 1);
-    const cells = SLOTS.map((slot) => `<td>${esc(clock(t[slot]))}</td>`).join('');
+    const cells = SLOTS.map((slot) => `<td>${esc(clock(t[slot]))}</td>`
+      + (hanafiCol && slot === 'asr'
+        ? `<td>${esc(clock(prayerTimes(y, m, i, city.lat, city.lon, city.method, 2).asr))}</td>` : '')).join('');
     rows += `<tr${i === d ? ' class="is-today"' : ''} data-day="${i}">`
       + `<td>${esc(dayNum.format(i))} ${esc(wd.format(Date.UTC(y, m - 1, i)))}</td>${cells}</tr>`;
   }
-  const headCells = SLOTS.map((slot) => `<th scope="col">${esc(dict[SLOT_KEY[slot]])}</th>`).join('');
+  const headCells = SLOTS.map((slot) => `<th scope="col">${esc(dict[SLOT_KEY[slot]])}</th>`
+    + (hanafiCol && slot === 'asr' ? `<th scope="col">${esc(dict[SLOT_KEY.asr] + paren(dict.cityAsrHanafi))}</th>` : '')).join('');
 
   const near = nearbyCities(city, 8, pool).map(({ city: c }) =>
     `<a href="${escA(cityPath(code, slug(c.en)))}">${esc(cityName(c, code))}</a>`).join('');
@@ -247,7 +268,7 @@ function cityPageHtml(code, city, pool) {
   </section>
 </main>
 <script type="application/json" id="pt-data">${JSON.stringify({
-    lat: city.lat, lon: city.lon, tz: city.tz, method: city.method,
+    lat: city.lat, lon: city.lon, tz: city.tz, method: city.method, hanafiCol,
     // 静态内容停在构建那天。city-page.js 拿这个日期跟当地今天比，
     // 对不上就用同一个 prayer.js 就地重算 —— 跨月时整张表都会重画。
     builtFor: `${y}-${pad2(m)}-${pad2(d)}`,

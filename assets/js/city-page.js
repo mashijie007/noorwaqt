@@ -68,6 +68,8 @@ function refreshIfStale(city) {
     const el = $(`[data-time="${slot}"]`);
     if (el) el.textContent = clock(t[slot]);
   }
+  const asr2 = $('[data-time="asr2"]');
+  if (asr2) asr2.textContent = clock(prayerTimes(y, m, d, city.lat, city.lon, city.method, 2).asr);
 
   const dateEl = $('#pt-date');
   if (dateEl) {
@@ -93,8 +95,10 @@ function rebuildTable(city, y, m, loc, clock) {
   let rows = '';
   for (let i = 1; i <= days; i++) {
     const t = prayerTimes(y, m, i, city.lat, city.lon, city.method, 1);
+    // 哈乃斐那一列紧跟在标准晡礼后面，跟构建期的列序一致
+    const asr2 = city.hanafiCol ? `<td>${clock(prayerTimes(y, m, i, city.lat, city.lon, city.method, 2).asr)}</td>` : '';
     rows += `<tr data-day="${i}"><td>${nf.format(i)} ${wd.format(Date.UTC(y, m - 1, i))}</td>`
-      + SLOTS.map((s) => `<td>${clock(t[s])}</td>`).join('') + '</tr>';
+      + SLOTS.map((s) => `<td>${clock(t[s])}</td>${s === 'asr' ? asr2 : ''}`).join('') + '</tr>';
   }
   body.innerHTML = rows;
 
