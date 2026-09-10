@@ -79,6 +79,8 @@
 .pt-time[data-slot='isha']    { border-color: color-mix(in srgb, var(--isha) 40%, transparent); }
 .pt-time[data-slot='sunrise'] { border-color: var(--line); }
 .pt-time[data-slot='sunrise'] .clock { color: var(--ink-2); font-size: 1.35rem; }
+/* 晡礼卡片底下的哈乃斐时刻：比主时刻晚将近一小时，南亚、中亚按它礼拜 */
+.pt-time .alt { font-size: 0.8rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
 /* 事实区：朝向、经纬度、时区、计算方法 */
 .pt-facts {
