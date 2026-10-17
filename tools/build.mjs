@@ -29,6 +29,7 @@ const STATIC = [
   // 写成 en/guide 而不是 en —— 后者会盖掉生成器刚写好的 dist/en/index.html
   'en/guide',
   'zh/guide',
+  'id/guide',
   'CNAME',
   'noorwaqt.png',
   'cn.jpeg',

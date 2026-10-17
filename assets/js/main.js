@@ -81,12 +81,21 @@ async function applyLang(lang) {
   }
   $('#lang').value = lang;
 
-  // 教法问答目前只有中英两份译文。语言切走时链接要跟着改写：
-  // 让阿拉伯语用户点进一个中文页面，比不给这个链接更糟。
-  const guideLang = lang.startsWith('zh') ? 'zh' : 'en';
+  // 教法问答不是每种语言都有译文，而且译了的语言也不一定篇篇都齐
+  // （印尼语目前只有三篇）。所以要逐篇查 NW_SITE.guide，查不到就落回英文版：
+  // 让阿拉伯语用户点进一个中文页面，比不给这个链接更糟；点进 404 更糟。
+  // 拿不到清单时（本地直接开 index.html）退回原先的中英二选一。
+  const guidePages = window.NW_SITE?.guide;
+  const want = lang.startsWith('zh') ? 'zh' : lang;
+  const guideLangFor = (slug) => {
+    if (!guidePages) return want === 'zh' ? 'zh' : 'en';
+    const has = (l) => guidePages[l] && (!slug || guidePages[l].includes(slug));
+    return has(want) ? want : has('en') ? 'en' : want;
+  };
   for (const el of $$('[data-guide]')) {
     const slug = el.dataset.guide;
-    el.setAttribute('href', slug ? `/${guideLang}/guide/${slug}/` : `/${guideLang}/guide/`);
+    const gl = guideLangFor(slug);
+    el.setAttribute('href', slug ? `/${gl}/guide/${slug}/` : `/${gl}/guide/`);
   }
 
   renderBars(); renderCity(); renderRamadan(); renderEid(); renderDownload();

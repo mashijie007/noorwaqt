@@ -14,7 +14,7 @@ import { pathToFileURL } from 'node:url';
 import {
   ROOT, SITE, LOCALES, CITIES, dictFor, release, emit,
   langPath, cityIndexPath, abs, bcp47, dirOf, seoLanguages,
-  citiesFor, cityMatrixForClient,
+  citiesFor, cityMatrixForClient, guidePagesForClient,
 } from './lib/site.mjs';
 import {
   renderI18n, setTitle, setMeta, setCanonical, setHtmlAttrs,
@@ -125,7 +125,7 @@ export function buildPages() {
       appJsonLd(dict),
       siteJsonLd(dict, code),
       langHrefScript(codes, hrefFor),
-      cityLangsScript(cityMatrixForClient()),
+      cityLangsScript(cityMatrixForClient(), guidePagesForClient()),
       // 告诉抓取端这是 1.91:1 的横图，它才会展开成大卡，而不是缩成角落里的小方块。
       // 只在真有图时写：退回方形 logo 时标个 1200×630 是在骗抓取端
       og.sized

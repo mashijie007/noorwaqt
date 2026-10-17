@@ -128,8 +128,8 @@ export const langHrefScript = (codes, hrefFor) =>
  * 判断要按"这座城市 + 当前语言"两个维度，只看语言会指向 404。
  * 缺这份数据时 main.js 退回该语言的首页。
  */
-export const cityLangsScript = (matrix) =>
-  '<script>window.NW_SITE=' + JSON.stringify({ origin: SITE.origin, cityMatrix: matrix }) + ';</script>';
+export const cityLangsScript = (matrix, guide) =>
+  '<script>window.NW_SITE=' + JSON.stringify({ origin: SITE.origin, cityMatrix: matrix, guide }) + ';</script>';
 
 const cloud = (title, items) =>
   '<div class="wrap seo-links"><h2>' + escapeText(title) + '</h2><nav class="link-cloud">'

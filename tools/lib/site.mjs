@@ -40,7 +40,7 @@ export const PENDING_PREFIXES = [];
  * 它们自带 canonical 与 hreflang，这里只负责把它们收进站点地图 ——
  * 新域名没有外链，sitemap 往往是搜索引擎发现内页的唯一入口。
  */
-export const GUIDE_LANGS = ['en', 'zh'];
+export const GUIDE_LANGS = ['en', 'zh', 'id'];
 
 /** 扫出已经落到 dist 里的问答页。按目录发现，作者加一篇不用回来改这里 */
 export function discoverGuidePages() {
@@ -53,6 +53,25 @@ export function discoverGuidePages() {
       if (!e.isDirectory() || !existsSync(resolve(base, e.name, 'index.html'))) continue;
       out.push({ lang, slug: e.name, path: '/' + lang + '/guide/' + e.name + '/' });
     }
+  }
+  return out;
+}
+
+/**
+ * 同一份清单交给浏览器：首页那块问答导读是静态写死的四个 slug，而每种语言
+ * 译完的篇数不一样 —— 印尼语目前只有三篇。链接改写时得逐篇查，查不到就落回
+ * 英文版。写死一个「有没有译文」的布尔值迟早会漂移成 404。
+ *
+ * 扫的是仓库根而不是 dist：buildPages 跑在 copyStatic 之前，那时 dist 里还没有问答页。
+ */
+export function guidePagesForClient() {
+  const out = {};
+  for (const lang of GUIDE_LANGS) {
+    const base = resolve(ROOT, lang, 'guide');
+    if (!existsSync(resolve(base, 'index.html'))) continue;
+    out[lang] = readdirSync(base, { withFileTypes: true })
+      .filter((e) => e.isDirectory() && existsSync(resolve(base, e.name, 'index.html')))
+      .map((e) => e.name);
   }
   return out;
 }
