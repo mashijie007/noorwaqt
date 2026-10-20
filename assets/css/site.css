@@ -5,6 +5,30 @@
  * 这样阿拉伯语切到 RTL 时布局自动镜像，不需要第二套样式表。
  */
 
+/* 弯引号的字形来源。
+ *
+ * 正文字体是 Noto Sans SC：它的 Latin 字形很好，但 ‘ ’ “ ” 继承自中日韩
+ * 标点，是全角的 —— 17px 字号下一个撇号占满 17px，而 Segoe UI 只占 3.9px。
+ * 于是英文页面上 "Women’s" 会渲染成 "Women’ s"，中间凭空多出一截空隙。
+ *
+ * 不能靠把拉丁字体排到 Noto Sans SC 前面来解决：那会把全站 44 种语言的
+ * 正文字形整个换掉，为了四个标点动全局排版，代价不对等。
+ *
+ * 所以只把这四个码位单独挑出来交给系统自带的拉丁字体。字体回退是逐字符的，
+ * unicode-range 之外的字符根本不会落到这个 face 上，其余字形一律照旧。
+ * src 里一个都装不上时这个 face 直接失效，字符落回 Noto Sans SC ——
+ * 也就是现在的样子，不会开天窗。
+ *
+ * 中文内容不受影响：站上的中文用的是「」直角引号，这四个码位在中文里
+ * 只出现在 Shafi‘i 这类拉丁转写中，本来就该是窄的。
+ */
+@font-face {
+  font-family: 'NW Quotes';
+  src: local('Segoe UI'), local('Helvetica Neue'), local('Arial'),
+       local('Roboto'), local('DejaVu Sans'), local('Liberation Sans');
+  unicode-range: U+2018, U+2019, U+201C, U+201D;
+}
+
 :root {
   --bg: #04100e;
   --bg-2: #071a17;
@@ -24,7 +48,8 @@
   --isha: #a78bfa;
   --idle: #4a6b63;
 
-  --sans: 'Noto Sans SC', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* 'NW Quotes' 只认领四个弯引号，见上面的 @font-face */
+  --sans: 'NW Quotes', 'Noto Sans SC', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --serif-ar: 'Amiri', Georgia, serif;
   --wrap: 1180px;
   --r: 16px;
