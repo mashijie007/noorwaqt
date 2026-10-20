@@ -9,6 +9,9 @@
  *      也不会让 verify-dist 报错，只会安静地少一行。
  *   2. 原文只存一份（lib/hadith.mjs），不许有人在内容文件里直接手写一段阿文。
  *   3. 原文栏里不许混进拉丁字母：写错的话页面上会以 Amiri 渲染出一串歪字母。
+ *   4. 行文里引用的每一段圣训，在同一篇里都必须有对应的引文块。第 1 条只管
+ *      「引文块带不带原文」，管不到「只在句子里提了一句、根本没开引文块」的引用 ——
+ *      布哈里 6205、穆斯林 2143 / 2142b / 2139 就是这样漏掉的。
  *
  * 这些检查都不碰教法内容本身 —— 那要人去核。它们只保证「可核对」这件事
  * 不会在后续编辑中悄悄丢掉。
@@ -83,6 +86,41 @@ for (const { rel, text } of sources) {
   const inline = (text.match(/^>>[^\n]*$/gm) || []).filter((l) => !/\$\{AR\['[^']+'\]\}/.test(l));
   eq(rel + ' 没有手写的原文',
     inline.length ? inline.map((l) => l.slice(0, 40)).join(' / ') : '（空）', '（空）');
+}
+
+console.log('行文里的引用');
+
+// 圣训的编号写法因语言而异，统一成 collection-number 再比较。
+// 字母后缀不能省：同一编号下的 a / b / c 异文措辞并不一样（335c 才有「补斋不补拜」）。
+const CITE = {
+  bukhari: /(?:Sahih al-Bukhari|Shahih al-Bukhari|《布哈里圣训实录》)\s*(\d+[a-z]?)/g,
+  muslim: /(?:Sahih Muslim|Shahih Muslim|《穆斯林圣训实录》)\s*(\d+[a-z]?)/g,
+  abudawud: /(?:Sunan Abi Dawud|Sunan Abu Dawud|Abu Dawud|《艾布·达乌德圣训集》)\s*(\d+[a-z]?)/g,
+  tirmidhi: /(?:Jami.\s?at-Tirmidhi|Tirmidhi|Tirmidzi|《提尔密集圣训集》)\s*(\d+[a-z]?)/g,
+};
+const citedKeys = (text) => {
+  const out = new Set();
+  for (const [name, re] of Object.entries(CITE)) {
+    for (const m of text.matchAll(re)) out.add(`${name}-${m[1]}`);
+  }
+  return out;
+};
+
+/** 问答页一个文件里有好几篇，以 slug: 切开，一篇的引文块不能替另一篇作证 */
+const segments = (text) => {
+  const parts = text.split(/(?=^\s*slug:\s*')/m);
+  return parts.length > 1 ? parts : [text];
+};
+
+for (const { rel, text } of sources) {
+  const uncovered = new Set();
+  for (const seg of segments(text)) {
+    const quoted = citedKeys(quoteBlocks(seg + '\n').join(''));
+    const rest = seg.replace(/(?:^>[^\n]*\n)+/gm, '');
+    for (const k of citedKeys(rest)) if (!quoted.has(k)) uncovered.add(k);
+  }
+  eq(rel + ' 行文里引用的圣训都有引文块',
+    uncovered.size ? [...uncovered].sort().join(', ') : '（空）', '（空）');
 }
 
 console.log(failed ? '\n' + failed + ' 个断言没过' : '\n全部通过');

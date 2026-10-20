@@ -48,7 +48,7 @@ const NASAB = {
 const shown = (n) => n.av || n.ar;
 
 /** 去掉元音符号，供检索比较。用户输入的可能带符号，也可能不带 */
-const stripMarks = (s) => s.replace(/[ً-ْٰ]/g, '');
+const stripMarks = (s) => s.replace(/[\u064B-\u0652\u0670]/g, '');
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 

@@ -121,7 +121,7 @@ console.log('元音符号');
 
 // 阿文元音符号（تشكيل）。av 是页面上显示给读者照着念的那份，
 // 标错一个字母读者就会念错，而这不会让任何东西报错 —— 所以逐条对。
-const MARKS = /[ً-ْٰ]/;
+const MARKS = /[\u064B-\u0652\u0670]/;
 // replace 要全局，test 不能带 g —— 带 g 的正则做 test 会残留 lastIndex，隔条误判
 const strip = (x) => x.replace(new RegExp(MARKS.source, 'g'), '');
 

@@ -93,6 +93,10 @@ Most of the confusion around Arabic names comes from treating them like a first 
 - **Laqab** — an epithet earned later: *al-Rashid*, *al-Siddiq*.
 - **Nisba** — an adjective of belonging: a place, a tribe, a trade. *al-Baghdadi*, *al-Shafi‘i*.
 
+> O Abu Umayr, what did the little bird do?
+>> ${AR['bukhari-6129']}
+> — Anas ibn Malik, Sahih al-Bukhari 6129
+
 Put together: **Abu Abdullah Muhammad bin Idris al-Shafi‘i** — kunya, ism, nasab, nisba. One man, and not a single part of it is a surname in the modern sense.
 
 A newborn needs only the ism. The nasab follows from the father's name automatically, and the kunya comes decades later. That is why the generator asks for the father's name and nothing else.
@@ -109,6 +113,10 @@ Naming is broad: the default is that any name with a sound meaning is allowed. F
 
 This is a recommendation, not a restriction on everything else. Naming after a prophet is encouraged too, but it rests on separate evidence, not on this hadith: the Prophet (peace be upon him) named his own newborn son after Ibrahim (Sahih Muslim 2315).
 
+> A child was born to me tonight, and I named him after my father Ibrahim.
+>> ${AR['muslim-2315']}
+> — Anas ibn Malik, Sahih Muslim 2315
+
 ### 2. Allah's exclusive names are not given to a person on their own
 
 Names that belong only to Allah are used in the *Abd al-* (servant of) form. The name without the servitude is not given:
@@ -117,11 +125,29 @@ Names that belong only to Allah are used in the *Abd al-* (servant of) form. The
 
 The distinction is the definite article and the exclusivity. **Karim**, **Rashid**, **Hakim** and **Malik** describe people too, so they are given as names freely; *al-Karim*, *al-Rahman* and *al-Khaliq* as titles are not. And the servitude runs one way only — *Abd* compounded with anything other than Allah (Abd al-Nabi, Abd al-Husayn, Abd al-Masih) is rejected by the overwhelming majority of scholars, because servitude is owed to Allah alone.
 
-On the same principle, the Prophet (peace be upon him) said that the most detestable name before Allah on the Day of Resurrection is a man who calls himself *Malik al-Amlak* — king of kings (Sahih al-Bukhari 6205, Sahih Muslim 2143). Muslim's own chapter heading covers both forms of it, *Malik al-Amlak* and *Malik al-Muluk*.
+On the same principle, the Prophet (peace be upon him) warned against taking the name *Malik al-Amlak* — king of kings. Two narrations, worded a little differently:
+
+> The most awful name in Allah’s sight on the Day of Resurrection will be a man calling himself Malik al-Amlak (king of kings).
+>> ${AR['bukhari-6205']}
+> — Abu Huraira, Sahih al-Bukhari 6205
+
+> The vilest name in Allah’s sight is a man who calls himself Malik al-Amlak (king of kings).
+>> ${AR['muslim-2143']}
+> — Abu Huraira, Sahih Muslim 2143
+
+Muslim's own chapter heading covers both forms of it, *Malik al-Amlak* and *Malik al-Muluk*.
 
 ### 3. Names that praise their bearer were changed
 
 Zaynab bint Abi Salama was named *Barra* — "the pious one". The Prophet (peace be upon him) renamed her, and the reason is his own wording: do not claim purity for yourselves, Allah knows best who among you is truly pious (Sahih Muslim 2142b). A woman named *‘Asiya* — عاصية, "disobedient" — he renamed *Jamila* (Sahih Muslim 2139). That is not the *Asiya* in the table below: آسية, the wife of Pharaoh, is a different word that happens to reach English with the same spelling.
+
+> Do not claim purity for yourselves; Allah knows best who among you are the people of righteousness.
+>> ${AR['muslim-2142b']}
+> — Zaynab bint Abi Salama, Sahih Muslim 2142b
+
+> The Messenger of Allah (peace be upon him) changed the name of ‘Asiya (“Disobedient”) and said: You are Jamila.
+>> ${AR['muslim-2139']}
+> — Ibn Umar, Sahih Muslim 2139
 
 Two tests can be put to any name, though they are not equally firm.
 
@@ -136,6 +162,14 @@ Where exactly the second line falls is disputed, so this page does not draw it f
 There is no requirement that a Muslim name be Arabic. Turkish, Persian, Urdu, Malay, Bosnian, Hausa and Chinese Muslim names are all simply names, judged by their meaning. The same test applies to Arabic ones — plenty of Arabic names carry meanings nobody would want once they look them up.
 
 For converts, this cuts both ways: **there is no obligation to change your name on accepting Islam.** Most of the Companions kept the names they were born with. A change is called for only when the meaning conflicts — servitude to something other than Allah, or the name of a deity.
+
+## When the name is given
+
+The reported practice is the seventh day, together with the aqiqah and the shaving of the head. Naming on the day of birth is also reported — the Prophet (peace be upon him) named his son Ibrahim the night he was born (Sahih Muslim 2315, quoted above) — so the seventh day is a strong recommendation rather than a deadline.
+
+> Every boy is in pledge for his aqiqah: a sacrifice is made for him on the seventh day, his head is shaved, and he is named.
+>> ${AR['abudawud-2838']}
+> — Samura ibn Jundub, Sunan Abi Dawud 2838. Jami‘ at-Tirmidhi 1522 has the same report
 
 ## One practical note on spelling
 

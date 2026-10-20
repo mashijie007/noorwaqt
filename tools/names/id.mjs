@@ -94,6 +94,10 @@ Kebanyakan kebingungan soal nama Arab muncul karena ia diperlakukan seperti nama
 - **Laqab** — gelar yang diperoleh kemudian: *ar-Rasyid*, *ash-Shiddiq*.
 - **Nisbah** — penanda asal: tempat, kabilah, atau profesi. *al-Baghdadi*, *asy-Syafi‘i*.
 
+> Wahai Abu Umair, apa yang dilakukan burung kecil itu?
+>> ${AR['bukhari-6129']}
+> — Anas bin Malik, Shahih al-Bukhari 6129
+
 Dirangkai menjadi: **Abu Abdullah Muhammad bin Idris asy-Syafi‘i** — kunyah, ism, nasab, nisbah. Itu satu orang, dan tidak satu pun bagiannya berfungsi sebagai nama keluarga dalam pengertian modern.
 
 Bayi yang baru lahir hanya perlu ism. Nasab mengikuti nama ayah dengan sendirinya, dan kunyah datang puluhan tahun kemudian. Karena itu generator ini hanya menanyakan nama ayah, tidak yang lain.
@@ -110,6 +114,10 @@ Ruang penamaan itu luas: pada dasarnya setiap nama yang artinya baik diperbolehk
 
 Ini anjuran, bukan larangan atas nama-nama lain. Memberi nama dengan nama nabi juga dianjurkan, tetapi dalilnya terpisah, bukan hadis di atas: Nabi (semoga salawat dan salam tercurah kepadanya) menamai putranya yang baru lahir dengan nama Ibrahim (Shahih Muslim 2315).
 
+> Tadi malam telah lahir seorang anak untukku, dan aku menamainya dengan nama ayahku, Ibrahim.
+>> ${AR['muslim-2315']}
+> — Anas bin Malik, Shahih Muslim 2315
+
 ### 2. Nama yang khusus milik Allah tidak diberikan kepada manusia secara berdiri sendiri
 
 Nama yang hanya milik Allah dipakai dalam bentuk *Abdul* (hamba dari). Tanpa penghambaan itu, nama tersebut tidak diberikan:
@@ -118,11 +126,29 @@ Nama yang hanya milik Allah dipakai dalam bentuk *Abdul* (hamba dari). Tanpa pen
 
 Pembedanya ada pada alif lam dan pada kekhususannya. **Karim**, **Rasyid**, **Hakim**, dan **Malik** juga dipakai untuk menyifati manusia, jadi bebas dipakai sebagai nama; sedangkan *al-Karim*, *ar-Rahman*, dan *al-Khaliq* sebagai sebutan tidak. Lalu penghambaan itu hanya satu arah — *Abdu* yang disandingkan dengan selain Allah (Abdun Nabi, Abdul Husain, Abdul Masih) ditolak oleh mayoritas besar ulama, karena penghambaan hanya milik Allah.
 
-Atas dasar yang sama, Nabi (semoga salawat dan salam tercurah kepadanya) bersabda bahwa nama yang paling dibenci di sisi Allah pada hari kiamat adalah orang yang menamai dirinya *Malikul Amlak* — raja diraja (Shahih al-Bukhari 6205, Shahih Muslim 2143). Judul bab Muslim sendiri mencakup kedua bentuknya, *Malikul Amlak* dan *Malikul Muluk*.
+Atas dasar yang sama, Nabi (semoga salawat dan salam tercurah kepadanya) mengingatkan agar tidak memakai nama *Malikul Amlak* — raja diraja. Ada dua riwayat, lafalnya sedikit berbeda:
+
+> Nama yang paling buruk di sisi Allah pada hari kiamat adalah orang yang menamai dirinya Malikul Amlak (raja diraja).
+>> ${AR['bukhari-6205']}
+> — Abu Hurairah, Shahih al-Bukhari 6205
+
+> Nama yang paling hina di sisi Allah adalah orang yang menamai dirinya Malikul Amlak (raja diraja).
+>> ${AR['muslim-2143']}
+> — Abu Hurairah, Shahih Muslim 2143
+
+Judul bab Muslim sendiri mencakup kedua bentuknya, *Malikul Amlak* dan *Malikul Muluk*.
 
 ### 3. Nama yang memuji penyandangnya diganti
 
 Zainab binti Abi Salamah semula bernama *Barrah* — "yang saleh". Nabi (semoga salawat dan salam tercurah kepadanya) menggantinya, dan alasannya adalah sabda beliau sendiri: jangan menganggap diri kalian suci, Allah yang paling tahu siapa di antara kalian yang benar-benar baik (Shahih Muslim 2142b). Seorang perempuan bernama *‘Ashiyah* — عاصية, "yang durhaka" — beliau ganti menjadi *Jamilah* (Shahih Muslim 2139). Itu bukan *Asiya* yang ada di tabel bawah: آسية, istri Fir‘aun, adalah kata yang berbeda dan kebetulan ejaan Latinnya mirip.
+
+> Janganlah kalian menganggap diri kalian suci; Allah lebih mengetahui siapa di antara kalian ahli kebajikan.
+>> ${AR['muslim-2142b']}
+> — Zainab binti Abi Salamah, Shahih Muslim 2142b
+
+> Rasulullah (semoga salawat dan salam tercurah kepadanya) mengganti nama ‘Ashiyah (“yang durhaka”) dan bersabda: Engkau Jamilah.
+>> ${AR['muslim-2139']}
+> — Ibnu Umar, Shahih Muslim 2139
 
 Ada dua ujian yang bisa diajukan kepada nama mana pun, tetapi ketegasannya tidak sama.
 
@@ -137,6 +163,14 @@ Sampai di mana persisnya batas yang kedua itu, para ulama berbeda pendapat, jadi
 Tidak ada keharusan nama seorang muslim berbahasa Arab. Nama Turki, Persia, Urdu, Melayu, Bosnia, Hausa, dan nama muslim Tionghoa semuanya hanyalah nama, dinilai dari artinya. Ukuran yang sama berlaku untuk nama Arab — banyak nama Arab yang, begitu dicari artinya, tidak akan dipakai siapa pun.
 
 Bagi mualaf, kaidah ini berlaku dua arah: **tidak ada kewajiban mengganti nama saat masuk Islam.** Sebagian besar sahabat tetap memakai nama yang mereka sandang sejak lahir. Penggantian baru diperlukan bila artinya bertentangan — penghambaan kepada selain Allah, atau nama sesembahan.
+
+## Kapan nama diberikan
+
+Praktik yang diriwayatkan adalah hari ketujuh, bersamaan dengan akikah dan mencukur rambut. Pemberian nama pada hari kelahiran juga diriwayatkan — Nabi (semoga salawat dan salam tercurah kepadanya) menamai putranya Ibrahim pada malam ia dilahirkan (Shahih Muslim 2315, dikutip di atas) — sehingga hari ketujuh adalah anjuran yang kuat, bukan batas waktu.
+
+> Setiap anak laki-laki tergadai dengan akikahnya: disembelihkan untuknya pada hari ketujuh, dicukur rambutnya, dan diberi nama.
+>> ${AR['abudawud-2838']}
+> — Samurah bin Jundub, Sunan Abu Dawud 2838. Jami‘ at-Tirmidzi 1522 memuat riwayat yang sama
 
 ## Satu catatan praktis tentang ejaan
 

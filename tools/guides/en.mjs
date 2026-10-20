@@ -236,6 +236,10 @@ Two reports belong alongside that, though. The Prophet (peace be upon him) asked
 
 And a freed Black woman who had embraced Islam is reported to have had a tent, or a small low-roofed room, inside the masjid (Sahih al-Bukhari 439); Bukhari files it under “a woman sleeping in the masjid”. The report does not mention menstruation — Ibn Hazm and others inferred from it that entry is permitted. Many contemporary scholars, on the same basis, allow **brief entry for a need** — attending a class, sheltering, passing through — provided there is no risk of soiling the space.
 
+> She had a tent — or a small, low-roofed room — in the mosque.
+>> ${AR['bukhari-439']}
+> — Aisha, Sahih al-Bukhari 439
+
 ## Tawaf
 
 No dispute here: a menstruating woman does not perform tawaf. The Prophet told Aisha when she menstruated during Hajj:
@@ -330,7 +334,15 @@ Once pure, ghusl is required before praying. Its essentials:
 
 On hair: braids do not need to be undone, but water must reach the scalp. Umm Salamah asked about exactly this, and was told it is enough to pour three handfuls of water over the head (Sahih Muslim 330).
 
+> No. It is enough for you to throw three handfuls of water on your head, then pour water over yourself, and you will be purified.
+>> ${AR['muslim-330']}
+> — Umm Salama, Sahih Muslim 330
+
 The often-quoted advice to use a piece of cotton scented with musk comes from the Prophet’s answer to Asma bint Shakal (Sahih Muslim 332c). It is recommended, not required.
+
+> Then let her take a piece of cotton scented with musk and purify herself with it.
+>> ${AR['muslim-332c']}
+> — Aisha, reporting the Prophet’s answer to Asma bint Shakal; Sahih Muslim 332c
 
 ## Which prayer you start with
 
@@ -397,9 +409,17 @@ Three methods, applied in order:
 
 **1. Habit (‘adah).** The days she normally menstruates — that many days, starting when they normally start — are menstruation; the rest is istihadah. This takes priority. Umm Salamah reported exactly this ruling for a woman in that state: she counts the nights and days she used to menstruate each month, leaves the prayer for that long, then washes and prays (Sunan Abi Dawud 274).
 
+> Let her count the nights and days in which she used to menstruate each month before what befell her befell her, and let her leave the prayer for that length of time of the month. When she has passed that, let her wash, bind a cloth over herself, and pray in it.
+>> ${AR['abudawud-274']}
+> — Umm Salama, Sunan Abi Dawud 274
+
 **2. Discernment (tamyiz).** With no settled habit, the blood itself is read: dark, thick, distinctly odorous blood is menstruation; thin, pale blood is istihadah. This comes from the Prophet’s other instruction to Fatimah bint Abi Hubaysh.
 
 **3. Fall back to the norm.** When neither applies, most scholars follow the hadith of Hamnah bint Jahsh and count 6 or 7 days a month as menstruation, the rest istihadah (Sunan Abi Dawud 287). The Hanafi school has its own scheme for a woman with no established habit.
+
+> This is only one of the kicks of Satan, so count yourself as menstruating six days or seven, in Allah’s knowledge, and then wash.
+>> ${AR['abudawud-287']}
+> — Hamnah bint Jahsh, Sunan Abi Dawud 287
 
 ## The three situations this actually comes up in
 

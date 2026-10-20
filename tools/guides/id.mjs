@@ -187,7 +187,15 @@ Setelah suci, mandi wajib harus dikerjakan sebelum sholat. Rukunnya:
 
 Tentang rambut: kepangan tidak perlu diurai, tetapi air harus sampai ke kulit kepala. Ummu Salamah bertanya persis tentang hal ini, dan dijawab bahwa cukup menuangkan tiga cidukan air ke atas kepala (Shahih Muslim 330).
 
+> Tidak perlu. Cukup bagimu menuangkan tiga cidukan air ke atas kepalamu, lalu menyiramkan air ke seluruh tubuhmu, maka engkau suci.
+>> ${AR['muslim-330']}
+> — Ummu Salamah, Shahih Muslim 330
+
 Anjuran yang sering dikutip untuk memakai sepotong kapas beraroma kasturi berasal dari jawaban Nabi shallallahu ‘alaihi wa sallam kepada Asma binti Syakal (Shahih Muslim 332c). Itu sunnah, bukan kewajiban.
+
+> Kemudian hendaklah ia mengambil sepotong kapas yang diberi kasturi dan membersihkan diri dengannya.
+>> ${AR['muslim-332c']}
+> — Aisyah, meriwayatkan jawaban Nabi kepada Asma binti Syakal; Shahih Muslim 332c
 
 ## Sholat mana yang dikerjakan lebih dulu
 
@@ -254,9 +262,17 @@ Tiga cara, diterapkan berurutan:
 
 **1. Kebiasaan (‘adah).** Hari-hari yang biasanya ia haid — sebanyak itu, dimulai pada saat ia biasanya mulai — dihukumi haid; selebihnya istihadhah. Cara ini didahulukan. Ummu Salamah meriwayatkan persis hukum ini bagi perempuan dalam keadaan tersebut: ia menghitung berapa malam dan hari ia dahulu haid setiap bulan, meninggalkan sholat selama itu, lalu mandi dan sholat (Sunan Abu Dawud 274).
 
+> Hendaklah ia menghitung jumlah malam dan hari ia dahulu haid setiap bulan sebelum ditimpa penyakit itu, lalu meninggalkan sholat selama itu setiap bulan. Apabila telah lewat, hendaklah ia mandi, membalut dengan kain, lalu sholat dengannya.
+>> ${AR['abudawud-274']}
+> — Ummu Salamah, Sunan Abu Dawud 274
+
 **2. Pembedaan sifat darah (tamyiz).** Bila tidak ada kebiasaan yang mapan, darahnya sendiri yang dibaca: darah yang pekat, kental, dan berbau khas adalah haid; darah yang encer dan pucat adalah istihadhah. Ini berasal dari perintah Nabi shallallahu ‘alaihi wa sallam yang lain kepada Fatimah binti Abi Hubaisy.
 
 **3. Kembali ke kebiasaan umum perempuan.** Bila keduanya tidak bisa diterapkan, mayoritas ulama mengikuti hadis Hamnah binti Jahsy dan menghitung 6 atau 7 hari sebulan sebagai haid, selebihnya istihadhah (Sunan Abu Dawud 287). Mazhab Hanafi punya rinciannya sendiri untuk perempuan yang belum punya kebiasaan mapan.
+
+> Ini hanyalah salah satu tendangan setan. Maka hitunglah haidmu enam hari atau tujuh hari, dalam ilmu Allah, kemudian mandilah.
+>> ${AR['abudawud-287']}
+> — Hamnah binti Jahsy, Sunan Abu Dawud 287
 
 ## Tiga keadaan yang benar-benar sering terjadi
 
