@@ -105,7 +105,7 @@
   text-align: left;
   font-family: var(--serif-ar);
   font-size: clamp(1.9rem, 5vw, 2.4rem);
-  line-height: 1.5;
+  line-height: 1.9;
   color: var(--ink);
   margin: 0 0 0.3rem;
   /* 阿文行高压不住时上下会贴边，这里给一点呼吸 */
@@ -202,7 +202,11 @@
 .n-table tbody tr:hover td { background: rgba(16, 185, 129, 0.05); }
 .n-table td small { display: block; margin-block-start: 0.25rem; color: var(--ink-3); font-size: 0.76rem; }
 
-.n-cell-ar { font-family: var(--serif-ar); font-size: 1.3rem; color: var(--ink); white-space: nowrap; }
+.n-cell-ar {
+  font-family: var(--serif-ar); font-size: 1.3rem; color: var(--ink); white-space: nowrap;
+  /* 带元音符号的阿文上有 shadda、下有 kasra，上下各要留出一截，行高不够会被裁 */
+  line-height: 2;
+}
 .n-cell-tr { color: var(--ink); white-space: nowrap; }
 .n-cell-sex { color: var(--ink-3); font-size: 0.78rem; white-space: nowrap; }
 

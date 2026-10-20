@@ -117,6 +117,31 @@ eq('阿文栏只有阿拉伯字母',
 eq('没有空标签',
   list(Object.keys(TAGS).filter((t) => !NAMES.some((n) => n.tags.includes(t)))), '（空）');
 
+console.log('元音符号');
+
+// 阿文元音符号（تشكيل）。av 是页面上显示给读者照着念的那份，
+// 标错一个字母读者就会念错，而这不会让任何东西报错 —— 所以逐条对。
+const MARKS = /[ً-ْٰ]/;
+// replace 要全局，test 不能带 g —— 带 g 的正则做 test 会残留 lastIndex，隔条误判
+const strip = (x) => x.replace(new RegExp(MARKS.source, 'g'), '');
+
+eq('每条名字都有 av',
+  list(NAMES.filter((n) => !n.av).map((n) => n.tr)), '（空）');
+
+// 只加符号、不许改字母：去掉符号后必须与 ar 逐字一致。手误换掉一个字母会在这里现形
+eq('av 去掉符号后与 ar 一致',
+  list(NAMES.filter((n) => n.av && strip(n.av) !== strip(n.ar)).map((n) => n.tr)), '（空）');
+
+// 防止把 ar 原样抄进 av 就算「标过了」
+eq('av 里真的有元音符号',
+  list(NAMES.filter((n) => n.av && !MARKS.test(n.av)).map((n) => n.tr)), '（空）');
+
+eq('av 里没有拉丁字母',
+  list(NAMES.filter((n) => n.av && /[A-Za-z]/.test(n.av)).map((n) => n.tr)), '（空）');
+
+eq('不能单用的尊名也标了符号',
+  list(FORBIDDEN_SOLO.filter((f) => !f.av || strip(f.av) !== strip(f.ar)).map((f) => f.tr)), '（空）');
+
 console.log('文案里的数量');
 
 // 「216 个名字」这句话散在三种语言的标题、导语、正文小标题和首页文案里。

@@ -144,7 +144,9 @@ Transliterasi di sini sengaja ditulis polos: *Abd al-Rahman*, bukan *ʿAbd al-Ra
 
 ## Telusuri seluruh 216 nama
 
-Cari menurut ejaan Latin, tulisan Arab, arti, atau tema. Inilah daftar lengkap yang dipakai generator di atas — termasuk ke-24 nabi yang disebut dalam Al-Qur’an dan memang dipakai sebagai nama.
+Setiap nama Arab ditulis lengkap dengan harakatnya (*tashkil*), jadi bisa langsung dibaca: *fathah* ـَ dibaca "a" pendek, *dhammah* ـُ "u" pendek, *kasrah* ـِ "i" pendek, *sukun* ـْ berarti tidak ada vokal sesudahnya, dan *syaddah* ـّ menggandakan konsonan. Vokal panjang adalah huruf alif, wawu, dan ya itu sendiri dan tidak diberi tanda. Nama ditampilkan sebagaimana diucapkan sendirian, tanpa akhiran tata bahasa yang muncul dalam kalimat utuh. Saat disalin, yang tersalin adalah tulisan tanpa harakat, karena harakat tidak tampil sempurna di semua sistem.
+
+Cari menurut ejaan Latin, tulisan Arab (dengan atau tanpa harakat), arti, atau tema. Inilah daftar lengkap yang dipakai generator di atas — termasuk ke-24 nabi yang disebut dalam Al-Qur’an dan memang dipakai sebagai nama.
 `,
 
   faq: [

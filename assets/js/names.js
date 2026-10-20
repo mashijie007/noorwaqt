@@ -40,9 +40,15 @@ const BATCH = 6;
 
 /** 阿文字形里的「之子 / 之女」。转写用 bin / bint，与证件上的通行写法一致 */
 const NASAB = {
-  m: { ar: 'بن', tr: 'bin' },
-  f: { ar: 'بنت', tr: 'bint' },
+  m: { ar: 'بْن', tr: 'bin' },
+  f: { ar: 'بِنْت', tr: 'bint' },
 };
+
+/** 页面上显示的阿文：优先带元音符号的写法 */
+const shown = (n) => n.av || n.ar;
+
+/** 去掉元音符号，供检索比较。用户输入的可能带符号，也可能不带 */
+const stripMarks = (s) => s.replace(/[ً-ْٰ]/g, '');
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -83,10 +89,12 @@ function lookupFather(raw) {
 
 /** 一个名字 + 可选的父名 → 全名的两种写法 */
 function fullName(n, father) {
-  if (!father) return { ar: n.ar, tr: n.tr };
+  if (!father) return { ar: shown(n), plain: n.ar, tr: n.tr };
   const k = NASAB[n.g];
   return {
-    ar: `${n.ar} ${k.ar} ${father.ar}`,
+    ar: `${shown(n)} ${k.ar} ${shown(father)}`,
+    // 复制用不带符号的：符号在不少系统里会被剥掉或显示成方框，与拉丁拼法同理
+    plain: `${n.ar} ${stripMarks(k.ar)} ${father.ar}`,
     tr: `${n.tr} ${k.tr} ${father.tr}`,
   };
 }
@@ -101,7 +109,7 @@ function card(n, father) {
   <p class="n-meaning">${esc(t(n.m))}</p>
   <p class="n-tags"><span class="n-sex n-sex-${n.g}">${esc(ui(n.g === 'm' ? 'boy' : 'girl'))}</span>${tags}</p>
   ${n.n ? `<p class="n-note">${esc(t(n.n))}</p>` : ''}
-  <button class="n-copy" type="button" data-copy="${esc(full.tr)} — ${esc(full.ar)}">${esc(ui('copy'))}</button>
+  <button class="n-copy" type="button" data-copy="${esc(full.tr)} — ${esc(full.plain)}">${esc(ui('copy'))}</button>
 </article>`;
 }
 
@@ -118,7 +126,7 @@ function generate() {
   } else if (father) {
     hint.innerHTML = ui('fatherReading', {
       name: esc(father.tr),
-      ar: `<bdi lang="ar">${esc(father.ar)}</bdi>`,
+      ar: `<bdi lang="ar">${esc(shown(father))}</bdi>`,
     });
   } else {
     hint.innerHTML = '';
@@ -139,10 +147,11 @@ function generate() {
 
 function renderTable(q = '') {
   const needle = q.trim().toLowerCase();
+  const arNeedle = stripMarks(q.trim());
   const rows = NAMES.filter((n) =>
     !needle
     || n.tr.toLowerCase().includes(needle)
-    || n.ar.includes(q.trim())
+    || n.ar.includes(arNeedle)
     || t(n.m).toLowerCase().includes(needle)
     || n.tags.some((tag) => t(TAGS[tag]).toLowerCase().includes(needle))
   );
@@ -153,7 +162,7 @@ function renderTable(q = '') {
 
   $('#n-table-body').innerHTML = rows.length
     ? rows.map((n) => `<tr>
-        <td lang="ar" dir="rtl" class="n-cell-ar">${esc(n.ar)}</td>
+        <td lang="ar" dir="rtl" class="n-cell-ar">${esc(shown(n))}</td>
         <td class="n-cell-tr">${esc(n.tr)}</td>
         <td>${esc(t(n.m))}${n.n ? `<small>${esc(t(n.n))}</small>` : ''}</td>
         <td class="n-cell-sex">${esc(ui(n.g === 'm' ? 'boy' : 'girl'))}</td>
@@ -171,12 +180,12 @@ function init() {
 
   // 「不能单用的尊名」那一组。清单在数据文件里，页面上只留一个空容器
   $('#n-solo').innerHTML = FORBIDDEN_SOLO.map((f) =>
-    `<div><b lang="ar" dir="rtl">${esc(f.ar)}</b>${esc(f.tr)} → <i>${esc(f.fix)}</i></div>`
+    `<div><b lang="ar" dir="rtl">${esc(f.av || f.ar)}</b>${esc(f.tr)} → <i>${esc(f.fix)}</i></div>`
   ).join('');
 
   // 父名的候选项：名字库里的全部男名
   $('#n-father-list').innerHTML = NAMES.filter((n) => n.g === 'm')
-    .map((n) => `<option value="${esc(n.tr)}">${esc(n.ar)} · ${esc(t(n.m))}</option>`)
+    .map((n) => `<option value="${esc(n.tr)}">${esc(shown(n))} · ${esc(t(n.m))}</option>`)
     .join('');
 
   $$('#n-gender button').forEach((b) => b.addEventListener('click', () => {

@@ -143,7 +143,9 @@ The transliterations here are deliberately plain: *Abd al-Rahman*, not *ʿAbd al
 
 ## Browse all 216 names
 
-Search by transliteration, by Arabic script, by meaning, or by theme. This is the whole list the generator draws from — including all 24 of the prophets named in the Qur’an that are given as names.
+Every Arabic name is written with its short-vowel marks (*tashkil*), so you can read it straight off the page: *fatha* ـَ is a short "a", *damma* ـُ a short "u", *kasra* ـِ a short "i", *sukun* ـْ means no vowel follows, and *shadda* ـّ doubles the consonant. Long vowels are the letters alif, waw and ya themselves and carry no mark. Names are shown as you would say them on their own, without the grammatical ending a full sentence would add. Copying a name copies the plain spelling without the marks, since the marks do not survive every system.
+
+Search by transliteration, by Arabic script (with or without the marks), by meaning, or by theme. This is the whole list the generator draws from — including all 24 of the prophets named in the Qur’an that are given as names.
 `,
 
   faq: [
