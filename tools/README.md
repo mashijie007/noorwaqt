@@ -28,6 +28,7 @@ npm run dev       # 起服务预览仓库根（4173）
 | `build-sitemap.mjs` | 按语言切分的站点地图 + 索引 + robots.txt |
 | `verify-dist.mjs` | 产物体检，CI 的闸门 |
 | `indexnow.mjs` | 主动把变更地址推给 Bing / Yandex |
+| `build-names.mjs` | 起名页（`/<lang>/names/`），内容在 `tools/names/` |
 | `build.mjs` | 串起以上全部，外加静态资源拷贝 |
 
 ## URL 结构
@@ -37,13 +38,24 @@ npm run dev       # 起服务预览仓库根（4173）
 /<lang>/              44 种语言的落地页
 /<lang>/prayer-times/            城市索引（按国家分组）
 /<lang>/prayer-times/<city>/     城市页
-/en/guide/, /zh/guide/           教法问答（build-guides.mjs 产出，搬进 dist）
+/<lang>/guide/        教法问答（build-guides.mjs 产出，搬进 dist；en zh id）
+/<lang>/names/        阿拉伯语起名（build-names.mjs 产出，搬进 dist；en zh id）
 /sitemap.xml          索引，下挂 /sitemaps/*.xml
 ```
 
-教法问答页由 `build-guides.mjs` 从 `tools/guides/` 产出，自带 canonical 与 hreflang。
-`build.mjs` 对它们只做两件事：搬进 `dist/`，收进站点地图 ——
-`discoverGuidePages()` 按目录扫描，**加一篇不用回来改这边**。
+教法问答页由 `build-guides.mjs` 从 `tools/guides/` 产出，起名页由 `build-names.mjs`
+从 `tools/names/` 产出，两边共用 `lib/article.mjs`：同一套 Markdown 子集、同一套
+导航 / 页脚 / `<head>`。两者都自带 canonical 与 hreflang，`build.mjs` 对它们只做
+两件事：搬进 `dist/`，收进站点地图 —— 问答页由 `discoverGuidePages()` 按目录扫描，
+**加一篇不用回来改这边**；起名页是固定一页，登记在 `build-sitemap.mjs` 的 `STANDALONE` 里。
+
+顶部导航的条目清单在 `lib/nav-items.mjs`，两个生成器共用。**加一个栏目或给某个栏目
+补一种语言，改那一个文件**；`build-names.mjs` 启动时会核对登记的语言是否真有内容文件，
+对不上就直接退出 —— 导航指到 404 比少一个入口糟得多。
+
+起名页的 213 条名字在 `assets/js/names-data.js`，三种语言共用同一份数据，每条名字的
+词义按语言分列。名字表不预渲染进 HTML：那是 300KB 级的重复内容，而这张表是给人筛着
+看的，真正要被收录的是正文里那些命名规则。
 
 > ⚠️ 不一致待收口：`build-guides.mjs` 把产物写到**仓库根**（`en/`、`zh/`、
 > 根 `sitemap.xml`），其余生成器一律写 `dist/`。于是仓库里躺着一批生成物，

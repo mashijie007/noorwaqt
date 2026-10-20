@@ -17,6 +17,10 @@ import { escapeAttr as escA } from './lib/prerender.mjs';
 
 const today = () => new Date().toISOString().slice(0, 10);
 
+/** 落地页、问答页、城市页之外的独立页面：栏目名 → 有哪些语言。
+ *  与 tools/lib/nav-items.mjs 里的登记对应，加一个栏目就在这里加一行 */
+const STANDALONE = { names: ['en', 'zh', 'id'] };
+
 const urlTag = (loc, { lastmod, changefreq, priority, alternates }) =>
   '  <url>\n'
   + '    <loc>' + escA(loc) + '</loc>\n'
@@ -48,6 +52,18 @@ export function buildSitemap() {
       lastmod: day, changefreq: 'daily', priority: '0.9', alternates: langAlts,
     });
   }
+  // ── 工具页（起名页等）──
+  // 各语言版本互指。x-default 指英文，与 article.mjs 里的 X_DEFAULT 一致
+  for (const [section, sectionLangs] of Object.entries(STANDALONE)) {
+    const alts = sectionLangs.map((c) => ({ lang: hreflang(c), href: abs('/' + c + '/' + section + '/') }));
+    alts.push({ lang: 'x-default', href: abs('/en/' + section + '/') });
+    for (const c of sectionLangs) {
+      body += urlTag(abs('/' + c + '/' + section + '/'), {
+        lastmod: day, changefreq: 'monthly', priority: '0.7', alternates: alts,
+      });
+    }
+  }
+
   emit('/sitemaps/pages.xml', urlset(body));
   files.push('/sitemaps/pages.xml');
 
@@ -127,6 +143,7 @@ export function buildSitemap() {
   return {
     sitemaps: files.length + 1,
     urls: 1 + codes.length + guide.length
+      + Object.values(STANDALONE).reduce((n, l) => n + l.length, 0)
       + cityCodes.reduce((n, c) => n + citiesFor(c).length + 1, 0),
   };
 }

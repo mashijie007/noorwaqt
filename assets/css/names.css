@@ -1,0 +1,235 @@
+/* names.css —— 起名页
+ *
+ * 只在 /en/names/ 加载。变量、按钮、导航、页脚、正文排版都复用
+ * site.css + guide.css，这里只补生成器与名字表。
+ *
+ * 这页的主角是阿拉伯字形：卡片上阿文那行用 Amiri、字号给到 2.4rem，
+ * 转写与词义降一级 —— 父母先看的是字好不好看，再看意思对不对。
+ *
+ * 方向相关一律逻辑属性。阿文那行单独标 dir="rtl"，整页仍是 LTR。
+ */
+
+/* ── 生成器 ─────────────────────────────────────────── */
+
+.n-tool {
+  margin-block: 2rem 3rem;
+  padding: 1.4rem 1.4rem 1.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: linear-gradient(180deg, var(--bg-2), var(--bg));
+}
+
+.n-row { margin-block-end: 1.1rem; }
+.n-row:last-of-type { margin-block-end: 0; }
+
+.n-label {
+  display: block;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-block-end: 0.5rem;
+}
+
+/* 生成器那一块的标题。视觉上和下面几个小标签同级，但语义上是 h2 ——
+   页面上这是一个独立区块，用 span 冒充会让读屏软件读不出结构 */
+.n-label-h { font-weight: 400; margin: 0 0 1.1rem; }
+
+/* 「（可多选）」这类补充说明跟着标签走，但不跟着它变大写 */
+.n-label small { text-transform: none; letter-spacing: 0; }
+
+.n-seg, .n-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.n-seg button, .n-chip {
+  padding: 0.42rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.n-seg button:hover, .n-chip:hover { color: var(--ink); border-color: var(--brand); }
+.n-seg button[aria-pressed='true'], .n-chip[aria-pressed='true'] {
+  background: rgba(16, 185, 129, 0.14);
+  border-color: var(--brand);
+  color: var(--ink);
+}
+
+.n-father {
+  width: min(100%, 22rem);
+  padding: 0.52rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-3);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.92rem;
+}
+.n-father:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+.n-hint, .n-count { font-size: 0.78rem; color: var(--ink-3); margin-block: 0.45rem 0; }
+
+.n-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-block-start: 1.3rem;
+  padding-block-start: 1.2rem;
+  border-block-start: 1px solid var(--line);
+}
+.n-actions .n-count { margin: 0; }
+
+/* ── 结果卡 ─────────────────────────────────────────── */
+
+.n-results {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  margin-block: 1.6rem 0;
+}
+
+.n-card {
+  position: relative;
+  padding: 1.1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-2);
+}
+
+.n-ar {
+  /* 字形方向必须是 RTL（元素上标了 dir），但这一行只有一个名字，
+     让它跟卡片其余内容对齐同一条边，读起来才是一张卡而不是两栏 */
+  text-align: left;
+  font-family: var(--serif-ar);
+  font-size: clamp(1.9rem, 5vw, 2.4rem);
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0 0 0.3rem;
+  /* 阿文行高压不住时上下会贴边，这里给一点呼吸 */
+  padding-block: 0.1rem;
+}
+
+.n-tr { font-size: 1.05rem; color: var(--brand-2); margin: 0 0 0.35rem; }
+.n-meaning { font-size: 0.9rem; color: var(--ink-2); margin: 0 0 0.6rem; }
+
+.n-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; }
+.n-tag, .n-sex {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--ink-3);
+}
+.n-sex-m { color: var(--fajr); border-color: rgba(110, 168, 255, 0.35); }
+.n-sex-f { color: var(--isha); border-color: rgba(167, 139, 250, 0.35); }
+
+.n-note {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+  margin: 0.7rem 0 0;
+  padding-block-start: 0.7rem;
+  border-block-start: 1px solid var(--line);
+}
+
+.n-copy {
+  margin-block-start: 0.9rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+.n-copy:hover { color: var(--brand-2); border-color: var(--brand); }
+
+.n-empty { color: var(--ink-3); font-size: 0.9rem; }
+
+/* ── 名字库 ─────────────────────────────────────────── */
+
+.n-browse { margin-block: 3rem 0; max-width: none; }
+
+.n-search-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-block: 1rem;
+}
+.n-search {
+  flex: 1 1 18rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-3);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.92rem;
+}
+.n-search:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+.n-table-wrap {
+  max-height: 32rem;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+.n-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.n-table thead th {
+  position: sticky;
+  inset-block-start: 0;
+  background: var(--bg-3);
+  text-align: start;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0.6rem 0.9rem;
+  border-block-end: 1px solid var(--line);
+}
+.n-table td {
+  padding: 0.6rem 0.9rem;
+  border-block-end: 1px solid var(--line);
+  color: var(--ink-2);
+  vertical-align: top;
+}
+.n-table tbody tr:last-child td { border-block-end: 0; }
+.n-table tbody tr:hover td { background: rgba(16, 185, 129, 0.05); }
+.n-table td small { display: block; margin-block-start: 0.25rem; color: var(--ink-3); font-size: 0.76rem; }
+
+.n-cell-ar { font-family: var(--serif-ar); font-size: 1.3rem; color: var(--ink); white-space: nowrap; }
+.n-cell-tr { color: var(--ink); white-space: nowrap; }
+.n-cell-sex { color: var(--ink-3); font-size: 0.78rem; white-space: nowrap; }
+
+/* 窄屏把「性别」列收掉：卡片上已经标过，表里再占一列不值 */
+@media (max-width: 560px) {
+  .n-table th:nth-child(4), .n-table td:nth-child(4) { display: none; }
+  .n-tool { padding-inline: 1rem; }
+}
+
+/* ── 忌讳那张表 ─────────────────────────────────────── */
+
+.n-solo { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); margin-block: 1rem 1.6rem; }
+.n-solo div {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  font-size: 0.85rem;
+  color: var(--ink-3);
+}
+/* 阿文一律走 Amiri。不标就退回 Noto Sans SC，同一页里两种阿文字形并存 */
+.n-solo b {
+  display: block;
+  font-family: var(--serif-ar);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--maghrib);
+  font-weight: 400;
+}
+.n-solo i { font-style: normal; color: var(--brand-2); }

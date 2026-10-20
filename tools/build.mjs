@@ -30,6 +30,10 @@ const STATIC = [
   'en/guide',
   'zh/guide',
   'id/guide',
+  // 起名页，由 build-names.mjs 生成，同样带自己的 canonical 与 hreflang
+  'en/names',
+  'zh/names',
+  'id/names',
   'CNAME',
   'noorwaqt.png',
   'cn.jpeg',

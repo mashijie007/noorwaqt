@@ -13,9 +13,12 @@
  * has to stand on its own — no "as explained above".
  */
 
+import { AR } from '../lib/hadith.mjs';
+
 export const ui = {
   navHome: 'Home',
   navGuide: 'Fiqh Guide',
+  navNames: 'Names',
   navDownload: 'Download',
   hubTitle: 'Fiqh Guide',
   hubDesc: 'Can you pray on your period? Do missed prayers have to be made up? How are missed fasts repaid? Answered from the four Sunni schools, with the evidence and every disagreement marked as a disagreement.',
@@ -53,7 +56,8 @@ During menstruation a woman does not pray. This is not a concession she may decl
 The evidence is Aisha’s (may Allah be pleased with her) answer to Mu‘adha, who asked her why a menstruating woman makes up the fast but not the prayer:
 
 > That used to happen to us, and we were ordered to make up the fast, and were not ordered to make up the prayer.
-> — Aisha, Sahih Muslim 335; see also Sahih al-Bukhari 321
+>> ${AR['muslim-335c']}
+> — Aisha, Sahih Muslim 335c; see also Sahih al-Bukhari 321
 
 All four schools read this as a complete exemption with no residue. The reason usually given is the sheer recurrence: prayer comes five times a day, so making up a full cycle would be a burden far beyond one month of fasting a year.
 
@@ -101,7 +105,7 @@ If bleeding runs past the maximum your school recognises, it stops being hayd an
 - [Istihadah: bleeding that does not excuse you from prayer](/en/guide/istihadah/)
 `,
     faq: [
-      { q: 'Do you have to make up prayers missed during your period?', a: 'No. All four Sunni schools agree that a menstruating woman is exempt from prayer and owes nothing afterwards. The evidence is Aisha’s report that they were ordered to make up the fast but were not ordered to make up the prayer (Sahih Muslim 335).' },
+      { q: 'Do you have to make up prayers missed during your period?', a: 'No. All four Sunni schools agree that a menstruating woman is exempt from prayer and owes nothing afterwards. The evidence is Aisha’s report that they were ordered to make up the fast but were not ordered to make up the prayer (Sahih Muslim 335c).' },
       { q: 'Can you make du‘a and dhikr on your period?', a: 'Yes. Only the prayer itself is lifted. Dhikr, istighfar, du‘a, salawat, listening to Qur’an recitation and reading tafsir are all unrestricted during menstruation, by agreement of the four schools.' },
       { q: 'If you become pure during Asr, do you pray Dhuhr too?', a: 'The schools differ. The Maliki, Shafi‘i and Hanbali schools say yes, because Dhuhr and Asr are a joinable pair and the Asr window holds Dhuhr in trust. The Hanafi school says she prays only Asr. The same applies to Maghrib and Isha.' },
       { q: 'What if your period starts in the middle of a prayer?', a: 'The prayer ends there and is not resumed or repeated later. Whether that prayer counts as owed — because its time had entered before bleeding began — depends on the school: the Hanafi school says nothing is owed, the other three generally say it is.' },
@@ -130,7 +134,8 @@ The reverse case matters just as much: if bleeding stops during the night, she m
 The same hadith settles both rulings at once:
 
 > That used to happen to us, and we were ordered to make up the fast, and were not ordered to make up the prayer.
-> — Aisha, Sahih Muslim 335
+>> ${AR['muslim-335c']}
+> — Aisha, Sahih Muslim 335c
 
 Scholars usually explain the wisdom this way: prayer recurs five times daily, so one cycle means twenty or thirty prayers, which would be a crushing repayment; fasting comes one month a year, which is repayable. **But the ruling rests on the text — the reasoning is commentary on it.**
 
@@ -162,7 +167,7 @@ Pregnancy and nursing are a genuinely different case with a real three-way split
 Not fasting and not praying does not cut these days out of Ramadan. Tarawih is not prayed, but staying up, dhikr, du‘a, sadaqah, preparing iftar, caring for the household — all of it stands. Laylat al-Qadr falling in these days is the question that comes up most: **istighfar and du‘a are entirely unrestricted, and that is precisely what the night is for.**
 `,
     faq: [
-      { q: 'Do you have to make up fasts missed during your period?', a: 'Yes. All four schools agree that a menstruating woman does not fast, and that every missed day of Ramadan must be made up before the following Ramadan. The evidence is Aisha’s report that they were ordered to make up the fast (Sahih Muslim 335).' },
+      { q: 'Do you have to make up fasts missed during your period?', a: 'Yes. All four schools agree that a menstruating woman does not fast, and that every missed day of Ramadan must be made up before the following Ramadan. The evidence is Aisha’s report that they were ordered to make up the fast (Sahih Muslim 335c).' },
       { q: 'Can you pay fidya instead of making up period fasts?', a: 'No. Someone who is able to fast must repay fasts with fasts. Fidya applies only to permanent inability to fast, and — in most schools — as an addition when repayment is delayed past the next Ramadan without excuse.' },
       { q: 'If bleeding stops at night and you shower after fajr, is the fast valid?', a: 'Yes. The fast is valid as long as the intention was made before dawn; ghusl may follow. She does need to complete ghusl before she can pray Fajr, and most scholars recommend doing it before dawn.' },
       { q: 'Do make-up fasts have to be consecutive?', a: 'No. All four schools agree that missed Ramadan days may be made up on separate, non-consecutive days, as long as they are completed before the next Ramadan.' },
@@ -206,9 +211,10 @@ Worth separating: reciting *as recitation* is the disputed act. Saying verses **
 All four schools hold that the mushaf is not touched without purity, generally citing the Prophet’s letter to Amr ibn Hazm:
 
 > None shall touch the Qur’an except one who is pure.
-> — Reported in Malik’s Muwatta; also in Sunan al-Darimi
+>> ${AR['malik-15-1']}
+> — The Prophet’s letter to Amr ibn Hazm; Muwatta Malik, Book 15, Hadith 1
 
-A minority, notably Ibn Hazm, did not accept this ruling. But the settled practice is clear, and so is the workaround: **handling it through a cloth, gloves, or a page-turner is permitted by all four schools.**
+A minority, notably Ibn Hazm, did not accept this ruling — and the ground is the chain: Malik transmits the letter mursal, with a gap in it. Al-Nasa’i and Ibn Hibban report it connected, and hadith critics class that connected version as defective. But the settled practice is clear, and so is the workaround: **handling it through a cloth, gloves, or a page-turner is permitted by all four schools.**
 
 ## Qur’an on a phone or tablet
 
@@ -225,6 +231,7 @@ Most schools do not permit a menstruating woman to remain inside a masjid, citin
 Two reports belong alongside that, though. The Prophet (peace be upon him) asked Aisha to fetch a mat from the masjid, and when she mentioned her state, told her:
 
 > Your menstruation is not in your hand.
+>> ${AR['muslim-298']}
 > — Sahih Muslim 298
 
 And a woman who looked after the masjid is reported to have had a tent inside it (Sahih al-Bukhari 439). Ibn Hazm and others concluded from this that entry is permitted. Many contemporary scholars, on the same basis, allow **brief entry for a need** — attending a class, sheltering, passing through — provided there is no risk of soiling the space.
@@ -234,6 +241,7 @@ And a woman who looked after the masjid is reported to have had a tent inside it
 No dispute here: a menstruating woman does not perform tawaf. The Prophet told Aisha when she menstruated during Hajj:
 
 > Do everything the pilgrim does, except do not circle the House until you are pure.
+>> ${AR['bukhari-305']}
 > — Sahih al-Bukhari 305
 
 Everything else stands — Arafah, Muzdalifah, the stoning (sa‘i has its own subdivisions among the schools). Which tells you something in itself: **most of Hajj is not conditional on purity.**
@@ -277,7 +285,8 @@ Bleeding has ended when either sign appears:
 This is how Aisha (may Allah be pleased with her) taught the women of the Ansar. They would send her cotton showing discharge, and she would tell them:
 
 > Do not hurry until you see the white discharge.
-> — Reported in Malik’s Muwatta; referenced in Sahih al-Bukhari’s chapter on menstruation
+>> ${AR['malik-2-99']}
+> — Aisha (may Allah be pleased with her); Muwatta Malik, Book 2, Hadith 99. Sahih al-Bukhari cites it in his chapter on menstruation
 
 ## Yellow and brown discharge
 
@@ -289,7 +298,8 @@ The most-asked question in this area, and the answer turns entirely on **when it
 The evidence is Umm Atiyyah’s report:
 
 > We did not count the yellowish and brownish discharge after purity as anything.
-> — Sahih al-Bukhari 326; Sunan Abi Dawud 307
+>> ${AR['abudawud-307']}
+> — Umm Atiyyah, Sunan Abi Dawud 307. Sahih al-Bukhari 326 carries the same report without the words “after purity”
 
 The Hanafi school adds a layer: within her habitual days, any discharge that is not clear white is treated as menstrual blood, up to that school’s maximum.
 
@@ -320,7 +330,7 @@ Once pure, ghusl is required before praying. Its essentials:
 
 On hair: braids do not need to be undone, but water must reach the scalp. Umm Salamah asked about exactly this, and was told it is enough to pour three handfuls of water over the head (Sahih Muslim 330).
 
-The often-quoted advice to use a piece of cotton scented with musk comes from the Prophet’s answer to Asma bint Shakal (Sahih Muslim 332). It is recommended, not required.
+The often-quoted advice to use a piece of cotton scented with musk comes from the Prophet’s answer to Asma bint Shakal (Sahih Muslim 332c). It is recommended, not required.
 
 ## Which prayer you start with
 
@@ -332,7 +342,7 @@ If the length shifts constantly, or bleeding drags on in fits and starts, the ru
 `,
     faq: [
       { q: 'How do you know your period has ended?', a: 'Either of two signs: the white discharge (al-qassah al-bayda) appears, or cotton inserted and withdrawn comes out completely clean. Aisha taught the women of the Ansar: do not hurry until you see the white discharge.' },
-      { q: 'Does brown discharge count as a period?', a: 'It depends when it appears. Within the days of the period it is treated as menstruation. After a sign of purity has been seen it is not, and she prays as normal. Umm Atiyyah reported: we did not count the yellowish and brownish discharge after purity as anything (Sahih al-Bukhari 326).' },
+      { q: 'Does brown discharge count as a period?', a: 'It depends when it appears. Within the days of the period it is treated as menstruation. After a sign of purity has been seen it is not, and she prays as normal. Umm Atiyyah reported: we did not count the yellowish and brownish discharge after purity as anything (Sunan Abi Dawud 307; Sahih al-Bukhari 326 has the same report without the words “after purity”).' },
       { q: 'What is the maximum number of days a period can last?', a: 'The Hanafi school sets the maximum at 10 days; the Maliki, Shafi‘i and Hanbali schools set it at 15. Bleeding beyond that limit is istihadah, and prayer becomes obligatory again from that point.' },
       { q: 'Do you have to undo your braids for ghusl?', a: 'No, but water must reach the roots of the hair. Umm Salamah asked the Prophet about this and was told it is enough to pour three handfuls of water over the head (Sahih Muslim 330).' },
     ],
@@ -356,6 +366,7 @@ Istihadah is bleeding outside of menstruation and postpartum bleeding. In fiqh i
 Fatimah bint Abi Hubaysh told the Prophet (peace be upon him) that she bled continuously, and he answered:
 
 > That is a vein, not menstruation. So when your period comes, stop praying; and when it goes, wash the blood from yourself and pray.
+>> ${AR['muslim-333']}
 > — Sahih al-Bukhari 228; Sahih Muslim 333
 
 ## What applies during istihadah
@@ -384,7 +395,7 @@ All schools have her wash away the blood and use a pad first. Bleeding that cont
 
 Three methods, applied in order:
 
-**1. Habit (‘adah).** The days she normally menstruates — that many days, starting when they normally start — are menstruation; the rest is istihadah. This takes priority. The Prophet told Umm Habibah exactly this: hold back for the number of days your menstruation used to last, then wash and pray (Sahih Muslim 334).
+**1. Habit (‘adah).** The days she normally menstruates — that many days, starting when they normally start — are menstruation; the rest is istihadah. This takes priority. Umm Salamah reported exactly this ruling for a woman in that state: she counts the nights and days she used to menstruate each month, leaves the prayer for that long, then washes and prays (Sunan Abi Dawud 274).
 
 **2. Discernment (tamyiz).** With no settled habit, the blood itself is read: dark, thick, distinctly odorous blood is menstruation; thin, pale blood is istihadah. This comes from the Prophet’s other instruction to Fatimah bint Abi Hubaysh.
 
@@ -449,6 +460,7 @@ The maximum differs:
 The number forty comes from Umm Salamah’s report:
 
 > In the time of the Prophet (peace be upon him), the woman in nifas would wait forty days.
+>> ${AR['abudawud-311']}
 > — Sunan Abi Dawud 311; Jami‘ at-Tirmidhi 139
 
 Bleeding that continues past your school’s maximum is treated as **istihadah** — prayer resumes, with wudu performed as described in [the istihadah rulings](/en/guide/istihadah/).
@@ -504,6 +516,7 @@ Related: [Fasting while pregnant or breastfeeding](/en/guide/pregnancy-fasting/)
 A pregnant or nursing mother may break her fast if fasting would harm her or the child. The evidence:
 
 > Allah has relieved the traveller of half the prayer, and He has relieved the pregnant woman and the nursing mother of the fast.
+>> ${AR['abudawud-2408']}
 > — Sunan Abi Dawud 2408; Jami‘ at-Tirmidhi 715
 
 **Whether harm is genuinely expected is not settled by how you feel about it.** A doctor’s assessment is part of the ruling here: dehydration risk, gestational diabetes, falling milk supply, insufficient weight gain. If a physician advises against fasting, the concession applies.
@@ -539,6 +552,7 @@ Consecutive pregnancies and nursing, with no gap in which to fast, is an ordinar
 Repeating it because it is the most common misunderstanding: **pregnancy, nursing, morning sickness and bed rest do not lift prayer.** If standing is not possible, she prays sitting; if sitting is not possible, lying down with gestures. Imran ibn Husayn asked, and was told:
 
 > Pray standing; if you cannot, then sitting; and if you cannot, then on your side.
+>> ${AR['bukhari-1117']}
 > — Sahih al-Bukhari 1117
 
 Rulings for the period after birth are on [Nifas: postpartum bleeding](/en/guide/nifas/).

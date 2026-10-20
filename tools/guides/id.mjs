@@ -22,9 +22,12 @@
  * verify-dist akan menahannya.
  */
 
+import { AR } from '../lib/hadith.mjs';
+
 export const ui = {
   navHome: 'Beranda',
   navGuide: 'Panduan Fikih',
+  navNames: 'Nama',
   navDownload: 'Unduh',
   hubTitle: 'Panduan Fikih',
   hubH1: 'Fikih Ibadah Perempuan',
@@ -62,7 +65,8 @@ Selama haid seorang perempuan tidak sholat. Ini bukan keringanan yang boleh ia t
 Dalilnya adalah jawaban Aisyah radhiyallahu ‘anha kepada Mu‘adzah, yang bertanya mengapa perempuan haid mengqadha puasa tetapi tidak mengqadha sholat:
 
 > Dahulu hal itu menimpa kami, maka kami diperintahkan mengqadha puasa dan tidak diperintahkan mengqadha sholat.
-> — Aisyah, Shahih Muslim 335; lihat juga Shahih al-Bukhari 321
+>> ${AR['muslim-335c']}
+> — Aisyah, Shahih Muslim 335c; lihat juga Shahih al-Bukhari 321
 
 Keempat mazhab membaca hadis ini sebagai pembebasan yang utuh, tanpa sisa tanggungan. Alasan yang biasa disebutkan adalah frekuensinya: sholat datang lima kali sehari, sehingga mengqadha satu siklus penuh jauh lebih berat daripada mengqadha puasa sebulan dalam setahun.
 
@@ -110,7 +114,7 @@ Bila darah keluar melewati batas maksimal menurut mazhab yang Anda pegang, ia be
 - [Istihadhah: darah yang tidak menggugurkan sholat](/id/guide/istihadah/)
 `,
     faq: [
-      { q: 'Apakah sholat yang ditinggalkan saat haid harus diqadha?', a: 'Tidak. Keempat mazhab Ahlus Sunnah sepakat bahwa perempuan haid bebas dari kewajiban sholat dan tidak menanggung apa pun sesudahnya. Dalilnya riwayat Aisyah bahwa mereka diperintahkan mengqadha puasa dan tidak diperintahkan mengqadha sholat (Shahih Muslim 335).' },
+      { q: 'Apakah sholat yang ditinggalkan saat haid harus diqadha?', a: 'Tidak. Keempat mazhab Ahlus Sunnah sepakat bahwa perempuan haid bebas dari kewajiban sholat dan tidak menanggung apa pun sesudahnya. Dalilnya riwayat Aisyah bahwa mereka diperintahkan mengqadha puasa dan tidak diperintahkan mengqadha sholat (Shahih Muslim 335c).' },
       { q: 'Bolehkah berdoa dan berdzikir saat haid?', a: 'Boleh. Yang gugur hanyalah sholat itu sendiri. Dzikir, istighfar, doa, shalawat, mendengarkan bacaan Al-Qur’an, dan membaca tafsir semuanya tidak dibatasi selama haid, dengan kesepakatan empat mazhab.' },
       { q: 'Jika suci datang di waktu Asar, apakah Zuhur juga dikerjakan?', a: 'Para ulama berbeda pendapat. Mazhab Maliki, Syafi‘i, dan Hanbali menyatakan ya, karena Zuhur dan Asar adalah pasangan yang boleh dijamak dan waktu Asar menanggung Zuhur. Mazhab Hanafi menyatakan ia hanya mengerjakan Asar. Hal yang sama berlaku untuk Maghrib dan Isya.' },
       { q: 'Bagaimana jika haid datang di tengah sholat?', a: 'Sholat itu berakhir di situ, tidak dilanjutkan dan tidak diulang kemudian. Apakah sholat tersebut terhitung sebagai tanggungan — karena waktunya sudah masuk sebelum darah keluar — bergantung pada mazhab: Hanafi menyatakan tidak ada tanggungan, tiga mazhab lainnya umumnya menyatakan ada.' },
@@ -138,7 +142,8 @@ Darah dinyatakan berhenti bila salah satu dari dua tanda ini muncul:
 Begitulah Aisyah radhiyallahu ‘anha mengajari perempuan-perempuan Anshar. Mereka mengirimkan kapas yang masih menunjukkan cairan, dan beliau menjawab:
 
 > Jangan terburu-buru sampai kalian melihat cairan putih.
-> — Diriwayatkan dalam al-Muwaththa’ Imam Malik; dirujuk dalam Shahih al-Bukhari pada bab haid
+>> ${AR['malik-2-99']}
+> — Aisyah (semoga Allah meridainya); al-Muwaththa’ Imam Malik, Kitab 2, Hadits 99. Shahih al-Bukhari mengutipnya pada bab haid
 
 ## Cairan kuning dan cokelat
 
@@ -150,7 +155,8 @@ Inilah pertanyaan yang paling sering muncul di bab ini, dan jawabannya sepenuhny
 Dalilnya riwayat Ummu Athiyyah:
 
 > Kami tidak menganggap cairan kuning dan keruh setelah suci sebagai apa pun.
-> — Shahih al-Bukhari 326; Sunan Abu Dawud 307
+>> ${AR['abudawud-307']}
+> — Ummu Athiyyah, Sunan Abu Dawud 307. Shahih al-Bukhari 326 memuat riwayat yang sama tanpa kata “setelah suci”
 
 Mazhab Hanafi menambahkan satu lapis: selama masih dalam hari-hari kebiasaannya, cairan apa pun yang bukan putih bersih dihukumi sebagai darah haid, sampai batas maksimal menurut mazhab itu.
 
@@ -181,7 +187,7 @@ Setelah suci, mandi wajib harus dikerjakan sebelum sholat. Rukunnya:
 
 Tentang rambut: kepangan tidak perlu diurai, tetapi air harus sampai ke kulit kepala. Ummu Salamah bertanya persis tentang hal ini, dan dijawab bahwa cukup menuangkan tiga cidukan air ke atas kepala (Shahih Muslim 330).
 
-Anjuran yang sering dikutip untuk memakai sepotong kapas beraroma kasturi berasal dari jawaban Nabi shallallahu ‘alaihi wa sallam kepada Asma binti Syakal (Shahih Muslim 332). Itu sunnah, bukan kewajiban.
+Anjuran yang sering dikutip untuk memakai sepotong kapas beraroma kasturi berasal dari jawaban Nabi shallallahu ‘alaihi wa sallam kepada Asma binti Syakal (Shahih Muslim 332c). Itu sunnah, bukan kewajiban.
 
 ## Sholat mana yang dikerjakan lebih dulu
 
@@ -193,7 +199,7 @@ Bila panjangnya terus berubah, atau darah keluar putus-putus berkepanjangan, huk
 `,
     faq: [
       { q: 'Bagaimana tahu haid sudah selesai?', a: 'Dengan salah satu dari dua tanda: munculnya cairan putih (al-qashshah al-baidha), atau kapas yang dimasukkan lalu dikeluarkan kembali bersih sama sekali. Aisyah mengajari perempuan Anshar: jangan terburu-buru sampai kalian melihat cairan putih.' },
-      { q: 'Apakah flek cokelat terhitung haid?', a: 'Bergantung kapan ia muncul. Selama masih dalam hari-hari haid, ia dihukumi haid. Setelah tanda suci terlihat, ia bukan haid, dan perempuan itu sholat seperti biasa. Ummu Athiyyah meriwayatkan: kami tidak menganggap cairan kuning dan keruh setelah suci sebagai apa pun (Shahih al-Bukhari 326).' },
+      { q: 'Apakah flek cokelat terhitung haid?', a: 'Bergantung kapan ia muncul. Selama masih dalam hari-hari haid, ia dihukumi haid. Setelah tanda suci terlihat, ia bukan haid, dan perempuan itu sholat seperti biasa. Ummu Athiyyah meriwayatkan: kami tidak menganggap cairan kuning dan keruh setelah suci sebagai apa pun (Sunan Abu Dawud 307; Shahih al-Bukhari 326 memuat riwayat yang sama tanpa kata “setelah suci”).' },
       { q: 'Berapa hari paling lama haid berlangsung?', a: 'Mazhab Hanafi menetapkan batas maksimal 10 hari; mazhab Maliki, Syafi‘i, dan Hanbali menetapkan 15 hari. Darah yang keluar melewati batas itu adalah istihadhah, dan sholat kembali wajib sejak titik tersebut.' },
       { q: 'Apakah kepangan rambut harus diurai saat mandi wajib?', a: 'Tidak, tetapi air harus sampai ke pangkal rambut. Ummu Salamah menanyakan hal ini kepada Nabi shallallahu ‘alaihi wa sallam dan dijawab bahwa cukup menuangkan tiga cidukan air ke atas kepala (Shahih Muslim 330).' },
     ],
@@ -217,6 +223,7 @@ Istihadhah adalah darah yang keluar di luar haid dan nifas. Dalam fikih ia digol
 Fatimah binti Abi Hubaisy mengadu kepada Nabi shallallahu ‘alaihi wa sallam bahwa darahnya keluar terus-menerus, dan beliau menjawab:
 
 > Itu darah dari urat, bukan haid. Maka apabila haidmu datang, tinggalkanlah sholat; dan apabila ia pergi, cucilah darah darimu lalu sholatlah.
+>> ${AR['muslim-333']}
 > — Shahih al-Bukhari 228; Shahih Muslim 333
 
 ## Apa yang berlaku selama istihadhah
@@ -245,7 +252,7 @@ Semua mazhab mengharuskannya mencuci darah dan memakai pembalut lebih dulu. Dara
 
 Tiga cara, diterapkan berurutan:
 
-**1. Kebiasaan (‘adah).** Hari-hari yang biasanya ia haid — sebanyak itu, dimulai pada saat ia biasanya mulai — dihukumi haid; selebihnya istihadhah. Cara ini didahulukan. Nabi shallallahu ‘alaihi wa sallam mengatakan persis ini kepada Ummu Habibah: tahanlah dirimu sebanyak hari yang dahulu menjadi masa haidmu, lalu mandilah dan sholatlah (Shahih Muslim 334).
+**1. Kebiasaan (‘adah).** Hari-hari yang biasanya ia haid — sebanyak itu, dimulai pada saat ia biasanya mulai — dihukumi haid; selebihnya istihadhah. Cara ini didahulukan. Ummu Salamah meriwayatkan persis hukum ini bagi perempuan dalam keadaan tersebut: ia menghitung berapa malam dan hari ia dahulu haid setiap bulan, meninggalkan sholat selama itu, lalu mandi dan sholat (Sunan Abu Dawud 274).
 
 **2. Pembedaan sifat darah (tamyiz).** Bila tidak ada kebiasaan yang mapan, darahnya sendiri yang dibaca: darah yang pekat, kental, dan berbau khas adalah haid; darah yang encer dan pucat adalah istihadhah. Ini berasal dari perintah Nabi shallallahu ‘alaihi wa sallam yang lain kepada Fatimah binti Abi Hubaisy.
 

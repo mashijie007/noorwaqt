@@ -73,6 +73,21 @@
 }
 html[dir='rtl'] .prose blockquote { border-radius: var(--r) 0 0 var(--r); }
 .prose blockquote p { margin: 0; color: var(--ink); font-size: 1.04rem; line-height: 1.75; }
+/* 引文里的阿拉伯原文。
+   这些页面在页尾写着「好让你自己去核」—— 只给译文和编号是核不了的，
+   原文摆在译文上面，核对才只剩一步。
+   行高给到 2：带音符的阿文行与行之间不留余地就会糊成一片。 */
+.prose blockquote .quote-ar {
+  font-family: var(--serif-ar);
+  font-size: 1.35rem;
+  line-height: 2;
+  color: var(--ink);
+  margin-block-end: 0.9rem;
+  padding-block-end: 0.9rem;
+  border-block-end: 1px solid var(--line);
+}
+@media (max-width: 560px) { .prose blockquote .quote-ar { font-size: 1.2rem; } }
+
 .prose blockquote cite {
   display: block;
   margin-block-start: 0.7rem;

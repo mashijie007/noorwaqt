@@ -54,8 +54,11 @@ function main() {
     const html = readFileSync(file, 'utf8');
     const where = rel(file);
 
-    // 1. 没填上的占位符。露在标题和描述里最要命，正文里也不该有
-    for (const m of html.matchAll(/\{(city|cityIn|country|method|month|year|deg|km|n|total|countries|v|size|abi|fajr|dhuhr|asr|maghrib|isha|sunrise)\}/g)) {
+    // 1. 没填上的占位符。露在标题和描述里最要命，正文里也不该有。
+    //    <script type="application/json"> 里的不算：那是交给前端的模板
+    //    （起名页的 {n} 条符合条件），由浏览器填，不是漏填的构建期占位符
+    const visible = html.replace(/<script[^>]*type="application\/json"[^>]*>[\s\S]*?<\/script>/gi, '');
+    for (const m of visible.matchAll(/\{(city|cityIn|country|method|month|year|deg|km|n|total|countries|v|size|abi|fajr|dhuhr|asr|maghrib|isha|sunrise)\}/g)) {
       note('占位符未填', where, m[0]);
       break;
     }
