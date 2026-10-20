@@ -27,12 +27,13 @@
 <!-- ═══ 导航 ═══════════════════════════════════════════ -->
 <nav class="nav" id="nav">
   <a class="brand" href="#top"><img src="./noorwaqt.png" alt=""> NoorWaqt</a>
-  <div class="nav-links">
+  <div class="nav-links nav-links-full">
     <a href="#global" data-i18n="navGlobal" data-boot>全球礼拜</a>
     <a href="#ramadan" data-i18n="navRamadan" data-boot>斋月</a>
     <a href="#women" data-i18n="navWomen" data-boot>女性功修</a>
     <a href="/live/" data-i18n="navLive" data-boot style="color:var(--brand-2);font-weight:700">直播</a>
     <a href="/zh/guide/" data-guide="" data-i18n="navGuide" data-boot>功修问答</a>
+    <a href="/zh/names/" data-names="" data-i18n="navNames" data-boot>起名</a>
     <a href="#privacy" data-i18n="navPrivacy" data-boot>隐私</a>
   </div>
   <div class="nav-right">
@@ -267,6 +268,41 @@
 
     <div class="dl-actions reveal" style="justify-content:flex-start">
       <a class="btn btn-ghost" href="/zh/guide/" data-guide="" data-i18n="guideMore">查看全部七篇</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 阿拉伯语起名 ═══════════════════════════════════ -->
+<!-- 链接只有一条（/<lang>/names/），所以下面那排名字是示例而不是链接：
+     四张卡片指向同一个地址，对读者和爬虫都只是噪音。
+     链接的语言由 main.js 跟着当前语言改写，构建期也会改写一遍。 -->
+<section class="section" id="names">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="namesTitle">给孩子起个阿拉伯语名，先把词义摊开</h2>
+      <p class="lead" data-i18n="namesLead">216 个名字，每个都给出阿文写法、能原样写进护照的拉丁拼法，以及字面词义——而不是经过美化的解释。另附阿拉伯姓名的五段结构，以及哪些名字不能用、为什么。</p>
+    </div>
+
+    <ul class="name-strip reveal">
+      <li>
+        <b lang="ar" dir="rtl">عبد الرحمن</b>
+        <i>Abd al-Rahman</i>
+        <span data-i18n="namesEx1">至仁主的仆人</span>
+      </li>
+      <li>
+        <b lang="ar" dir="rtl">ضحى</b>
+        <i>Duha</i>
+        <span data-i18n="namesEx2">上午的阳光</span>
+      </li>
+      <li>
+        <b lang="ar" dir="rtl">طارق</b>
+        <i>Tariq</i>
+        <span data-i18n="namesEx3">夜访者；晨星</span>
+      </li>
+    </ul>
+
+    <div class="dl-actions reveal" style="justify-content:flex-start">
+      <a class="btn btn-ghost" href="/zh/names/" data-names="" data-i18n="namesMore">打开起名页</a>
     </div>
   </div>
 </section>

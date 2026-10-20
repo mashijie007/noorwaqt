@@ -98,6 +98,12 @@ async function applyLang(lang) {
     el.setAttribute('href', slug ? `/${gl}/guide/${slug}/` : `/${gl}/guide/`);
   }
 
+  // 起名页同理，但一个语言只有一页，所以不用逐篇查：有就用自己的，没有落英文
+  const namesLangs = window.NW_SITE?.names;
+  const nl = !namesLangs ? (want === 'zh' ? 'zh' : 'en')
+    : namesLangs.includes(want) ? want : 'en';
+  for (const el of $$('[data-names]')) el.setAttribute('href', `/${nl}/names/`);
+
   renderBars(); renderCity(); renderRamadan(); renderEid(); renderDownload();
   renderLitPill(); cityPopup.refresh();
 }

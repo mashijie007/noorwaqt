@@ -126,6 +126,11 @@ html[dir='rtl'] .eyebrow { letter-spacing: 0; text-transform: none; }
 .lang option { background: var(--bg-2); }
 
 @media (max-width: 860px) { .nav-links { display: none; } }
+
+/* 首页那一排有七条，且条目本身是翻译过的，长短随语言差很多（印尼语最长）：
+   860px 的断点对它不够早，900px 左右的窗口上已经挤出了容器。所以首页单独
+   提前到 1000px 收起 —— 问答页、起名页、城市页只有三条，继续用 860px。 */
+@media (max-width: 1000px) { .nav-links-full { display: none; } }
 /* 手机上品牌字 + 语言框 + 下载键三样摆不下：375px 里只剩 335px，
    而语言框按最长的选项撑到 150px，泰米尔语的下载键就有 138px。
    挤不下时 LTR 把下载键悄悄推出屏幕右边，RTL 更糟 —— 整页被撑出横向滚动。
@@ -557,6 +562,29 @@ html[dir='rtl'] .ev-title { letter-spacing: 0; text-transform: none; }
   .guide-links a { transition: none; }
   .guide-links a:hover { transform: none; }
 }
+
+/* ── 起名段的示例名 ─────────────────────────────────
+   跟 .guide-links 长得像，但刻意不是链接：这一段只有一个去处，
+   做成四张都指向同一地址的卡片，对读者和爬虫都只是噪音 */
+.name-strip {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr)); gap: 0.9rem;
+}
+.name-strip li {
+  display: grid; gap: 0.3rem;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.025);
+}
+.name-strip b {
+  font-family: var(--serif-ar);
+  font-size: 1.9rem; line-height: 1.5; font-weight: 400;
+  color: var(--ink);
+  /* 这一行标了 dir="rtl"，但整段是 LTR —— 让它跟卡片其余内容对齐同一条边 */
+  text-align: left;
+}
+.name-strip i { font-style: normal; color: var(--brand-2); font-size: 0.98rem; }
+.name-strip span { color: var(--ink-3); font-size: 0.88rem; line-height: 1.65; }
 
 /* ── 页脚 ───────────────────────────────────────────── */
 .footer { border-block-start: 1px solid var(--line); padding-block: 3rem; }

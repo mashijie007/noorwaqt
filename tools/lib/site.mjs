@@ -76,6 +76,17 @@ export function guidePagesForClient() {
   return out;
 }
 
+/**
+ * 起名页：/<lang>/names/，由 build-names.mjs 从 tools/names/ 产出。
+ * 问答页那边要逐篇查 slug，这边一个语言只有一页，所以给浏览器一个语言数组就够。
+ *
+ * 同样扫仓库根而不是 dist：buildPages 跑在 copyStatic 之前，
+ * 那时 dist 里还没有起名页。
+ */
+export function namesLangsForClient() {
+  return GUIDE_LANGS.filter((lang) => existsSync(resolve(ROOT, lang, 'names', 'index.html')));
+}
+
 export const localeMeta = (code) => LOCALES.find((l) => l.code === code) || null;
 export const dirOf = (code) => localeMeta(code)?.dir || 'ltr';
 export const bcp47 = (code) => code.replace('_', '-');

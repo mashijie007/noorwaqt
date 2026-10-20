@@ -78,8 +78,8 @@ const keys = bootKeys(template);
 // 这个数字是道闸：模板上多一个、少一个 data-boot 都会在这里停下来。
 // 它必须写死 —— 从 bootKeys 自己的结果里推期望值，等于拿被测函数给自己作证。
 // 首屏范围本来就该是有意扩的，改了就顺手把这里也改了。
-eq('模板里共 24 个首屏键', keys.length, 24);
-for (const k of ['navGlobal', 'navLive', 'navDownload', 'heroTitle', 'heroLive', 'litPill',
+eq('模板里共 25 个首屏键', keys.length, 25);
+for (const k of ['navGlobal', 'navLive', 'navNames', 'navDownload', 'heroTitle', 'heroLive', 'litPill',
   'litShareAria', 'heroCta2', 'heroHintTime', 'timeNow', 'breathLabel', 'docTitle']) {
   eq('含 ' + k, keys.includes(k), true);
 }

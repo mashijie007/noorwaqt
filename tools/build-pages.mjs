@@ -14,7 +14,7 @@ import { pathToFileURL } from 'node:url';
 import {
   ROOT, SITE, LOCALES, CITIES, dictFor, release, emit,
   langPath, cityIndexPath, abs, bcp47, dirOf, seoLanguages,
-  citiesFor, cityMatrixForClient, guidePagesForClient,
+  citiesFor, cityMatrixForClient, guidePagesForClient, namesLangsForClient,
 } from './lib/site.mjs';
 import {
   renderI18n, setTitle, setMeta, setCanonical, setHtmlAttrs,
@@ -63,6 +63,19 @@ function rewriteGuideLinks(html, code) {
   );
 }
 
+/**
+ * 起名页的链接。规则比问答页简单：一个语言只有一页，有就用自己的，没有落英文。
+ * 模板里写死的是 /zh/names/，44 个语言页如果不改写，爬虫看到的就全是中文页。
+ */
+function rewriteNamesLinks(html, code, langs) {
+  const want = code.startsWith('zh') ? 'zh' : code;
+  const lang = langs.includes(want) ? want : 'en';
+  return html.replace(
+    /href="\/(?:zh|en|id)\/names\/"(\s[^>]*?data-names=)/g,
+    (_, tail) => 'href="/' + lang + '/names/"' + tail
+  );
+}
+
 /** 城市页只在有 SEO 文案的语言里存在，别的语言页脚就不挂城市链接 */
 const CITY_LANGS = new Set(seoLanguages());
 
@@ -82,6 +95,9 @@ export function buildPages() {
   const BOOT_KEYS = bootKeys(template);
   const boot = { d: {}, dir: {} };
 
+  // 起名页出了哪几种语言。44 个语言页都要查，扫一次就够
+  const namesLangs = namesLangsForClient();
+
   for (const { code } of LOCALES) {
     const dict = dictFor(code);
     const vars = pageVars(dict);
@@ -92,6 +108,7 @@ export function buildPages() {
     let html = rootAbsolute(template);
     html = renderI18n(html, dict, vars);
     html = rewriteGuideLinks(html, code);
+    html = rewriteNamesLinks(html, code, namesLangs);
 
     html = setHtmlAttrs(html, {
       lang: bcp47(code),
@@ -125,7 +142,7 @@ export function buildPages() {
       appJsonLd(dict),
       siteJsonLd(dict, code),
       langHrefScript(codes, hrefFor),
-      cityLangsScript(cityMatrixForClient(), guidePagesForClient()),
+      cityLangsScript(cityMatrixForClient(), guidePagesForClient(), namesLangsForClient()),
       // 告诉抓取端这是 1.91:1 的横图，它才会展开成大卡，而不是缩成角落里的小方块。
       // 只在真有图时写：退回方形 logo 时标个 1200×630 是在骗抓取端
       og.sized

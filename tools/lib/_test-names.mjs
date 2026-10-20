@@ -119,8 +119,11 @@ eq('没有空标签',
 
 console.log('文案里的数量');
 
-// 「216 个名字」这句话散在三种语言的标题、导语和正文小标题里。
+// 「216 个名字」这句话散在三种语言的标题、导语、正文小标题和首页文案里。
 // 往库里加一条名字，这些数字就全成了假话 —— 而且不会有任何东西报错。
+//
+// 首页那句不能写成 {n} 占位符：运行时切语言走的是 t(lang, key)，不填占位符，
+// 页面上会直接露出一个生的 {n}。所以数字写死，由这里盯着它别漂。
 const total = String(NAMES.length);
 const boys = String(NAMES.filter((n) => n.g === 'm').length);
 const girls = String(NAMES.filter((n) => n.g === 'f').length);
@@ -133,6 +136,15 @@ for (const lang of LANGS) {
   eq(lang + ' 导语里的女名数是 ' + girls, page.lead.includes(girls), true);
   eq(lang + ' 正文「全表」小标题里的数量是 ' + total, page.body.includes(total), true);
 }
+
+for (const lang of LANGS) {
+  const dict = JSON.parse(read('tools/translations/' + lang + '.json'));
+  eq(lang + ' 首页文案里的数量是 ' + total, dict.namesLead.includes(total), true);
+}
+
+// 模板里那句中文兜底也要跟上：中文页读的就是它
+eq('index.html 的中文兜底文案跟上了',
+  read('index.html').includes('data-i18n="namesLead">' + total), true);
 
 console.log(failed ? '\n' + failed + ' 个断言没过' : '\n全部通过');
 process.exit(failed ? 1 : 0);
