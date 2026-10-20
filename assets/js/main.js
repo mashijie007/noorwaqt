@@ -923,6 +923,25 @@ $('#lang').addEventListener('change', (e) => {
 const nav = $('#nav');
 addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20), { passive: true });
 
+// 汉堡菜单（窄屏）。面板就是 .nav-links 本身，见 site.css。
+const navToggle = $('#nav-toggle');
+if (navToggle) {
+  const setMenu = (open) => {
+    nav.classList.toggle('menu-open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+  };
+  navToggle.addEventListener('click', () => setMenu(!nav.classList.contains('menu-open')));
+  // 点了链接就收起：锚点跳转之后面板还悬着会盖住刚跳到的内容
+  $('#nav-menu').addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', (e) => { if (!nav.contains(e.target)) setMenu(false); });
+  // 拉宽回桌面布局时收起，否则下次再缩窄会带着展开状态出现。
+  // 监听 resize 而不是 matchMedia 的 change：后者在部分环境里（开发者工具的
+  // 窗口模拟）拉宽时不派发，状态就一直残留
+  const desktop = matchMedia('(min-width: 1001px)');
+  addEventListener('resize', () => { if (desktop.matches) setMenu(false); }, { passive: true });
+}
+
 // 只有走到这里才开启淡入的初始隐藏态；上面任何一步抛错，内容都保持可见
 try {
   document.documentElement.classList.add('js');

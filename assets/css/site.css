@@ -131,6 +131,40 @@ html[dir='rtl'] .eyebrow { letter-spacing: 0; text-transform: none; }
    860px 的断点对它不够早，900px 左右的窗口上已经挤出了容器。所以首页单独
    提前到 1000px 收起 —— 问答页、起名页、城市页只有三条，继续用 860px。 */
 @media (max-width: 1000px) { .nav-links-full { display: none; } }
+
+/* ── 汉堡菜单 ───────────────────────────────────────
+   只有首页有：它那一排七条链接在 1000px 以下收起，收起之后页面里就没有
+   常驻入口了。直接把 .nav-links 当下拉面板展开，而不是另抄一份链接 ——
+   这样 i18n 文案和 main.js 的 data-guide / data-names 链接改写都不用管。 */
+.nav-toggle { display: none; }
+@media (max-width: 1000px) {
+  .nav-links-full + .nav-right { margin-inline-start: auto; }
+
+  .nav-toggle {
+    display: inline-flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;
+    width: 40px; height: 40px; padding: 0; cursor: pointer;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line); border-radius: 999px;
+  }
+  .nav-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .nav-toggle span {
+    display: block; width: 16px; height: 2px; border-radius: 2px; background: var(--ink);
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .nav-toggle[aria-expanded='true'] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded='true'] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .nav.menu-open .nav-links-full {
+    display: flex; flex-direction: column; gap: 0; margin: 0;
+    position: absolute; inset-inline: 0; inset-block-start: 100%;
+    padding: 0.4rem clamp(1.25rem, 4vw, 2.5rem) 1rem;
+    background: var(--bg); border-block-end: 1px solid var(--line);
+    font-size: 1rem;
+  }
+  .nav.menu-open .nav-links-full a { padding: 0.85rem 0; border-block-end: 1px solid var(--line); }
+  .nav.menu-open .nav-links-full a:last-child { border-block-end: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .nav-toggle span { transition: none; } }
 /* 手机上品牌字 + 语言框 + 下载键三样摆不下：375px 里只剩 335px，
    而语言框按最长的选项撑到 150px，泰米尔语的下载键就有 138px。
    挤不下时 LTR 把下载键悄悄推出屏幕右边，RTL 更糟 —— 整页被撑出横向滚动。
