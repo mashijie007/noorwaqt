@@ -234,7 +234,7 @@ Two reports belong alongside that, though. The Prophet (peace be upon him) asked
 >> ${AR['muslim-298']}
 > — Sahih Muslim 298
 
-And a woman who looked after the masjid is reported to have had a tent inside it (Sahih al-Bukhari 439). Ibn Hazm and others concluded from this that entry is permitted. Many contemporary scholars, on the same basis, allow **brief entry for a need** — attending a class, sheltering, passing through — provided there is no risk of soiling the space.
+And a freed Black woman who had embraced Islam is reported to have had a tent, or a small low-roofed room, inside the masjid (Sahih al-Bukhari 439); Bukhari files it under “a woman sleeping in the masjid”. The report does not mention menstruation — Ibn Hazm and others inferred from it that entry is permitted. Many contemporary scholars, on the same basis, allow **brief entry for a need** — attending a class, sheltering, passing through — provided there is no risk of soiling the space.
 
 ## Tawaf
 
