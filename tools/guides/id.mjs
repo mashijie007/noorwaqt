@@ -64,7 +64,7 @@ Selama haid seorang perempuan tidak sholat. Ini bukan keringanan yang boleh ia t
 
 Dalilnya adalah jawaban Aisyah radhiyallahu ‘anha kepada Mu‘adzah, yang bertanya mengapa perempuan haid mengqadha puasa tetapi tidak mengqadha sholat:
 
-> Dahulu hal itu menimpa kami, maka kami diperintahkan mengqadha puasa dan tidak diperintahkan mengqadha sholat.
+> Aisyah (semoga Allah meridainya) berkata: Dahulu hal itu menimpa kami, maka kami diperintahkan mengqadha puasa dan tidak diperintahkan mengqadha sholat.
 >> ${AR['muslim-335c']}
 > — Aisyah, Shahih Muslim 335c; lihat juga Shahih al-Bukhari 321
 
@@ -141,7 +141,7 @@ Darah dinyatakan berhenti bila salah satu dari dua tanda ini muncul:
 
 Begitulah Aisyah radhiyallahu ‘anha mengajari perempuan-perempuan Anshar. Mereka mengirimkan kapas yang masih menunjukkan cairan, dan beliau menjawab:
 
-> Jangan terburu-buru sampai kalian melihat cairan putih.
+> Aisyah (semoga Allah meridainya) kepada para perempuan berkata: Jangan terburu-buru sampai kalian melihat cairan putih.
 >> ${AR['malik-2-99']}
 > — Aisyah (semoga Allah meridainya); al-Muwaththa’ Imam Malik, Kitab 2, Hadits 99. Shahih al-Bukhari mengutipnya pada bab haid
 
@@ -154,7 +154,7 @@ Inilah pertanyaan yang paling sering muncul di bab ini, dan jawabannya sepenuhny
 
 Dalilnya riwayat Ummu Athiyyah:
 
-> Kami tidak menganggap cairan kuning dan keruh setelah suci sebagai apa pun.
+> Ummu Athiyyah berkata: Kami tidak menganggap cairan kuning dan keruh setelah suci sebagai apa pun.
 >> ${AR['abudawud-307']}
 > — Ummu Athiyyah, Sunan Abu Dawud 307. Shahih al-Bukhari 326 memuat riwayat yang sama tanpa kata “setelah suci”
 
@@ -187,15 +187,15 @@ Setelah suci, mandi wajib harus dikerjakan sebelum sholat. Rukunnya:
 
 Tentang rambut: kepangan tidak perlu diurai, tetapi air harus sampai ke kulit kepala. Ummu Salamah bertanya persis tentang hal ini, dan dijawab bahwa cukup menuangkan tiga cidukan air ke atas kepala (Shahih Muslim 330).
 
-> Tidak perlu. Cukup bagimu menuangkan tiga cidukan air ke atas kepalamu, lalu menyiramkan air ke seluruh tubuhmu, maka engkau suci.
+> Nabi (semoga salawat dan salam tercurah kepadanya) bersabda: Tidak perlu. Cukup bagimu menuangkan tiga cidukan air ke atas kepalamu, lalu menyiramkan air ke seluruh tubuhmu, maka engkau suci.
 >> ${AR['muslim-330']}
-> — Ummu Salamah, Shahih Muslim 330
+> — Diriwayatkan oleh Ummu Salamah dari Nabi (semoga salawat dan salam tercurah kepadanya) menjawab pertanyaannya; Shahih Muslim 330
 
 Anjuran yang sering dikutip untuk memakai sepotong kapas beraroma kasturi berasal dari jawaban Nabi shallallahu ‘alaihi wa sallam kepada Asma binti Syakal (Shahih Muslim 332c). Itu sunnah, bukan kewajiban.
 
-> Kemudian hendaklah ia mengambil sepotong kapas yang diberi kasturi dan membersihkan diri dengannya.
+> Nabi (semoga salawat dan salam tercurah kepadanya) bersabda: Kemudian hendaklah ia mengambil sepotong kapas yang diberi kasturi dan membersihkan diri dengannya.
 >> ${AR['muslim-332c']}
-> — Aisyah, meriwayatkan jawaban Nabi kepada Asma binti Syakal; Shahih Muslim 332c
+> — Diriwayatkan oleh Aisyah dari Nabi (semoga salawat dan salam tercurah kepadanya) menjawab Asma binti Syakal; Shahih Muslim 332c
 
 ## Sholat mana yang dikerjakan lebih dulu
 
@@ -230,9 +230,9 @@ Istihadhah adalah darah yang keluar di luar haid dan nifas. Dalam fikih ia digol
 
 Fatimah binti Abi Hubaisy mengadu kepada Nabi shallallahu ‘alaihi wa sallam bahwa darahnya keluar terus-menerus, dan beliau menjawab:
 
-> Itu darah dari urat, bukan haid. Maka apabila haidmu datang, tinggalkanlah sholat; dan apabila ia pergi, cucilah darah darimu lalu sholatlah.
+> Nabi (semoga salawat dan salam tercurah kepadanya) bersabda: Itu darah dari urat, bukan haid. Maka apabila haidmu datang, tinggalkanlah sholat; dan apabila ia pergi, cucilah darah darimu lalu sholatlah.
 >> ${AR['muslim-333']}
-> — Shahih al-Bukhari 228; Shahih Muslim 333
+> — Diriwayatkan oleh Aisyah dari Nabi (semoga salawat dan salam tercurah kepadanya) menjawab Fatimah binti Abi Hubaisy; Shahih al-Bukhari 228; Shahih Muslim 333
 
 ## Apa yang berlaku selama istihadhah
 
@@ -262,17 +262,17 @@ Tiga cara, diterapkan berurutan:
 
 **1. Kebiasaan (‘adah).** Hari-hari yang biasanya ia haid — sebanyak itu, dimulai pada saat ia biasanya mulai — dihukumi haid; selebihnya istihadhah. Cara ini didahulukan. Ummu Salamah meriwayatkan persis hukum ini bagi perempuan dalam keadaan tersebut: ia menghitung berapa malam dan hari ia dahulu haid setiap bulan, meninggalkan sholat selama itu, lalu mandi dan sholat (Sunan Abu Dawud 274).
 
-> Hendaklah ia menghitung jumlah malam dan hari ia dahulu haid setiap bulan sebelum ditimpa penyakit itu, lalu meninggalkan sholat selama itu setiap bulan. Apabila telah lewat, hendaklah ia mandi, membalut dengan kain, lalu sholat dengannya.
+> Nabi (semoga salawat dan salam tercurah kepadanya) bersabda: Hendaklah ia menghitung jumlah malam dan hari ia dahulu haid setiap bulan sebelum ditimpa penyakit itu, lalu meninggalkan sholat selama itu setiap bulan. Apabila telah lewat, hendaklah ia mandi, membalut dengan kain, lalu sholat dengannya.
 >> ${AR['abudawud-274']}
-> — Ummu Salamah, Sunan Abu Dawud 274
+> — Diriwayatkan oleh Ummu Salamah dari Nabi (semoga salawat dan salam tercurah kepadanya); Sunan Abu Dawud 274
 
 **2. Pembedaan sifat darah (tamyiz).** Bila tidak ada kebiasaan yang mapan, darahnya sendiri yang dibaca: darah yang pekat, kental, dan berbau khas adalah haid; darah yang encer dan pucat adalah istihadhah. Ini berasal dari perintah Nabi shallallahu ‘alaihi wa sallam yang lain kepada Fatimah binti Abi Hubaisy.
 
 **3. Kembali ke kebiasaan umum perempuan.** Bila keduanya tidak bisa diterapkan, mayoritas ulama mengikuti hadis Hamnah binti Jahsy dan menghitung 6 atau 7 hari sebulan sebagai haid, selebihnya istihadhah (Sunan Abu Dawud 287). Mazhab Hanafi punya rinciannya sendiri untuk perempuan yang belum punya kebiasaan mapan.
 
-> Ini hanyalah salah satu tendangan setan. Maka hitunglah haidmu enam hari atau tujuh hari, dalam ilmu Allah, kemudian mandilah.
+> Nabi (semoga salawat dan salam tercurah kepadanya) bersabda: Ini hanyalah salah satu tendangan setan. Maka hitunglah haidmu enam hari atau tujuh hari, dalam ilmu Allah, kemudian mandilah.
 >> ${AR['abudawud-287']}
-> — Hamnah binti Jahsy, Sunan Abu Dawud 287
+> — Diriwayatkan oleh Hamnah binti Jahsy dari Nabi (semoga salawat dan salam tercurah kepadanya) ketika berbicara kepadanya; Sunan Abu Dawud 287
 
 ## Tiga keadaan yang benar-benar sering terjadi
 

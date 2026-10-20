@@ -31,6 +31,7 @@ const eq = (name, got, want) => {
   failed++;
   console.log('  FAIL ' + name + '\n    got  ' + got + '\n    want ' + want);
 };
+const NLC = String.fromCharCode(10);
 const list = (xs) => (xs.length ? xs.join(', ') : '（空）');
 
 /** 内容文件：tools/guides/*.mjs 与 tools/names/*.mjs */
@@ -88,6 +89,21 @@ for (const { rel, text } of sources) {
     inline.length ? inline.map((l) => l.slice(0, 40)).join(' / ') : '（空）', '（空）');
 }
 
+console.log('说话人');
+
+// 引文块的译文前必须交代「谁说的」。出处行写的是传述人（艾奈斯、艾布·胡莱赖……），
+// 读者会把引文里的「我」当成传述人 —— 穆斯林 2315 里「我父亲易卜拉欣」就被这样读歪了：
+// 说话的是先知，不是艾奈斯。
+const SPEAKER = /(said|says|stated|bersabda|berkata|menyebutkan|说|写道)[:：]/;
+for (const { rel, text } of sources) {
+  const noLead = quoteBlocks(text)
+    .map((b) => b.split(NLC).find((l) => l.startsWith('> ') && !l.startsWith('> —')) || '')
+    .filter((l) => !SPEAKER.test(l.slice(0, 200)))
+    .map((l) => l.slice(0, 36));
+  eq(rel + ' 每个引文块都交代了说话人',
+    noLead.length ? noLead.join(' / ') : '（空）', '（空）');
+}
+
 console.log('行文里的引用');
 
 // 圣训的编号写法因语言而异，统一成 collection-number 再比较。
@@ -96,7 +112,7 @@ const CITE = {
   bukhari: /(?:Sahih al-Bukhari|Shahih al-Bukhari|《布哈里圣训实录》)\s*(\d+[a-z]?)/g,
   muslim: /(?:Sahih Muslim|Shahih Muslim|《穆斯林圣训实录》)\s*(\d+[a-z]?)/g,
   abudawud: /(?:Sunan Abi Dawud|Sunan Abu Dawud|Abu Dawud|《艾布·达乌德圣训集》)\s*(\d+[a-z]?)/g,
-  tirmidhi: /(?:Jami.\s?at-Tirmidhi|Tirmidhi|Tirmidzi|《提尔密集圣训集》)\s*(\d+[a-z]?)/g,
+  tirmidhi: /(?:Jami.\s?at-Tirmidhi|Tirmidhi|Tirmidzi|《提尔米济圣训集》)\s*(\d+[a-z]?)/g,
 };
 const citedKeys = (text) => {
   const out = new Set();

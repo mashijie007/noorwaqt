@@ -55,7 +55,7 @@ During menstruation a woman does not pray. This is not a concession she may decl
 
 The evidence is Aisha’s (may Allah be pleased with her) answer to Mu‘adha, who asked her why a menstruating woman makes up the fast but not the prayer:
 
-> That used to happen to us, and we were ordered to make up the fast, and were not ordered to make up the prayer.
+> Aisha (may Allah be pleased with her) said: That used to happen to us, and we were ordered to make up the fast, and were not ordered to make up the prayer.
 >> ${AR['muslim-335c']}
 > — Aisha, Sahih Muslim 335c; see also Sahih al-Bukhari 321
 
@@ -133,7 +133,7 @@ The reverse case matters just as much: if bleeding stops during the night, she m
 
 The same hadith settles both rulings at once:
 
-> That used to happen to us, and we were ordered to make up the fast, and were not ordered to make up the prayer.
+> Aisha (may Allah be pleased with her) said: That used to happen to us, and we were ordered to make up the fast, and were not ordered to make up the prayer.
 >> ${AR['muslim-335c']}
 > — Aisha, Sahih Muslim 335c
 
@@ -210,7 +210,7 @@ Worth separating: reciting *as recitation* is the disputed act. Saying verses **
 
 All four schools hold that the mushaf is not touched without purity, generally citing the Prophet’s letter to Amr ibn Hazm:
 
-> None shall touch the Qur’an except one who is pure.
+> The Prophet’s letter to Amr ibn Hazm says: None shall touch the Qur’an except one who is pure.
 >> ${AR['malik-15-1']}
 > — The Prophet’s letter to Amr ibn Hazm; Muwatta Malik, Book 15, Hadith 1
 
@@ -230,13 +230,13 @@ Most schools do not permit a menstruating woman to remain inside a masjid, citin
 
 Two reports belong alongside that, though. The Prophet (peace be upon him) asked Aisha to fetch a mat from the masjid, and when she mentioned her state, told her:
 
-> Your menstruation is not in your hand.
+> The Prophet (peace be upon him) said: Your menstruation is not in your hand.
 >> ${AR['muslim-298']}
-> — Sahih Muslim 298
+> — Narrated by Aisha, from the Prophet (peace be upon him) speaking to her; Sahih Muslim 298
 
 And a freed Black woman who had embraced Islam is reported to have had a tent, or a small low-roofed room, inside the masjid (Sahih al-Bukhari 439); Bukhari files it under “a woman sleeping in the masjid”. The report does not mention menstruation — Ibn Hazm and others inferred from it that entry is permitted. Many contemporary scholars, on the same basis, allow **brief entry for a need** — attending a class, sheltering, passing through — provided there is no risk of soiling the space.
 
-> She had a tent — or a small, low-roofed room — in the mosque.
+> Aisha (may Allah be pleased with her) said: She had a tent — or a small, low-roofed room — in the mosque.
 >> ${AR['bukhari-439']}
 > — Aisha, Sahih al-Bukhari 439
 
@@ -244,9 +244,9 @@ And a freed Black woman who had embraced Islam is reported to have had a tent, o
 
 No dispute here: a menstruating woman does not perform tawaf. The Prophet told Aisha when she menstruated during Hajj:
 
-> Do everything the pilgrim does, except do not circle the House until you are pure.
+> The Prophet (peace be upon him) said: Do everything the pilgrim does, except do not circle the House until you are pure.
 >> ${AR['bukhari-305']}
-> — Sahih al-Bukhari 305
+> — Narrated by Aisha, from the Prophet (peace be upon him) speaking to her; Sahih al-Bukhari 305
 
 Everything else stands — Arafah, Muzdalifah, the stoning (sa‘i has its own subdivisions among the schools). Which tells you something in itself: **most of Hajj is not conditional on purity.**
 
@@ -288,7 +288,7 @@ Bleeding has ended when either sign appears:
 
 This is how Aisha (may Allah be pleased with her) taught the women of the Ansar. They would send her cotton showing discharge, and she would tell them:
 
-> Do not hurry until you see the white discharge.
+> Aisha (may Allah be pleased with her), to the women said: Do not hurry until you see the white discharge.
 >> ${AR['malik-2-99']}
 > — Aisha (may Allah be pleased with her); Muwatta Malik, Book 2, Hadith 99. Sahih al-Bukhari cites it in his chapter on menstruation
 
@@ -301,7 +301,7 @@ The most-asked question in this area, and the answer turns entirely on **when it
 
 The evidence is Umm Atiyyah’s report:
 
-> We did not count the yellowish and brownish discharge after purity as anything.
+> Umm Atiyyah said: We did not count the yellowish and brownish discharge after purity as anything.
 >> ${AR['abudawud-307']}
 > — Umm Atiyyah, Sunan Abi Dawud 307. Sahih al-Bukhari 326 carries the same report without the words “after purity”
 
@@ -334,15 +334,15 @@ Once pure, ghusl is required before praying. Its essentials:
 
 On hair: braids do not need to be undone, but water must reach the scalp. Umm Salamah asked about exactly this, and was told it is enough to pour three handfuls of water over the head (Sahih Muslim 330).
 
-> No. It is enough for you to throw three handfuls of water on your head, then pour water over yourself, and you will be purified.
+> The Prophet (peace be upon him) said: No. It is enough for you to throw three handfuls of water on your head, then pour water over yourself, and you will be purified.
 >> ${AR['muslim-330']}
-> — Umm Salama, Sahih Muslim 330
+> — Narrated by Umm Salama, from the Prophet (peace be upon him) answering her; Sahih Muslim 330
 
 The often-quoted advice to use a piece of cotton scented with musk comes from the Prophet’s answer to Asma bint Shakal (Sahih Muslim 332c). It is recommended, not required.
 
-> Then let her take a piece of cotton scented with musk and purify herself with it.
+> The Prophet (peace be upon him) said: Then let her take a piece of cotton scented with musk and purify herself with it.
 >> ${AR['muslim-332c']}
-> — Aisha, reporting the Prophet’s answer to Asma bint Shakal; Sahih Muslim 332c
+> — Narrated by Aisha, from the Prophet (peace be upon him) answering Asma bint Shakal; Sahih Muslim 332c
 
 ## Which prayer you start with
 
@@ -377,9 +377,9 @@ Istihadah is bleeding outside of menstruation and postpartum bleeding. In fiqh i
 
 Fatimah bint Abi Hubaysh told the Prophet (peace be upon him) that she bled continuously, and he answered:
 
-> That is a vein, not menstruation. So when your period comes, stop praying; and when it goes, wash the blood from yourself and pray.
+> The Prophet (peace be upon him) said: That is a vein, not menstruation. So when your period comes, stop praying; and when it goes, wash the blood from yourself and pray.
 >> ${AR['muslim-333']}
-> — Sahih al-Bukhari 228; Sahih Muslim 333
+> — Narrated by Aisha, from the Prophet (peace be upon him) answering Fatima bint Abi Hubaysh; Sahih al-Bukhari 228; Sahih Muslim 333
 
 ## What applies during istihadah
 
@@ -409,17 +409,17 @@ Three methods, applied in order:
 
 **1. Habit (‘adah).** The days she normally menstruates — that many days, starting when they normally start — are menstruation; the rest is istihadah. This takes priority. Umm Salamah reported exactly this ruling for a woman in that state: she counts the nights and days she used to menstruate each month, leaves the prayer for that long, then washes and prays (Sunan Abi Dawud 274).
 
-> Let her count the nights and days in which she used to menstruate each month before what befell her befell her, and let her leave the prayer for that length of time of the month. When she has passed that, let her wash, bind a cloth over herself, and pray in it.
+> The Prophet (peace be upon him) said: Let her count the nights and days in which she used to menstruate each month before what befell her befell her, and let her leave the prayer for that length of time of the month. When she has passed that, let her wash, bind a cloth over herself, and pray in it.
 >> ${AR['abudawud-274']}
-> — Umm Salama, Sunan Abi Dawud 274
+> — Narrated by Umm Salama, from the Prophet (peace be upon him); Sunan Abi Dawud 274
 
 **2. Discernment (tamyiz).** With no settled habit, the blood itself is read: dark, thick, distinctly odorous blood is menstruation; thin, pale blood is istihadah. This comes from the Prophet’s other instruction to Fatimah bint Abi Hubaysh.
 
 **3. Fall back to the norm.** When neither applies, most scholars follow the hadith of Hamnah bint Jahsh and count 6 or 7 days a month as menstruation, the rest istihadah (Sunan Abi Dawud 287). The Hanafi school has its own scheme for a woman with no established habit.
 
-> This is only one of the kicks of Satan, so count yourself as menstruating six days or seven, in Allah’s knowledge, and then wash.
+> The Prophet (peace be upon him) said: This is only one of the kicks of Satan, so count yourself as menstruating six days or seven, in Allah’s knowledge, and then wash.
 >> ${AR['abudawud-287']}
-> — Hamnah bint Jahsh, Sunan Abi Dawud 287
+> — Narrated by Hamnah bint Jahsh, from the Prophet (peace be upon him) speaking to her; Sunan Abi Dawud 287
 
 ## The three situations this actually comes up in
 
@@ -479,9 +479,9 @@ The maximum differs:
 
 The number forty comes from Umm Salamah’s report:
 
-> In the time of the Prophet (peace be upon him), the woman in nifas would wait forty days.
+> Umm Salamah said: In the time of the Prophet (peace be upon him), the woman in nifas would wait forty days.
 >> ${AR['abudawud-311']}
-> — Sunan Abi Dawud 311; Jami‘ at-Tirmidhi 139
+> — Umm Salamah, Sunan Abi Dawud 311; Jami‘ at-Tirmidhi 139
 
 Bleeding that continues past your school’s maximum is treated as **istihadah** — prayer resumes, with wudu performed as described in [the istihadah rulings](/en/guide/istihadah/).
 
@@ -535,9 +535,9 @@ Related: [Fasting while pregnant or breastfeeding](/en/guide/pregnancy-fasting/)
 
 A pregnant or nursing mother may break her fast if fasting would harm her or the child. The evidence:
 
-> Allah has relieved the traveller of half the prayer, and He has relieved the pregnant woman and the nursing mother of the fast.
+> The Prophet (peace be upon him) said: Allah has relieved the traveller of half the prayer, and He has relieved the pregnant woman and the nursing mother of the fast.
 >> ${AR['abudawud-2408']}
-> — Sunan Abi Dawud 2408; Jami‘ at-Tirmidhi 715
+> — Narrated by a man of Banu Abdullah ibn Ka‘b, also named Anas ibn Malik (not the well-known Companion), from the Prophet (peace be upon him); Sunan Abi Dawud 2408; Jami‘ at-Tirmidhi 715
 
 **Whether harm is genuinely expected is not settled by how you feel about it.** A doctor’s assessment is part of the ruling here: dehydration risk, gestational diabetes, falling milk supply, insufficient weight gain. If a physician advises against fasting, the concession applies.
 
@@ -571,9 +571,9 @@ Consecutive pregnancies and nursing, with no gap in which to fast, is an ordinar
 
 Repeating it because it is the most common misunderstanding: **pregnancy, nursing, morning sickness and bed rest do not lift prayer.** If standing is not possible, she prays sitting; if sitting is not possible, lying down with gestures. Imran ibn Husayn asked, and was told:
 
-> Pray standing; if you cannot, then sitting; and if you cannot, then on your side.
+> The Prophet (peace be upon him) said: Pray standing; if you cannot, then sitting; and if you cannot, then on your side.
 >> ${AR['bukhari-1117']}
-> — Sahih al-Bukhari 1117
+> — Narrated by Imran ibn Husayn, from the Prophet (peace be upon him) answering him; Sahih al-Bukhari 1117
 
 Rulings for the period after birth are on [Nifas: postpartum bleeding](/en/guide/nifas/).
 `,

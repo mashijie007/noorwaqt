@@ -93,9 +93,9 @@ Most of the confusion around Arabic names comes from treating them like a first 
 - **Laqab** — an epithet earned later: *al-Rashid*, *al-Siddiq*.
 - **Nisba** — an adjective of belonging: a place, a tribe, a trade. *al-Baghdadi*, *al-Shafi‘i*.
 
-> O Abu Umayr, what did the little bird do?
+> The Prophet (peace be upon him) said: O Abu Umayr, what did the little bird do?
 >> ${AR['bukhari-6129']}
-> — Anas ibn Malik, Sahih al-Bukhari 6129
+> — Narrated by Anas ibn Malik, from the Prophet (peace be upon him) speaking to Anas’s young brother; Sahih al-Bukhari 6129
 
 Put together: **Abu Abdullah Muhammad bin Idris al-Shafi‘i** — kunya, ism, nasab, nisba. One man, and not a single part of it is a surname in the modern sense.
 
@@ -107,15 +107,17 @@ Naming is broad: the default is that any name with a sound meaning is allowed. F
 
 ### 1. Two names are singled out
 
-> The most beloved of your names to Allah are Abdullah and Abd al-Rahman.
+> The Prophet (peace be upon him) said: The most beloved of your names to Allah are Abdullah and Abd al-Rahman.
 >> ${AR['muslim-2132']}
-> — Sahih Muslim 2132
+> — Narrated by Ibn Umar, from the Prophet (peace be upon him); Sahih Muslim 2132
 
 This is a recommendation, not a restriction on everything else. Naming after a prophet is encouraged too, but it rests on separate evidence, not on this hadith: the Prophet (peace be upon him) named his own newborn son after Ibrahim (Sahih Muslim 2315).
 
-> A child was born to me tonight, and I named him after my father Ibrahim.
+> The Prophet (peace be upon him) said: A child was born to me tonight, and I named him after my father Ibrahim.
 >> ${AR['muslim-2315']}
-> — Anas ibn Malik, Sahih Muslim 2315
+> — Narrated by Anas ibn Malik, from the Prophet (peace be upon him); Sahih Muslim 2315
+
+“My father Ibrahim” is the Prophet Ibrahim (Abraham, peace be upon him). The Prophet Muhammad (peace be upon him) descended from Ibrahim through his son Ismail, and Arabic uses *ab* (father) for a forefather as well. The speaker is the Prophet himself and the newborn was his own son — the biographies record his mother as Maria al-Qibtiyya — who was given the forefather’s name.
 
 ### 2. Allah's exclusive names are not given to a person on their own
 
@@ -127,13 +129,13 @@ The distinction is the definite article and the exclusivity. **Karim**, **Rashid
 
 On the same principle, the Prophet (peace be upon him) warned against taking the name *Malik al-Amlak* — king of kings. Two narrations, worded a little differently:
 
-> The most awful name in Allah’s sight on the Day of Resurrection will be a man calling himself Malik al-Amlak (king of kings).
+> The Prophet (peace be upon him) said: The most awful name in Allah’s sight on the Day of Resurrection will be a man calling himself Malik al-Amlak (king of kings).
 >> ${AR['bukhari-6205']}
-> — Abu Huraira, Sahih al-Bukhari 6205
+> — Narrated by Abu Huraira, from the Prophet (peace be upon him); Sahih al-Bukhari 6205
 
-> The vilest name in Allah’s sight is a man who calls himself Malik al-Amlak (king of kings).
+> The Prophet (peace be upon him) said: The vilest name in Allah’s sight is a man who calls himself Malik al-Amlak (king of kings).
 >> ${AR['muslim-2143']}
-> — Abu Huraira, Sahih Muslim 2143
+> — Narrated by Abu Huraira, from the Prophet (peace be upon him); Sahih Muslim 2143
 
 Muslim's own chapter heading covers both forms of it, *Malik al-Amlak* and *Malik al-Muluk*.
 
@@ -141,9 +143,9 @@ Muslim's own chapter heading covers both forms of it, *Malik al-Amlak* and *Mali
 
 Zaynab bint Abi Salama was named *Barra* — "the pious one". The Prophet (peace be upon him) renamed her, and the reason is his own wording: do not claim purity for yourselves, Allah knows best who among you is truly pious (Sahih Muslim 2142b). A woman named *‘Asiya* — عاصية, "disobedient" — he renamed *Jamila* (Sahih Muslim 2139). That is not the *Asiya* in the table below: آسية, the wife of Pharaoh, is a different word that happens to reach English with the same spelling.
 
-> Do not claim purity for yourselves; Allah knows best who among you are the people of righteousness.
+> The Prophet (peace be upon him) said: Do not claim purity for yourselves; Allah knows best who among you are the people of righteousness.
 >> ${AR['muslim-2142b']}
-> — Zaynab bint Abi Salama, Sahih Muslim 2142b
+> — Narrated by Zaynab bint Abi Salama, from the Prophet (peace be upon him); Sahih Muslim 2142b
 
 > The Messenger of Allah (peace be upon him) changed the name of ‘Asiya (“Disobedient”) and said: You are Jamila.
 >> ${AR['muslim-2139']}
@@ -167,9 +169,9 @@ For converts, this cuts both ways: **there is no obligation to change your name 
 
 The reported practice is the seventh day, together with the aqiqah and the shaving of the head. Naming on the day of birth is also reported — the Prophet (peace be upon him) named his son Ibrahim the night he was born (Sahih Muslim 2315, quoted above) — so the seventh day is a strong recommendation rather than a deadline.
 
-> Every boy is in pledge for his aqiqah: a sacrifice is made for him on the seventh day, his head is shaved, and he is named.
+> The Prophet (peace be upon him) said: Every boy is in pledge for his aqiqah: a sacrifice is made for him on the seventh day, his head is shaved, and he is named.
 >> ${AR['abudawud-2838']}
-> — Samura ibn Jundub, Sunan Abi Dawud 2838. Jami‘ at-Tirmidhi 1522 has the same report
+> — Narrated by Samura ibn Jundub, from the Prophet (peace be upon him); Sunan Abi Dawud 2838. Jami‘ at-Tirmidhi 1522 has the same report
 
 ## One practical note on spelling
 
